@@ -40,6 +40,14 @@ function buildCard(game) {
 
   card.appendChild(cover);
   card.appendChild(title);
+
+  if (game.description) {
+    const desc = document.createElement("div");
+    desc.className = "card-description";
+    desc.textContent = game.description;
+    card.appendChild(desc);
+  }
+
   return card;
 }
 
@@ -65,5 +73,7 @@ async function main() {
     grid.appendChild(buildCard(game));
   }
 }
+
+initViewToggle(grid, document.getElementById("view-toggle"));
 
 main();

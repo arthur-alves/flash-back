@@ -38,6 +38,14 @@ function buildCollectionCard(collection) {
   count.textContent = `${collection.count} jogo${collection.count === 1 ? "" : "s"}`;
 
   card.append(cover, title, count);
+
+  if (collection.description) {
+    const desc = document.createElement("div");
+    desc.className = "card-description";
+    desc.textContent = collection.description;
+    card.appendChild(desc);
+  }
+
   return card;
 }
 
@@ -50,5 +58,7 @@ async function main() {
     grid.appendChild(buildCollectionCard(collection));
   }
 }
+
+initViewToggle(grid, document.getElementById("view-toggle"));
 
 main();

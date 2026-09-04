@@ -210,6 +210,76 @@ main {
   object-fit: cover;
 }
 
+.card-description {
+  display: none;
+}
+
+/* List view */
+.view-toggle-btn {
+  background: var(--surface-hover);
+  color: var(--text);
+  border: 1px solid #2a2e3f;
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.view-toggle-btn:hover {
+  border-color: var(--accent);
+}
+
+.grid.list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.grid.list-view .card {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding-right: 16px;
+}
+
+.grid.list-view .card:hover {
+  transform: none;
+}
+
+.grid.list-view .card-cover {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  aspect-ratio: unset;
+  font-size: 1.3rem;
+  border-radius: 8px 0 0 8px;
+  padding: 0;
+}
+
+.grid.list-view .card-title {
+  padding: 0;
+  flex-shrink: 0;
+  width: 220px;
+}
+
+.grid.list-view .card-subtitle {
+  padding: 0;
+  flex-shrink: 0;
+  width: 80px;
+}
+
+.grid.list-view .card-description {
+  display: block;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
 .card-title {
   padding: 10px 12px;
   font-size: 0.9rem;
