@@ -465,16 +465,41 @@ app.post("/api/logout", (req, res) => {
   res.json({ ok: true });
 });
 
-app.get("/setup.html", (req, res, next) => {
-  if (auth.isConfigured()) return res.redirect("/login.html");
-  next();
+// ---- Clean URLs (no .html) ----
+
+// Anyone hitting an old/bookmarked *.html URL gets redirected to the clean
+// path. This also closes off direct access to admin.html/setup.html via
+// static serving, since this runs before express.static below.
+app.get(/\.html$/, (req, res) => {
+  const clean = req.path.slice(0, -".html".length);
+  const qs = req.originalUrl.slice(req.path.length);
+  res.redirect(301, (clean === "/index" ? "/" : clean) + qs);
 });
 
-app.get("/admin.html", auth.requireAdminPage);
+app.get("/setup", (req, res) => {
+  if (auth.isConfigured()) return res.redirect("/login");
+  res.sendFile(path.join(PUBLIC_DIR, "setup.html"));
+});
+
+app.get("/admin", auth.requireAdminPage, (req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, "admin.html"));
+});
+
+const CLEAN_PAGES = {
+  "/": "index.html",
+  "/collections": "collections.html",
+  "/collection": "collection.html",
+  "/play": "play.html",
+  "/login": "login.html",
+};
+
+for (const [route, file] of Object.entries(CLEAN_PAGES)) {
+  app.get(route, (req, res) => res.sendFile(path.join(PUBLIC_DIR, file)));
+}
 
 app.use("/games", express.static(GAMES_DIR, { fallthrough: false }));
 app.use("/covers", express.static(COVERS_DIR));
-app.use(express.static(PUBLIC_DIR));
+app.use(express.static(PUBLIC_DIR, { index: false }));
 
 app.listen(PORT, () => {
   console.log(`flashback listening on http://0.0.0.0:${PORT}`);

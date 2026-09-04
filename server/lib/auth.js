@@ -18,7 +18,7 @@ if (process.env.RESET_ADMIN === "true" && fs.existsSync(ADMIN_PATH)) {
   console.log("");
   console.log("========================================");
   console.log(" RESET_ADMIN=true — admin account cleared.");
-  console.log(" Visit /setup.html to create a new account, then unset");
+  console.log(" Visit /setup to create a new account, then unset");
   console.log(" RESET_ADMIN (or set it back to false) and restart.");
   console.log("========================================");
   console.log("");
@@ -109,14 +109,14 @@ function getSessionToken(req) {
   return parseCookies(req)[SESSION_COOKIE];
 }
 
-// Protects /admin.html and page-like GET requests: redirects to the right
-// HTML page instead of returning a bare 401, since these are browser
-// navigations, not API calls.
+// Protects /admin and page-like GET requests: redirects to the right page
+// instead of returning a bare 401, since these are browser navigations,
+// not API calls.
 function requireAdminPage(req, res, next) {
-  if (!isConfigured()) return res.redirect("/setup.html");
+  if (!isConfigured()) return res.redirect("/setup");
   const token = getSessionToken(req);
   if (token && isValidSession(token)) return next();
-  return res.redirect("/login.html");
+  return res.redirect("/login");
 }
 
 // Protects /api/admin/* — these are fetch() calls from already-loaded pages,

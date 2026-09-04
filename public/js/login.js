@@ -8,7 +8,7 @@ initLangToggle(document.getElementById("lang-select"));
 fetch("/api/setup/status")
   .then((r) => r.json())
   .then((data) => {
-    if (!data.configured) window.location.href = "setup.html";
+    if (!data.configured) window.location.href = "setup";
   });
 
 form.addEventListener("submit", async (e) => {
@@ -35,7 +35,7 @@ form.addEventListener("submit", async (e) => {
       statusEl.classList.add("error");
       submitBtn.disabled = false;
     } else {
-      window.location.href = "admin.html";
+      window.location.href = "admin";
     }
   } catch (err) {
     statusEl.textContent = t("network_error_logging_in");

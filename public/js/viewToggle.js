@@ -1,4 +1,4 @@
-// Shared grid/list view toggle, used by index.html, collections.html and collection.html.
+// Shared grid/list view toggle, used by /, /collections and /collection.
 const VIEW_STORAGE_KEY = "flashback:view-mode";
 
 function initViewToggle(gridEl, buttonEl) {

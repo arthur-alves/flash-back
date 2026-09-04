@@ -16,7 +16,7 @@ let allGames = [];
 async function af(url, opts) {
   const res = await fetch(url, opts);
   if (res.status === 401) {
-    window.location.href = "login.html";
+    window.location.href = "login";
     throw new Error("unauthenticated");
   }
   return res;
@@ -24,7 +24,7 @@ async function af(url, opts) {
 
 document.getElementById("logout-btn").addEventListener("click", async () => {
   await fetch("/api/logout", { method: "POST" });
-  window.location.href = "login.html";
+  window.location.href = "login";
 });
 
 function formatSize(bytes) {

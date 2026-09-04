@@ -57,20 +57,20 @@ Open **http://localhost:4000** (or whatever port you mapped).
 
 The admin panel doesn't ship with a default password. The first time you open it, you'll be walked through creating your own account:
 
-1. Go to **http://localhost:4000/admin.html**
-2. You'll be redirected to **`/setup.html`** automatically (this only happens once — before an account exists)
+1. Go to **http://localhost:4000/admin**
+2. You'll be redirected to **`/setup`** automatically (this only happens once — before an account exists)
 3. Choose a username and a password (8+ characters)
 4. You're logged in immediately and land on the admin panel
 
-From then on, `/admin.html` requires logging in at **`/login.html`**. Sessions are stored as an HttpOnly cookie and last 30 days, but they live in server memory — restarting the server/container logs everyone out (you'll just need to log in again, the account itself isn't affected).
+From then on, `/admin` requires logging in at **`/login`**. Sessions are stored as an HttpOnly cookie and last 30 days, but they live in server memory — restarting the server/container logs everyone out (you'll just need to log in again, the account itself isn't affected).
 
 ### Forgot your password?
 
 There's no email/SMS recovery — this is meant to run reset via an environment variable, which works whether you manage the server from a terminal or entirely through Portainer's web UI:
 
-1. Set the environment variable `RESET_ADMIN=true` on the container (in Portainer: **Containers → flash-games-server → Duplicate/Edit → Env** tab, or edit the stack's `docker-compose.yml` and redeploy)
+1. Set the environment variable `RESET_ADMIN=true` on the container (in Portainer: **Containers → flashback → Duplicate/Edit → Env** tab, or edit the stack's `docker-compose.yml` and redeploy)
 2. Restart the container
-3. Visit `/admin.html` again — you'll land back on the setup wizard to create a fresh account
+3. Visit `/admin` again — you'll land back on the setup wizard to create a fresh account
 4. **Set `RESET_ADMIN` back to `false` (or remove it) and restart again** — otherwise every restart wipes the account you just created
 
 If you're running it directly with Node instead of Docker, the equivalent is:
@@ -84,20 +84,20 @@ npm start
 ## Using the library
 
 - **Search** — the box in the top bar filters by title as you type
-- **Tags** — click a tag chip to filter the library down to that tag; click "Todos" to clear it
-- **Collections** (`/collections.html`) — curated groups; click one to see just its games
+- **Tags** — click a tag chip to filter the library down to that tag; click "All" to clear it
+- **Collections** (`/collections`) — curated groups; click one to see just its games
 - **Grid/List toggle** — top-right button; list view also shows each game's description
 - **Theme toggle** — sun/moon icon, switches light/dark, remembered in your browser
 - **Playing a game** — click any card, then:
-  - **Tela cheia** button for fullscreen (uses the browser's native Fullscreen API)
+  - **Fullscreen** button (uses the browser's native Fullscreen API)
   - **CRT** button overlays scanlines + a vignette — purely cosmetic CSS, doesn't touch how Ruffle renders the game, but helps a lot with games that shipped at tiny native resolutions
 
 ## Managing games (admin)
 
-The easiest way is the admin panel (`/admin.html`):
+The easiest way is the admin panel (`/admin`):
 
-1. **Adicionar novo jogo** — pick a `.swf` file, a title, optional description/cover/tags, then submit
-2. In the **Jogos cadastrados** table you can, per game:
+1. **Add new game** — pick a `.swf` file, a title, optional description/cover/tags, then submit
+2. In the **Registered games** table you can, per game:
    - Click the cover thumbnail to upload/replace it
    - Edit tags directly in the text field (comma-separated)
    - Toggle collection membership via the chip buttons
@@ -121,14 +121,14 @@ To add a cover image by hand, place a file at `data/covers/<slug>.<ext>` (`jpg`,
 
 ## Managing collections (admin)
 
-In the **Coleções** section of the admin panel:
+In the **Collections** section of the admin panel:
 
 1. Create a collection with a name and optional description
 2. Click its thumbnail to give it cover art (falls back to a color+initial card like games do, if you skip this)
 3. Scroll down to the games table — click a collection's chip on any game's row to add/remove it from that collection (a game can be in as many collections as you want)
 4. Edit or delete a collection from the list — deleting a collection never deletes the games in it
 
-Collections show up as cards on `/collections.html` and get their own page at `/collection.html?slug=...`.
+Collections show up as cards on `/collections` and get their own page at `/collection?slug=...`.
 
 ## Environment variables
 

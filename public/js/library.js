@@ -17,7 +17,7 @@ function hashHue(str) {
 function buildCard(game) {
   const card = document.createElement("a");
   card.className = "card";
-  card.href = `play.html?slug=${encodeURIComponent(game.slug)}`;
+  card.href = `play?slug=${encodeURIComponent(game.slug)}`;
 
   const cover = document.createElement("div");
   cover.className = "card-cover";

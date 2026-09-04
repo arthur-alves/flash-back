@@ -14,7 +14,7 @@ function hashHue(str) {
 function buildCollectionCard(collection) {
   const card = document.createElement("a");
   card.className = "card";
-  card.href = `collection.html?slug=${encodeURIComponent(collection.slug)}`;
+  card.href = `collection?slug=${encodeURIComponent(collection.slug)}`;
 
   const cover = document.createElement("div");
   cover.className = "card-cover";
