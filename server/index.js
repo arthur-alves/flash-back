@@ -159,6 +159,13 @@ const upload = multer({
   limits: { fileSize: MAX_UPLOAD_MB * 1024 * 1024 },
 });
 
+// Lightweight "am I logged in as admin?" check, used by public pages (e.g.
+// play.html) to decide whether to show admin-only controls like the cover
+// capture button.
+app.get("/api/admin/session", auth.requireAdminApi, (req, res) => {
+  res.json({ ok: true });
+});
+
 app.get("/api/admin/games", auth.requireAdminApi, (req, res) => {
   res.json(loadCatalog());
 });
