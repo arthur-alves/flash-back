@@ -30,7 +30,13 @@ async function main() {
   player.style.height = "100%";
   container.appendChild(player);
 
-  player.load(`/games/${encodeURIComponent(game.file)}`);
+  // Forces the 2D canvas renderer instead of WebGL. WebGL's drawing buffer
+  // isn't guaranteed to persist between frames (preserveDrawingBuffer is
+  // off by default for performance), so a cover capture taken with
+  // canvas.toBlob() can come out solid black. The 2D canvas doesn't have
+  // this problem, and these old Flash games don't need WebGL's extra
+  // performance anyway.
+  player.load({ url: `/games/${encodeURIComponent(game.file)}`, preferredRenderer: "canvas" });
 }
 
 function updateBackLink() {
