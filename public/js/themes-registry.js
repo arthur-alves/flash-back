@@ -5,6 +5,7 @@ const THEMES = [
   { id: "dark", name: "Dark Neon" },
   { id: "light", name: "Light Neon" },
   { id: "geo", name: "Geo (Y2K)" },
+  { id: "nes", name: "NES (8-bit)" },
 ];
 
 const DEFAULT_THEME = "dark";

@@ -1,0 +1,40 @@
+/*
+ * Theme: NES
+ * A tribute to NES.css (github.com/nostalgic-css/NES.css) — the 8-bit
+ * Nintendo-style CSS framework. White background, thick black text,
+ * the classic NES.css primary/success/error accent colors, sharp
+ * pixel-art corners (no border-radius), and the "Press Start 2P" font.
+ *
+ * Font license: SIL Open Font License 1.1 (see public/fonts/PressStart2P.ttf).
+ */
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("../../fonts/PressStart2P.ttf") format("truetype");
+  font-display: swap;
+}
+
+:root {
+  --bg: #ffffff;
+  --bg2: #ffffff;
+  --surface: #ffffff;
+  --surface-hover: #e7e7e7;
+  --border: #212529;
+  --text: #212529;
+  --text-dim: #7c7c7c;
+
+  --accent: #209cee;
+  --accent-rgb: 32, 156, 238;
+  --accent2: #92cc41;
+  --accent2-rgb: 146, 204, 65;
+
+  --danger: #e76e55;
+  --danger-rgb: 231, 110, 85;
+  --success: #92cc41;
+  --success-rgb: 146, 204, 65;
+
+  --radius: 0px;
+  --glow-strength: 0;
+
+  --font-body: "Press Start 2P", "Courier New", monospace;
+  --font-heading: "Press Start 2P", "Courier New", monospace;
+}

@@ -67,6 +67,11 @@ That's it. `style.css` doesn't know or care how many themes exist.
 - **Dark Neon** (`dark`, default) — deep purple/navy background, magenta + cyan glow accents
 - **Light Neon** (`light`) — same accent pairing, toned down for a white background
 - **Geo** (`geo`) — a tribute to the [Geo Bootswatch theme](https://github.com/divshot/geo-bootstrap): pure black background, Comic Sans, saturated primary colors (`#ff00ff`, `#00ffff`, `#00ff00`), and zero border-radius. A loving parody of early-2000s/GeoCities web design.
+- **NES** (`nes`) — a tribute to [NES.css](https://github.com/nostalgic-css/NES.css): white background, black text/borders, the framework's actual primary/success/error colors (`#209cee`, `#92cc41`, `#e76e55`), zero border-radius, and the self-hosted "Press Start 2P" pixel font (`public/fonts/PressStart2P.ttf`, SIL Open Font License). No glow — flat NES-era aesthetics don't blur.
+
+## Fonts
+
+Themes can bundle their own font instead of relying on system fonts — see `nes.css` for the pattern: a `@font-face` block at the top of the theme file, pointing at a file under `public/fonts/` (committed to the repo since font files are small and static; no fetch script needed like Ruffle's larger binaries). Keep fonts self-hosted rather than pulling from Google Fonts/any CDN at runtime, consistent with the rest of the project.
 
 ## Design tips
 
