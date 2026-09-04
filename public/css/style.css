@@ -87,6 +87,19 @@ h1, h2, .card-title, .section-title, .collection-card-name {
   filter: drop-shadow(0 0 calc(6px * var(--glow-strength) + 2px) rgba(var(--accent-rgb), var(--glow-strength)));
 }
 
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.site-logo {
+  display: block;
+  height: 44px;
+  width: auto;
+  filter: drop-shadow(0 0 calc(8px * var(--glow-strength) + 2px) rgba(var(--accent-rgb), var(--glow-strength)));
+}
+
 .main-nav {
   display: flex;
   gap: 4px;
