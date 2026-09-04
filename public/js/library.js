@@ -24,9 +24,9 @@ function renderGames(games) {
     const cover = document.createElement("div");
     cover.className = "card-cover";
 
-    if (game.hasCover) {
+    if (game.cover) {
       const img = document.createElement("img");
-      img.src = `covers/${game.slug}.jpg`;
+      img.src = `covers/${game.slug}.${game.cover}`;
       img.alt = game.title;
       cover.appendChild(img);
     } else {

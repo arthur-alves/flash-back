@@ -11,10 +11,14 @@
   <header class="topbar">
     <a href="index.html" class="back-link">&larr; Biblioteca</a>
     <h1 id="game-title">Carregando...</h1>
+    <button id="crt-btn" class="crt-btn" title="Efeito CRT">📺 CRT</button>
+    <button id="fullscreen-btn" class="fullscreen-btn" title="Tela cheia">⛶ Tela cheia</button>
   </header>
 
   <main class="player-wrap">
-    <div id="player-container" class="player-container"></div>
+    <div id="player-container" class="player-container">
+      <div class="crt-overlay"></div>
+    </div>
     <p id="game-description" class="game-description"></p>
   </main>
 

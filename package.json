@@ -13,6 +13,7 @@
     "descriptions": "node server/scripts/apply-descriptions.js"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "multer": "^2.3.0"
   }
 }

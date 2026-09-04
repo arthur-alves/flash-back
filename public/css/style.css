@@ -33,6 +33,10 @@ body {
 .topbar h1 {
   font-size: 1.25rem;
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
 }
 
 #search {
@@ -128,6 +132,7 @@ main {
 }
 
 .player-container {
+  position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
   background: #000;
@@ -141,6 +146,231 @@ main {
 .player-container ruffle-player {
   width: 100%;
   height: 100%;
+}
+
+.player-container:fullscreen {
+  aspect-ratio: unset;
+  border-radius: 0;
+}
+
+.fullscreen-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.fullscreen-btn:hover {
+  filter: brightness(1.1);
+}
+
+.crt-btn {
+  background: var(--surface-hover);
+  color: var(--text);
+  border: 1px solid #2a2e3f;
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.crt-btn:hover {
+  border-color: var(--accent);
+}
+
+.crt-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* CRT effect overlay: scanlines + vignette + subtle RGB fringe, purely cosmetic */
+.crt-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 5;
+  transition: opacity 0.15s ease;
+}
+
+.player-container.crt-on .crt-overlay {
+  opacity: 1;
+}
+
+.player-container.crt-on ruffle-player {
+  filter: saturate(1.15) contrast(1.08) brightness(1.03);
+}
+
+.crt-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 1px,
+    rgba(0, 0, 0, 0.18) 2px,
+    rgba(0, 0, 0, 0.18) 3px
+  );
+  mix-blend-mode: multiply;
+}
+
+.crt-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 55%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+}
+
+/* Admin page */
+.admin-main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.admin-panel {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+
+.admin-panel h2 {
+  margin-top: 0;
+  font-size: 1.05rem;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.upload-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.upload-form input[type="text"],
+.upload-form input[type="file"],
+.upload-form textarea {
+  background: var(--bg);
+  border: 1px solid #2a2e3f;
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.upload-form input:focus,
+.upload-form textarea:focus {
+  outline: 2px solid var(--accent);
+}
+
+.upload-form button {
+  align-self: flex-start;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.upload-form button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.upload-status {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.upload-status.success { color: #4ade80; }
+.upload-status.error { color: #f87171; }
+
+.games-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.games-table th,
+.games-table td {
+  text-align: left;
+  padding: 8px 6px;
+  border-bottom: 1px solid #2a2e3f;
+}
+
+.games-table th {
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+.cover-uploader {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.cover-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent), #ff5c9a);
+  color: #fff;
+  font-weight: 700;
+}
+
+.cover-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.cover-uploader:hover {
+  outline: 2px solid var(--accent);
+}
+
+.delete-btn {
+  background: transparent;
+  color: #f87171;
+  border: 1px solid #f87171;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: rgba(248, 113, 113, 0.1);
 }
 
 .game-description {

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Flash Games Server</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a href="index.html" class="back-link">&larr; Biblioteca</a>
+    <h1>Administração</h1>
+  </header>
+
+  <main class="admin-main">
+    <section class="admin-panel">
+      <h2>Adicionar novo jogo</h2>
+      <form id="upload-form" class="upload-form">
+        <label>
+          Arquivo .swf
+          <input type="file" id="swf-file" name="swf" accept=".swf" required />
+        </label>
+        <label>
+          Título
+          <input type="text" id="game-title" name="title" required maxlength="100" />
+        </label>
+        <label>
+          Descrição (opcional)
+          <textarea id="game-description" name="description" rows="3" maxlength="500"></textarea>
+        </label>
+        <label>
+          Capa (opcional — JPG, PNG ou WebP)
+          <input type="file" id="cover-file" name="cover" accept=".jpg,.jpeg,.png,.webp" />
+        </label>
+        <button type="submit" id="submit-btn">Enviar jogo</button>
+        <p id="upload-status" class="upload-status"></p>
+      </form>
+    </section>
+
+    <section class="admin-panel">
+      <h2>Jogos cadastrados</h2>
+      <table id="games-table" class="games-table">
+        <thead>
+          <tr>
+            <th>Capa</th>
+            <th>Título</th>
+            <th>Arquivo</th>
+            <th>Tamanho</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="games-table-body"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>
