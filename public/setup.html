@@ -1,45 +1,46 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Configuração inicial — Flash Games Server</title>
+  <title>Initial setup — FlashBack</title>
   <link rel="stylesheet" href="css/themes/dark.css" id="theme-link" />
   <link rel="stylesheet" href="css/style.css" />
   <script>
     (function () {
-      var saved = localStorage.getItem("flash-games-server:theme");
+      var saved = localStorage.getItem("flashback:theme");
       if (saved) document.getElementById("theme-link").href = "css/themes/" + saved + ".css";
     })();
   </script>
 </head>
 <body>
   <header class="topbar">
-    <h1>🕹️ Flash Games</h1>
+    <h1>🕹️ FlashBack</h1>
+    <select id="lang-select" class="theme-select"></select>
     <select id="theme-select" class="theme-select"></select>
   </header>
 
   <main class="auth-main">
     <section class="admin-panel auth-panel">
-      <h2>Configuração inicial</h2>
-      <p class="auth-hint">
-        Primeira vez usando este servidor. Crie o usuário e a senha do administrador —
-        você vai usar isso pra acessar o painel e gerenciar os jogos.
+      <h2 data-i18n="setup_title">Initial setup</h2>
+      <p class="auth-hint" data-i18n="setup_hint">
+        First time using this server. Create the admin username and password — you'll use
+        this to access the panel and manage games.
       </p>
       <form id="setup-form" class="upload-form">
         <label>
-          Usuário
+          <span data-i18n="label_username">Username</span>
           <input type="text" id="username" name="username" required minlength="3" autocomplete="username" />
         </label>
         <label>
-          Senha (mínimo 8 caracteres)
+          <span data-i18n="label_password_min">Password (minimum 8 characters)</span>
           <input type="password" id="password" name="password" required minlength="8" autocomplete="new-password" />
         </label>
         <label>
-          Confirmar senha
+          <span data-i18n="label_password_confirm">Confirm password</span>
           <input type="password" id="password-confirm" name="password-confirm" required minlength="8" autocomplete="new-password" />
         </label>
-        <button type="submit" id="submit-btn">Criar conta</button>
+        <button type="submit" id="submit-btn" data-i18n="create_account">Create account</button>
         <p id="status" class="upload-status"></p>
       </form>
     </section>
@@ -48,6 +49,7 @@
   <script src="js/icons.js"></script>
   <script src="js/themes-registry.js"></script>
   <script src="js/theme.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/setup.js"></script>
 </body>
 </html>

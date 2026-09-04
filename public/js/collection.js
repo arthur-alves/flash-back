@@ -53,19 +53,19 @@ function buildCard(game) {
 
 async function main() {
   if (!slug) {
-    titleEl.textContent = "Coleção não especificada";
+    titleEl.textContent = t("collection_not_specified");
     return;
   }
 
   const res = await fetch(`/api/collections/${encodeURIComponent(slug)}`);
   if (!res.ok) {
-    titleEl.textContent = "Coleção não encontrada";
+    titleEl.textContent = t("collection_not_found");
     return;
   }
 
   const collection = await res.json();
   titleEl.textContent = collection.name;
-  document.title = `${collection.name} — Flash Games Server`;
+  document.title = `${collection.name} — FlashBack`;
   descEl.textContent = collection.description || "";
 
   emptyMsg.classList.toggle("hidden", collection.games.length > 0);
@@ -74,8 +74,13 @@ async function main() {
   }
 }
 
-document.getElementById("back-link").innerHTML = iconSvg("arrow-left") + " Coleções";
+document.getElementById("back-link").innerHTML = iconSvg("arrow-left") + " " + t("nav_collections");
 initViewToggle(grid, document.getElementById("view-toggle"));
 initThemeToggle(document.getElementById("theme-select"));
+initLangToggle(document.getElementById("lang-select"));
+
+function onLanguageChange() {
+  document.getElementById("back-link").innerHTML = iconSvg("arrow-left") + " " + t("nav_collections");
+}
 
 main();

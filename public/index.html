@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flash Games Server</title>
+  <title>FlashBack</title>
   <link rel="stylesheet" href="css/themes/dark.css" id="theme-link" />
   <link rel="stylesheet" href="css/style.css" />
   <script>
     (function () {
-      var saved = localStorage.getItem("flash-games-server:theme");
+      var saved = localStorage.getItem("flashback:theme");
       if (saved) document.getElementById("theme-link").href = "css/themes/" + saved + ".css";
     })();
   </script>
 </head>
 <body>
   <header class="topbar">
-    <h1>🕹️ Flash Games</h1>
+    <h1>🕹️ FlashBack</h1>
     <nav class="main-nav">
-      <a href="index.html" class="active">Todos os jogos</a>
-      <a href="collections.html">Coleções</a>
+      <a href="index.html" class="active" data-i18n="nav_all_games">All games</a>
+      <a href="collections.html" data-i18n="nav_collections">Collections</a>
     </nav>
-    <input id="search" type="search" placeholder="Buscar jogo..." autocomplete="off" />
+    <input id="search" type="search" data-i18n-placeholder="search_placeholder" placeholder="Search game..." autocomplete="off" />
     <button id="view-toggle" class="view-toggle-btn"></button>
+    <select id="lang-select" class="theme-select"></select>
     <select id="theme-select" class="theme-select"></select>
   </header>
 
@@ -29,22 +30,18 @@
     <div id="tags-row" class="tags-row hidden"></div>
 
     <div id="grid" class="grid"></div>
-    <p id="empty" class="empty hidden">Nenhum jogo encontrado.</p>
+    <p id="empty" class="empty hidden" data-i18n="empty_games">No games found.</p>
   </main>
 
   <footer class="footer">
-    <p>
-      Coleção mantida pela comunidade a título de preservação histórica. Todos os direitos dos
-      jogos pertencem aos seus respectivos criadores. Jogos obtidos de
-      <a href="https://github.com/AmmarSAA/flash-games-directory" target="_blank" rel="noopener">AmmarSAA/flash-games-directory</a>.
-      Emulado via <a href="https://ruffle.rs" target="_blank" rel="noopener">Ruffle</a>.
-    </p>
-    <p><a href="admin.html">Administração</a></p>
+    <p data-i18n-html="footer_credits_html"></p>
+    <p><a href="admin.html" data-i18n="admin_link">Administration</a></p>
   </footer>
 
   <script src="js/icons.js"></script>
   <script src="js/themes-registry.js"></script>
   <script src="js/theme.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/viewToggle.js"></script>
   <script src="js/library.js"></script>
 </body>

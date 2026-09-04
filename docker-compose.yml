@@ -1,7 +1,7 @@
 services:
-  flash-games-server:
+  flashback:
     build: .
-    container_name: flash-games-server
+    container_name: flashback
     restart: unless-stopped
     environment:
       PORT: "4000"

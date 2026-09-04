@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin — Flash Games Server</title>
+  <title>Admin — FlashBack</title>
   <link rel="stylesheet" href="css/themes/dark.css" id="theme-link" />
   <link rel="stylesheet" href="css/style.css" />
   <script>
     (function () {
-      var saved = localStorage.getItem("flash-games-server:theme");
+      var saved = localStorage.getItem("flashback:theme");
       if (saved) document.getElementById("theme-link").href = "css/themes/" + saved + ".css";
     })();
   </script>
@@ -16,68 +16,69 @@
 <body>
   <header class="topbar">
     <a href="index.html" id="back-link" class="back-link"></a>
-    <h1>Administração</h1>
-    <button id="logout-btn" class="logout-btn">Sair</button>
+    <h1 data-i18n="admin_title">Administration</h1>
+    <button id="logout-btn" class="logout-btn" data-i18n="logout">Log out</button>
+    <select id="lang-select" class="theme-select"></select>
     <select id="theme-select" class="theme-select"></select>
   </header>
 
   <main class="admin-main">
     <section class="admin-panel">
-      <h2>Adicionar novo jogo</h2>
+      <h2 data-i18n="add_game_heading">Add new game</h2>
       <form id="upload-form" class="upload-form">
         <label>
-          Arquivo .swf
+          <span data-i18n="label_swf_file">.swf file</span>
           <input type="file" id="swf-file" name="swf" accept=".swf" required />
         </label>
         <label>
-          Título
+          <span data-i18n="label_title">Title</span>
           <input type="text" id="game-title" name="title" required maxlength="100" />
         </label>
         <label>
-          Descrição (opcional)
+          <span data-i18n="label_description_optional">Description (optional)</span>
           <textarea id="game-description" name="description" rows="3" maxlength="500"></textarea>
         </label>
         <label>
-          Capa (opcional — JPG, PNG ou WebP)
+          <span data-i18n="label_cover_optional">Cover (optional — JPG, PNG or WebP)</span>
           <input type="file" id="cover-file" name="cover" accept=".jpg,.jpeg,.png,.webp" />
         </label>
         <label>
-          Tags (opcional, separadas por vírgula)
-          <input type="text" id="game-tags" name="tags" placeholder="ação, plataforma, clássico" />
+          <span data-i18n="label_tags_optional">Tags (optional, comma-separated)</span>
+          <input type="text" id="game-tags" name="tags" data-i18n-placeholder="tags_input_placeholder" placeholder="action, platformer, classic" />
         </label>
-        <button type="submit" id="submit-btn">Enviar jogo</button>
+        <button type="submit" id="submit-btn" data-i18n="submit_game">Submit game</button>
         <p id="upload-status" class="upload-status"></p>
       </form>
     </section>
 
     <section class="admin-panel">
-      <h2>Coleções</h2>
+      <h2 data-i18n="collections_heading">Collections</h2>
       <form id="collection-form" class="upload-form collection-form">
         <label>
-          Nome
+          <span data-i18n="label_name">Name</span>
           <input type="text" id="collection-name" name="name" required maxlength="60" />
         </label>
         <label>
-          Descrição (opcional)
+          <span data-i18n="label_description_optional">Description (optional)</span>
           <input type="text" id="collection-description" name="description" maxlength="200" />
         </label>
-        <button type="submit" id="collection-submit-btn">Criar coleção</button>
+        <button type="submit" id="collection-submit-btn" data-i18n="submit_collection">Create collection</button>
         <p id="collection-status" class="upload-status"></p>
       </form>
       <ul id="collections-list" class="collections-list"></ul>
     </section>
 
     <section class="admin-panel">
-      <h2>Jogos cadastrados</h2>
+      <h2 data-i18n="registered_games_heading">Registered games</h2>
       <table id="games-table" class="games-table">
         <thead>
           <tr>
-            <th>Capa</th>
-            <th>Título</th>
-            <th>Arquivo</th>
-            <th>Tamanho</th>
-            <th>Tags</th>
-            <th>Coleções</th>
+            <th data-i18n="th_cover">Cover</th>
+            <th data-i18n="th_title">Title</th>
+            <th data-i18n="th_file">File</th>
+            <th data-i18n="th_size">Size</th>
+            <th data-i18n="th_tags">Tags</th>
+            <th data-i18n="th_collections">Collections</th>
             <th></th>
           </tr>
         </thead>
@@ -89,6 +90,7 @@
   <script src="js/icons.js"></script>
   <script src="js/themes-registry.js"></script>
   <script src="js/theme.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/admin.js"></script>
 </body>
 </html>

@@ -1,6 +1,8 @@
 const grid = document.getElementById("grid");
 const emptyMsg = document.getElementById("empty");
 
+let lastCollections = [];
+
 function hashHue(str) {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -35,7 +37,7 @@ function buildCollectionCard(collection) {
 
   const count = document.createElement("div");
   count.className = "card-subtitle";
-  count.textContent = `${collection.count} jogo${collection.count === 1 ? "" : "s"}`;
+  count.textContent = tCount("games_count", collection.count);
 
   card.append(cover, title, count);
 
@@ -49,17 +51,26 @@ function buildCollectionCard(collection) {
   return card;
 }
 
-async function main() {
-  const res = await fetch("/api/collections");
-  const collections = await res.json();
-
-  emptyMsg.classList.toggle("hidden", collections.length > 0);
-  for (const collection of collections) {
+function render() {
+  grid.innerHTML = "";
+  emptyMsg.classList.toggle("hidden", lastCollections.length > 0);
+  for (const collection of lastCollections) {
     grid.appendChild(buildCollectionCard(collection));
   }
 }
 
+async function main() {
+  const res = await fetch("/api/collections");
+  lastCollections = await res.json();
+  render();
+}
+
 initViewToggle(grid, document.getElementById("view-toggle"));
 initThemeToggle(document.getElementById("theme-select"));
+initLangToggle(document.getElementById("lang-select"));
+
+function onLanguageChange() {
+  render();
+}
 
 main();

@@ -1,5 +1,5 @@
 {
-  "name": "flash-games-server",
+  "name": "flashback",
   "version": "0.1.0",
   "description": "Self-hosted Flash game library, played in-browser via Ruffle.",
   "license": "MIT",

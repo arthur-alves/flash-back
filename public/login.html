@@ -1,37 +1,38 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Entrar — Flash Games Server</title>
+  <title>Log in — FlashBack</title>
   <link rel="stylesheet" href="css/themes/dark.css" id="theme-link" />
   <link rel="stylesheet" href="css/style.css" />
   <script>
     (function () {
-      var saved = localStorage.getItem("flash-games-server:theme");
+      var saved = localStorage.getItem("flashback:theme");
       if (saved) document.getElementById("theme-link").href = "css/themes/" + saved + ".css";
     })();
   </script>
 </head>
 <body>
   <header class="topbar">
-    <a href="index.html" class="back-link">🕹️ Flash Games</a>
+    <a href="index.html" class="back-link">🕹️ FlashBack</a>
+    <select id="lang-select" class="theme-select"></select>
     <select id="theme-select" class="theme-select"></select>
   </header>
 
   <main class="auth-main">
     <section class="admin-panel auth-panel">
-      <h2>Entrar</h2>
+      <h2 data-i18n="login_title">Log in</h2>
       <form id="login-form" class="upload-form">
         <label>
-          Usuário
+          <span data-i18n="label_username">Username</span>
           <input type="text" id="username" name="username" required autocomplete="username" />
         </label>
         <label>
-          Senha
+          <span data-i18n="label_password">Password</span>
           <input type="password" id="password" name="password" required autocomplete="current-password" />
         </label>
-        <button type="submit" id="submit-btn">Entrar</button>
+        <button type="submit" id="submit-btn" data-i18n="login_button">Log in</button>
         <p id="status" class="upload-status"></p>
       </form>
     </section>
@@ -40,6 +41,7 @@
   <script src="js/icons.js"></script>
   <script src="js/themes-registry.js"></script>
   <script src="js/theme.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/login.js"></script>
 </body>
 </html>

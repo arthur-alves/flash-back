@@ -1,4 +1,4 @@
-# Flash Games Server
+# FlashBack
 
 Self-hosted library of classic Flash games, played directly in the browser via [Ruffle](https://ruffle.rs) — no plugins, no Flash Player install. Think of it as a "RomM for Flash games": browse a library, organize it into collections and tags, and play everything from a normal web browser.
 
@@ -10,7 +10,8 @@ Game files are sourced from the community-maintained [AmmarSAA/flash-games-direc
 - **Collections** — curated groups of games, each with its own page; a game can belong to more than one
 - **In-browser Flash emulation** via a self-hosted Ruffle build — no CDN dependency, no plugin install
 - **Fullscreen mode** and an optional **CRT scanline overlay**, handy for the many games shipped at very low native resolutions
-- **Light/dark theme**, remembered across visits
+- **Swappable themes** via plain CSS files (see [THEMES.md](THEMES.md)) — ships with Dark Neon, Light Neon, Geo (Y2K) and NES (8-bit)
+- **Multi-language UI** (English default, Portuguese included) via a small dictionary-based i18n system (see [LANGUAGES.md](LANGUAGES.md))
 - **Admin panel** to upload your own `.swf` games and cover art, protected by a real login (not the browser's native Basic Auth popup)
 - Uploads are validated by **file content**, not extension — a renamed `.txt` won't pass as a `.swf`
 - **Simple JSON storage** — no database, easy to inspect/edit/back up by hand
@@ -166,8 +167,12 @@ public/
   play.html                Ruffle player (fullscreen, CRT toggle)
   setup.html / login.html  Admin auth
   admin.html               Admin panel (games, covers, tags, collections)
-  js/                       One script per page, plus shared icons.js/theme.js/viewToggle.js
-  css/style.css             Everything, theme-aware via CSS variables
+  js/                       One script per page, plus shared icons.js/theme.js/
+                             i18n.js/viewToggle.js
+  css/style.css             Structure only — colors/fonts/radius come from
+                             css/themes/*.css (see THEMES.md)
+  css/themes/                One CSS file per theme
+  fonts/                      Self-hosted fonts used by specific themes
 ```
 
 ## Legal note

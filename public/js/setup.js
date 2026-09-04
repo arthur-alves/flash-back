@@ -3,6 +3,7 @@ const statusEl = document.getElementById("status");
 const submitBtn = document.getElementById("submit-btn");
 
 initThemeToggle(document.getElementById("theme-select"));
+initLangToggle(document.getElementById("lang-select"));
 
 // If setup was already completed (e.g. opened in two tabs), bounce to login.
 fetch("/api/setup/status")
@@ -21,13 +22,13 @@ form.addEventListener("submit", async (e) => {
   const passwordConfirm = document.getElementById("password-confirm").value;
 
   if (password !== passwordConfirm) {
-    statusEl.textContent = "As senhas não conferem.";
+    statusEl.textContent = t("passwords_dont_match");
     statusEl.classList.add("error");
     return;
   }
 
   submitBtn.disabled = true;
-  submitBtn.innerHTML = iconSvg("save") + " Criando...";
+  submitBtn.innerHTML = iconSvg("save") + " " + t("creating");
 
   try {
     const res = await fetch("/api/setup", {
@@ -39,17 +40,17 @@ form.addEventListener("submit", async (e) => {
     const data = await res.json();
 
     if (!res.ok) {
-      statusEl.textContent = data.error || "Erro ao criar conta.";
+      statusEl.textContent = data.error ? tError(data.error) : t("error_creating_account");
       statusEl.classList.add("error");
       submitBtn.disabled = false;
-      submitBtn.innerHTML = iconSvg("save") + " Criar conta";
+      submitBtn.innerHTML = iconSvg("save") + " " + t("create_account");
     } else {
       window.location.href = "admin.html";
     }
   } catch (err) {
-    statusEl.textContent = "Erro de rede ao criar conta.";
+    statusEl.textContent = t("network_error_creating_account");
     statusEl.classList.add("error");
     submitBtn.disabled = false;
-    submitBtn.innerHTML = iconSvg("save") + " Criar conta";
+    submitBtn.innerHTML = iconSvg("save") + " " + t("create_account");
   }
 });

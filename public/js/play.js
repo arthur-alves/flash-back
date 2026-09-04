@@ -7,19 +7,19 @@ const container = document.getElementById("player-container");
 
 async function main() {
   if (!slug) {
-    titleEl.textContent = "Jogo não especificado";
+    titleEl.textContent = t("game_not_specified");
     return;
   }
 
   const res = await fetch(`/api/games/${encodeURIComponent(slug)}`);
   if (!res.ok) {
-    titleEl.textContent = "Jogo não encontrado";
+    titleEl.textContent = t("game_not_found");
     return;
   }
 
   const game = await res.json();
   titleEl.textContent = game.title;
-  document.title = `${game.title} — Flash Games Server`;
+  document.title = `${game.title} — FlashBack`;
   descEl.textContent = game.description || "";
 
   const ruffle = window.RufflePlayer.newest();
@@ -31,14 +31,16 @@ async function main() {
   player.load(`/games/${encodeURIComponent(game.file)}`);
 }
 
-document.getElementById("back-link").innerHTML = iconSvg("arrow-left") + " Biblioteca";
+function updateBackLink() {
+  document.getElementById("back-link").innerHTML = iconSvg("arrow-left") + " " + t("nav_all_games");
+}
 
 const fullscreenBtn = document.getElementById("fullscreen-btn");
 
 function updateFullscreenBtn() {
   fullscreenBtn.innerHTML = document.fullscreenElement
-    ? iconSvg("minimize") + " Sair da tela cheia"
-    : iconSvg("maximize") + " Tela cheia";
+    ? iconSvg("minimize") + " " + t("exit_fullscreen_button")
+    : iconSvg("maximize") + " " + t("fullscreen_button");
 }
 
 fullscreenBtn.addEventListener("click", () => {
@@ -52,15 +54,14 @@ fullscreenBtn.addEventListener("click", () => {
 });
 
 document.addEventListener("fullscreenchange", updateFullscreenBtn);
-updateFullscreenBtn();
 
-const CRT_STORAGE_KEY = "flash-games-server:crt-enabled";
+const CRT_STORAGE_KEY = "flashback:crt-enabled";
 const crtBtn = document.getElementById("crt-btn");
 
 function setCrt(enabled) {
   container.classList.toggle("crt-on", enabled);
   crtBtn.classList.toggle("active", enabled);
-  crtBtn.innerHTML = iconSvg("monitor") + " CRT";
+  crtBtn.innerHTML = iconSvg("monitor") + " " + t("crt_button");
   localStorage.setItem(CRT_STORAGE_KEY, enabled ? "1" : "0");
 }
 
@@ -68,7 +69,16 @@ crtBtn.addEventListener("click", () => {
   setCrt(!container.classList.contains("crt-on"));
 });
 
-setCrt(localStorage.getItem(CRT_STORAGE_KEY) === "1");
 initThemeToggle(document.getElementById("theme-select"));
+initLangToggle(document.getElementById("lang-select"));
+updateBackLink();
+updateFullscreenBtn();
+setCrt(localStorage.getItem(CRT_STORAGE_KEY) === "1");
+
+function onLanguageChange() {
+  updateBackLink();
+  updateFullscreenBtn();
+  crtBtn.innerHTML = iconSvg("monitor") + " " + t("crt_button");
+}
 
 main();

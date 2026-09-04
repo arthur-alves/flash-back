@@ -2,7 +2,7 @@
 // snippet in each page's <head> (to avoid a flash of the wrong theme, see
 // any page's <head> for the pattern); this file wires up the <select> and
 // handles switching afterwards.
-const THEME_STORAGE_KEY = "flash-games-server:theme";
+const THEME_STORAGE_KEY = "flashback:theme";
 
 function currentTheme() {
   return localStorage.getItem(THEME_STORAGE_KEY) || DEFAULT_THEME;

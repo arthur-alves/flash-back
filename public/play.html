@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flash Games Server — Jogando</title>
+  <title>FlashBack — Playing</title>
   <link rel="stylesheet" href="css/themes/dark.css" id="theme-link" />
   <link rel="stylesheet" href="css/style.css" />
   <script>
     (function () {
-      var saved = localStorage.getItem("flash-games-server:theme");
+      var saved = localStorage.getItem("flashback:theme");
       if (saved) document.getElementById("theme-link").href = "css/themes/" + saved + ".css";
     })();
   </script>
@@ -17,9 +17,10 @@
 <body class="play-page">
   <header class="topbar">
     <a href="index.html" id="back-link" class="back-link"></a>
-    <h1 id="game-title">Carregando...</h1>
-    <button id="crt-btn" class="crt-btn" title="Efeito CRT"></button>
-    <button id="fullscreen-btn" class="fullscreen-btn" title="Tela cheia"></button>
+    <h1 id="game-title" data-i18n="loading">Loading...</h1>
+    <button id="crt-btn" class="crt-btn" data-i18n-title="crt_effect_title" title="CRT effect"></button>
+    <button id="fullscreen-btn" class="fullscreen-btn" data-i18n-title="fullscreen_title" title="Fullscreen"></button>
+    <select id="lang-select" class="theme-select"></select>
     <select id="theme-select" class="theme-select"></select>
   </header>
 
@@ -33,6 +34,7 @@
   <script src="js/icons.js"></script>
   <script src="js/themes-registry.js"></script>
   <script src="js/theme.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/play.js"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@ const statusEl = document.getElementById("status");
 const submitBtn = document.getElementById("submit-btn");
 
 initThemeToggle(document.getElementById("theme-select"));
+initLangToggle(document.getElementById("lang-select"));
 
 fetch("/api/setup/status")
   .then((r) => r.json())
@@ -30,14 +31,14 @@ form.addEventListener("submit", async (e) => {
     const data = await res.json();
 
     if (!res.ok) {
-      statusEl.textContent = data.error || "Erro ao entrar.";
+      statusEl.textContent = data.error ? tError(data.error) : t("error_logging_in");
       statusEl.classList.add("error");
       submitBtn.disabled = false;
     } else {
       window.location.href = "admin.html";
     }
   } catch (err) {
-    statusEl.textContent = "Erro de rede ao entrar.";
+    statusEl.textContent = t("network_error_logging_in");
     statusEl.classList.add("error");
     submitBtn.disabled = false;
   }

@@ -1,5 +1,5 @@
 // Shared grid/list view toggle, used by index.html, collections.html and collection.html.
-const VIEW_STORAGE_KEY = "flash-games-server:view-mode";
+const VIEW_STORAGE_KEY = "flashback:view-mode";
 
 function initViewToggle(gridEl, buttonEl) {
   function apply(mode) {

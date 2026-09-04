@@ -9,6 +9,7 @@ const collectionSubmitBtn = document.getElementById("collection-submit-btn");
 const collectionsListEl = document.getElementById("collections-list");
 
 let allCollections = [];
+let allGames = [];
 
 // Wraps fetch() for /api/admin/* calls: redirects to the login page if the
 // session has expired or was never established, instead of failing silently.
@@ -36,10 +37,13 @@ function formatSize(bytes) {
 async function loadGames() {
   const res = await af("/api/admin/games");
   if (!res.ok) return;
-  const games = await res.json();
+  allGames = await res.json();
+  renderGames();
+}
 
+function renderGames() {
   tableBody.innerHTML = "";
-  for (const game of games) {
+  for (const game of allGames) {
     const row = document.createElement("tr");
 
     const coverCell = document.createElement("td");
@@ -62,7 +66,7 @@ async function loadGames() {
 
     const actionsCell = document.createElement("td");
     const deleteBtn = document.createElement("button");
-    deleteBtn.innerHTML = iconSvg("trash") + " Remover";
+    deleteBtn.innerHTML = iconSvg("trash") + " " + t("remove_btn");
     deleteBtn.className = "delete-btn";
     deleteBtn.addEventListener("click", () => deleteGame(game.slug, game.title));
     actionsCell.appendChild(deleteBtn);
@@ -89,7 +93,7 @@ function buildCoverUploader(game) {
   input.type = "file";
   input.accept = ".jpg,.jpeg,.png,.webp";
   input.className = "cover-input";
-  input.title = "Trocar capa";
+  input.title = t("change_cover_title");
 
   input.addEventListener("change", async () => {
     if (!input.files[0]) return;
@@ -105,7 +109,7 @@ function buildCoverUploader(game) {
       loadGames();
     } else {
       const data = await res.json().catch(() => ({}));
-      alert(data.error || "Erro ao enviar a capa.");
+      alert(data.error ? tError(data.error) : t("error_uploading_cover"));
     }
   });
 
@@ -136,7 +140,7 @@ function buildTagsEditor(game) {
       const updated = await res.json();
       input.value = (updated.tags || []).join(", ");
     } else {
-      alert("Erro ao salvar tags.");
+      alert(t("error_saving_tags"));
     }
   });
 
@@ -150,7 +154,7 @@ function buildCollectionChips(game) {
   if (allCollections.length === 0) {
     const hint = document.createElement("span");
     hint.className = "collection-hint";
-    hint.textContent = "Crie uma coleção acima";
+    hint.textContent = t("create_collection_hint");
     wrap.appendChild(hint);
     return wrap;
   }
@@ -163,8 +167,8 @@ function buildCollectionChips(game) {
     chip.className = "collection-chip" + (inCollection ? " active" : "");
     chip.textContent = collection.name;
     chip.title = inCollection
-      ? `Remover de "${collection.name}"`
-      : `Adicionar a "${collection.name}"`;
+      ? t("remove_from_collection_title", { name: collection.name })
+      : t("add_to_collection_title", { name: collection.name });
 
     chip.addEventListener("click", async () => {
       const method = inCollection ? "DELETE" : "POST";
@@ -182,7 +186,7 @@ function buildCollectionChips(game) {
         await loadCollections();
         loadGames();
       } else {
-        alert("Erro ao atualizar coleção.");
+        alert(t("error_updating_collection"));
       }
     });
 
@@ -193,13 +197,13 @@ function buildCollectionChips(game) {
 }
 
 async function deleteGame(slug, title) {
-  if (!confirm(`Remover "${title}" da biblioteca? O arquivo será apagado do servidor.`)) return;
+  if (!confirm(t("confirm_remove_game", { title }))) return;
 
   const res = await af(`/api/admin/games/${encodeURIComponent(slug)}`, { method: "DELETE" });
   if (res.ok) {
     loadGames();
   } else {
-    alert("Erro ao remover o jogo.");
+    alert(t("error_removing_game"));
   }
 }
 
@@ -211,7 +215,7 @@ form.addEventListener("submit", async (e) => {
   const formData = new FormData(form);
 
   submitBtn.disabled = true;
-  submitBtn.textContent = "Enviando...";
+  submitBtn.textContent = t("sending");
 
   try {
     const res = await af("/api/admin/games", {
@@ -222,20 +226,20 @@ form.addEventListener("submit", async (e) => {
     const data = await res.json();
 
     if (!res.ok) {
-      statusEl.textContent = data.error || "Erro ao enviar o jogo.";
+      statusEl.textContent = data.error ? tError(data.error) : t("error_submitting_game");
       statusEl.classList.add("error");
     } else {
-      statusEl.textContent = `"${data.title}" adicionado com sucesso!`;
+      statusEl.textContent = t("game_added_success", { title: data.title });
       statusEl.classList.add("success");
       form.reset();
       loadGames();
     }
   } catch (err) {
-    statusEl.textContent = "Erro de rede ao enviar o jogo.";
+    statusEl.textContent = t("network_error_submitting_game");
     statusEl.classList.add("error");
   } finally {
     submitBtn.disabled = false;
-    submitBtn.innerHTML = iconSvg("save") + " Enviar jogo";
+    submitBtn.innerHTML = iconSvg("save") + " " + t("submit_game");
   }
 });
 
@@ -254,7 +258,7 @@ function renderCollectionsList() {
   if (allCollections.length === 0) {
     const li = document.createElement("li");
     li.className = "collection-hint";
-    li.textContent = "Nenhuma coleção criada ainda.";
+    li.textContent = t("no_collections_yet");
     collectionsListEl.appendChild(li);
     return;
   }
@@ -266,15 +270,15 @@ function renderCollectionsList() {
     li.appendChild(buildCollectionCoverUploader(collection));
 
     const info = document.createElement("span");
-    info.textContent = `${collection.name} (${collection.games.length} jogo${collection.games.length === 1 ? "" : "s"})`;
+    info.textContent = `${collection.name} (${tCount("games_count", collection.games.length)})`;
 
     const editBtn = document.createElement("button");
-    editBtn.innerHTML = iconSvg("pencil") + " Editar";
+    editBtn.innerHTML = iconSvg("pencil") + " " + t("edit_btn");
     editBtn.className = "collection-edit-btn";
     editBtn.addEventListener("click", () => editCollection(collection));
 
     const deleteBtn = document.createElement("button");
-    deleteBtn.innerHTML = iconSvg("trash") + " Excluir";
+    deleteBtn.innerHTML = iconSvg("trash") + " " + t("delete_btn");
     deleteBtn.className = "delete-btn";
     deleteBtn.addEventListener("click", () => deleteCollection(collection));
 
@@ -300,7 +304,7 @@ function buildCollectionCoverUploader(collection) {
   input.type = "file";
   input.accept = ".jpg,.jpeg,.png,.webp";
   input.className = "cover-input";
-  input.title = "Trocar capa da coleção";
+  input.title = t("change_collection_cover_title");
 
   input.addEventListener("change", async () => {
     if (!input.files[0]) return;
@@ -316,7 +320,7 @@ function buildCollectionCoverUploader(collection) {
       loadCollections();
     } else {
       const data = await res.json().catch(() => ({}));
-      alert(data.error || "Erro ao enviar a capa.");
+      alert(data.error ? tError(data.error) : t("error_uploading_cover"));
     }
   });
 
@@ -325,9 +329,9 @@ function buildCollectionCoverUploader(collection) {
 }
 
 async function editCollection(collection) {
-  const newName = prompt("Nome da coleção:", collection.name);
+  const newName = prompt(t("prompt_collection_name"), collection.name);
   if (newName === null) return;
-  const newDescription = prompt("Descrição:", collection.description || "");
+  const newDescription = prompt(t("prompt_collection_description"), collection.description || "");
   if (newDescription === null) return;
 
   const res = await af(`/api/admin/collections/${encodeURIComponent(collection.slug)}`, {
@@ -339,12 +343,12 @@ async function editCollection(collection) {
   if (res.ok) {
     loadCollections();
   } else {
-    alert("Erro ao editar coleção.");
+    alert(t("error_editing_collection"));
   }
 }
 
 async function deleteCollection(collection) {
-  if (!confirm(`Excluir a coleção "${collection.name}"? Os jogos não serão apagados.`)) return;
+  if (!confirm(t("confirm_delete_collection", { name: collection.name }))) return;
 
   const res = await af(`/api/admin/collections/${encodeURIComponent(collection.slug)}`, {
     method: "DELETE",
@@ -354,7 +358,7 @@ async function deleteCollection(collection) {
     await loadCollections();
     loadGames();
   } else {
-    alert("Erro ao excluir coleção.");
+    alert(t("error_deleting_collection"));
   }
 }
 
@@ -379,27 +383,38 @@ collectionForm.addEventListener("submit", async (e) => {
     const data = await res.json();
 
     if (!res.ok) {
-      collectionStatusEl.textContent = data.error || "Erro ao criar coleção.";
+      collectionStatusEl.textContent = data.error ? tError(data.error) : t("error_creating_collection");
       collectionStatusEl.classList.add("error");
     } else {
-      collectionStatusEl.textContent = `Coleção "${data.name}" criada!`;
+      collectionStatusEl.textContent = t("collection_created", { name: data.name });
       collectionStatusEl.classList.add("success");
       collectionForm.reset();
       await loadCollections();
       loadGames();
     }
   } catch (err) {
-    collectionStatusEl.textContent = "Erro de rede ao criar coleção.";
+    collectionStatusEl.textContent = t("network_error_creating_collection");
     collectionStatusEl.classList.add("error");
   } finally {
     collectionSubmitBtn.disabled = false;
   }
 });
 
-document.getElementById("back-link").innerHTML = iconSvg("arrow-left") + " Biblioteca";
-submitBtn.innerHTML = iconSvg("save") + " Enviar jogo";
-collectionSubmitBtn.innerHTML = iconSvg("plus") + " Criar coleção";
+function updateStaticText() {
+  document.getElementById("back-link").innerHTML = iconSvg("arrow-left") + " " + t("nav_all_games");
+  submitBtn.innerHTML = iconSvg("save") + " " + t("submit_game");
+  collectionSubmitBtn.innerHTML = iconSvg("plus") + " " + t("submit_collection");
+}
+
 initThemeToggle(document.getElementById("theme-select"));
+initLangToggle(document.getElementById("lang-select"));
+updateStaticText();
+
+function onLanguageChange() {
+  updateStaticText();
+  renderGames();
+  renderCollectionsList();
+}
 
 async function init() {
   await loadCollections();

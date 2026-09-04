@@ -100,7 +100,7 @@ app.get("/api/games", (req, res) => {
 app.get("/api/games/:slug", (req, res) => {
   const games = loadCatalog();
   const game = games.find((g) => g.slug === req.params.slug);
-  if (!game) return res.status(404).json({ error: "Game not found" });
+  if (!game) return res.status(404).json({ error: "game_not_found" });
   res.json(game);
 });
 
@@ -134,7 +134,7 @@ app.get("/api/collections", (req, res) => {
 app.get("/api/collections/:slug", (req, res) => {
   const collections = loadCollections();
   const collection = collections.find((c) => c.slug === req.params.slug);
-  if (!collection) return res.status(404).json({ error: "Collection not found" });
+  if (!collection) return res.status(404).json({ error: "collection_not_found" });
 
   const catalog = loadCatalog();
   const gamesBySlug = new Map(catalog.map((g) => [g.slug, g]));
@@ -187,20 +187,19 @@ app.post(
     ].sort();
 
     if (!file) {
-      return res.status(400).json({ error: "Nenhum arquivo enviado." });
+      return res.status(400).json({ error: "no_file" });
     }
     if (!title) {
-      return res.status(400).json({ error: "Título é obrigatório." });
+      return res.status(400).json({ error: "title_required" });
     }
     if (!isValidSwf(file.buffer)) {
       return res.status(400).json({
-        error:
-          "Arquivo inválido: o conteúdo não corresponde a um arquivo .swf (assinatura FWS/CWS/ZWS não encontrada).",
+        error: "invalid_swf",
       });
     }
     if (coverFile && !detectImageExt(coverFile.buffer)) {
       return res.status(400).json({
-        error: "Capa inválida: envie uma imagem JPG, PNG ou WebP de verdade.",
+        error: "invalid_cover",
       });
     }
 
@@ -243,16 +242,16 @@ app.post(
   (req, res) => {
     const catalog = loadCatalog();
     const game = catalog.find((g) => g.slug === req.params.slug);
-    if (!game) return res.status(404).json({ error: "Game not found" });
+    if (!game) return res.status(404).json({ error: "game_not_found" });
 
     if (!req.file) {
-      return res.status(400).json({ error: "Nenhuma imagem enviada." });
+      return res.status(400).json({ error: "no_image" });
     }
 
     const ext = detectImageExt(req.file.buffer);
     if (!ext) {
       return res.status(400).json({
-        error: "Capa inválida: envie uma imagem JPG, PNG ou WebP de verdade.",
+        error: "invalid_cover",
       });
     }
 
@@ -265,7 +264,7 @@ app.post(
 app.put("/api/admin/games/:slug/tags", auth.requireAdminApi, (req, res) => {
   const catalog = loadCatalog();
   const game = catalog.find((g) => g.slug === req.params.slug);
-  if (!game) return res.status(404).json({ error: "Game not found" });
+  if (!game) return res.status(404).json({ error: "game_not_found" });
 
   const tags = Array.isArray(req.body.tags) ? req.body.tags : [];
   game.tags = [...new Set(tags.map((t) => String(t).trim().toLowerCase()).filter(Boolean))].sort();
@@ -277,7 +276,7 @@ app.put("/api/admin/games/:slug/tags", auth.requireAdminApi, (req, res) => {
 app.delete("/api/admin/games/:slug", auth.requireAdminApi, (req, res) => {
   const catalog = loadCatalog();
   const index = catalog.findIndex((g) => g.slug === req.params.slug);
-  if (index === -1) return res.status(404).json({ error: "Game not found" });
+  if (index === -1) return res.status(404).json({ error: "game_not_found" });
 
   const [removed] = catalog.splice(index, 1);
   const filePath = path.join(GAMES_DIR, removed.file);
@@ -311,7 +310,7 @@ app.post("/api/admin/collections", auth.requireAdminApi, (req, res) => {
   const description = (req.body.description || "").trim();
 
   if (!name) {
-    return res.status(400).json({ error: "Nome da coleção é obrigatório." });
+    return res.status(400).json({ error: "collection_name_required" });
   }
 
   const collections = loadCollections();
@@ -327,7 +326,7 @@ app.post("/api/admin/collections", auth.requireAdminApi, (req, res) => {
 app.put("/api/admin/collections/:slug", auth.requireAdminApi, (req, res) => {
   const collections = loadCollections();
   const collection = collections.find((c) => c.slug === req.params.slug);
-  if (!collection) return res.status(404).json({ error: "Collection not found" });
+  if (!collection) return res.status(404).json({ error: "collection_not_found" });
 
   if (typeof req.body.name === "string" && req.body.name.trim()) {
     collection.name = req.body.name.trim();
@@ -343,7 +342,7 @@ app.put("/api/admin/collections/:slug", auth.requireAdminApi, (req, res) => {
 app.delete("/api/admin/collections/:slug", auth.requireAdminApi, (req, res) => {
   const collections = loadCollections();
   const index = collections.findIndex((c) => c.slug === req.params.slug);
-  if (index === -1) return res.status(404).json({ error: "Collection not found" });
+  if (index === -1) return res.status(404).json({ error: "collection_not_found" });
 
   const [removed] = collections.splice(index, 1);
   removeExistingCovers(COLLECTION_COVERS_DIR, removed.slug);
@@ -363,16 +362,16 @@ app.post(
   (req, res) => {
     const collections = loadCollections();
     const collection = collections.find((c) => c.slug === req.params.slug);
-    if (!collection) return res.status(404).json({ error: "Collection not found" });
+    if (!collection) return res.status(404).json({ error: "collection_not_found" });
 
     if (!req.file) {
-      return res.status(400).json({ error: "Nenhuma imagem enviada." });
+      return res.status(400).json({ error: "no_image" });
     }
 
     const ext = detectImageExt(req.file.buffer);
     if (!ext) {
       return res.status(400).json({
-        error: "Capa inválida: envie uma imagem JPG, PNG ou WebP de verdade.",
+        error: "invalid_cover",
       });
     }
 
@@ -385,12 +384,12 @@ app.post(
 app.post("/api/admin/collections/:slug/games", auth.requireAdminApi, (req, res) => {
   const collections = loadCollections();
   const collection = collections.find((c) => c.slug === req.params.slug);
-  if (!collection) return res.status(404).json({ error: "Collection not found" });
+  if (!collection) return res.status(404).json({ error: "collection_not_found" });
 
   const gameSlug = (req.body.gameSlug || "").trim();
   const catalog = loadCatalog();
   if (!catalog.some((g) => g.slug === gameSlug)) {
-    return res.status(400).json({ error: "Jogo não encontrado." });
+    return res.status(400).json({ error: "game_not_found" });
   }
 
   if (!collection.games.includes(gameSlug)) {
@@ -404,7 +403,7 @@ app.post("/api/admin/collections/:slug/games", auth.requireAdminApi, (req, res) 
 app.delete("/api/admin/collections/:slug/games/:gameSlug", auth.requireAdminApi, (req, res) => {
   const collections = loadCollections();
   const collection = collections.find((c) => c.slug === req.params.slug);
-  if (!collection) return res.status(404).json({ error: "Collection not found" });
+  if (!collection) return res.status(404).json({ error: "collection_not_found" });
 
   const idx = collection.games.indexOf(req.params.gameSlug);
   if (idx !== -1) {
@@ -423,17 +422,17 @@ app.get("/api/setup/status", (req, res) => {
 
 app.post("/api/setup", (req, res) => {
   if (auth.isConfigured()) {
-    return res.status(400).json({ error: "Já existe uma conta configurada." });
+    return res.status(400).json({ error: "already_configured" });
   }
 
   const username = (req.body.username || "").trim();
   const password = req.body.password || "";
 
   if (username.length < 3) {
-    return res.status(400).json({ error: "Usuário deve ter pelo menos 3 caracteres." });
+    return res.status(400).json({ error: "username_too_short" });
   }
   if (password.length < 8) {
-    return res.status(400).json({ error: "Senha deve ter pelo menos 8 caracteres." });
+    return res.status(400).json({ error: "password_too_short" });
   }
 
   auth.createAdmin(username, password);
@@ -451,7 +450,7 @@ app.post("/api/login", (req, res) => {
   const password = req.body.password || "";
 
   if (!auth.verifyLogin(username, password)) {
-    return res.status(401).json({ error: "Usuário ou senha incorretos." });
+    return res.status(401).json({ error: "invalid_credentials" });
   }
 
   const token = auth.createSession();
@@ -478,5 +477,5 @@ app.use("/covers", express.static(COVERS_DIR));
 app.use(express.static(PUBLIC_DIR));
 
 app.listen(PORT, () => {
-  console.log(`flash-games-server listening on http://0.0.0.0:${PORT}`);
+  console.log(`flashback listening on http://0.0.0.0:${PORT}`);
 });

@@ -79,26 +79,31 @@ async function loadGames() {
   applyFilters();
 }
 
+let lastTags = [];
+
 async function loadTags() {
   const res = await fetch("/api/tags");
   if (!res.ok) return;
-  const tags = await res.json();
+  lastTags = await res.json();
+  renderTags();
+}
 
-  if (tags.length === 0) return;
+function renderTags() {
+  if (lastTags.length === 0) return;
 
   tagsRow.classList.remove("hidden");
   tagsRow.innerHTML = "";
 
   const allChip = document.createElement("button");
-  allChip.className = "tag-chip active";
-  allChip.innerHTML = iconSvg("tag") + " Todos";
+  allChip.className = "tag-chip" + (activeTag === "" ? " active" : "");
+  allChip.innerHTML = iconSvg("tag") + " " + t("tag_all");
   allChip.dataset.tag = "";
   allChip.addEventListener("click", () => setActiveTag(""));
   tagsRow.appendChild(allChip);
 
-  for (const { tag, count } of tags) {
+  for (const { tag, count } of lastTags) {
     const chip = document.createElement("button");
-    chip.className = "tag-chip";
+    chip.className = "tag-chip" + (activeTag === tag ? " active" : "");
     chip.innerHTML = `${iconSvg("tag")} ${tag} (${count})`;
     chip.dataset.tag = tag;
     chip.addEventListener("click", () => setActiveTag(tag));
@@ -117,6 +122,11 @@ function setActiveTag(tag) {
 searchInput.addEventListener("input", applyFilters);
 initViewToggle(grid, document.getElementById("view-toggle"));
 initThemeToggle(document.getElementById("theme-select"));
+initLangToggle(document.getElementById("lang-select"));
+
+function onLanguageChange() {
+  renderTags();
+}
 
 loadGames();
 loadTags();

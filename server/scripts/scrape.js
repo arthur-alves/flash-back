@@ -12,7 +12,7 @@ const CATALOG_PATH = path.join(__dirname, "..", "..", "data", "catalog.json");
 
 function httpGetJson(url) {
   return new Promise((resolve, reject) => {
-    https.get(url, { headers: { "User-Agent": "flash-games-server" } }, (res) => {
+    https.get(url, { headers: { "User-Agent": "flashback" } }, (res) => {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
         return resolve(httpGetJson(res.headers.location));
       }
@@ -29,7 +29,7 @@ function httpGetJson(url) {
 function downloadFile(url, destPath) {
   return new Promise((resolve, reject) => {
     const file = fs.createWriteStream(destPath);
-    https.get(url, { headers: { "User-Agent": "flash-games-server" } }, (res) => {
+    https.get(url, { headers: { "User-Agent": "flashback" } }, (res) => {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
         file.close();
         fs.unlinkSync(destPath);
