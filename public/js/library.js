@@ -91,7 +91,7 @@ async function loadTags() {
 
   const allChip = document.createElement("button");
   allChip.className = "tag-chip active";
-  allChip.textContent = "Todos";
+  allChip.innerHTML = iconSvg("tag") + " Todos";
   allChip.dataset.tag = "";
   allChip.addEventListener("click", () => setActiveTag(""));
   tagsRow.appendChild(allChip);
@@ -99,7 +99,7 @@ async function loadTags() {
   for (const { tag, count } of tags) {
     const chip = document.createElement("button");
     chip.className = "tag-chip";
-    chip.textContent = `${tag} (${count})`;
+    chip.innerHTML = `${iconSvg("tag")} ${tag} (${count})`;
     chip.dataset.tag = tag;
     chip.addEventListener("click", () => setActiveTag(tag));
     tagsRow.appendChild(chip);
@@ -116,6 +116,7 @@ function setActiveTag(tag) {
 
 searchInput.addEventListener("input", applyFilters);
 initViewToggle(grid, document.getElementById("view-toggle"));
+initThemeToggle(document.getElementById("theme-toggle"));
 
 loadGames();
 loadTags();

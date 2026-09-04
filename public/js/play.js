@@ -31,7 +31,16 @@ async function main() {
   player.load(`/games/${encodeURIComponent(game.file)}`);
 }
 
+document.getElementById("back-link").innerHTML = iconSvg("arrow-left") + " Biblioteca";
+
 const fullscreenBtn = document.getElementById("fullscreen-btn");
+
+function updateFullscreenBtn() {
+  fullscreenBtn.innerHTML = document.fullscreenElement
+    ? iconSvg("minimize") + " Sair da tela cheia"
+    : iconSvg("maximize") + " Tela cheia";
+}
+
 fullscreenBtn.addEventListener("click", () => {
   if (document.fullscreenElement) {
     document.exitFullscreen();
@@ -42,9 +51,8 @@ fullscreenBtn.addEventListener("click", () => {
   }
 });
 
-document.addEventListener("fullscreenchange", () => {
-  fullscreenBtn.textContent = document.fullscreenElement ? "⛶ Sair da tela cheia" : "⛶ Tela cheia";
-});
+document.addEventListener("fullscreenchange", updateFullscreenBtn);
+updateFullscreenBtn();
 
 const CRT_STORAGE_KEY = "flash-games-server:crt-enabled";
 const crtBtn = document.getElementById("crt-btn");
@@ -52,6 +60,7 @@ const crtBtn = document.getElementById("crt-btn");
 function setCrt(enabled) {
   container.classList.toggle("crt-on", enabled);
   crtBtn.classList.toggle("active", enabled);
+  crtBtn.innerHTML = iconSvg("monitor") + " CRT";
   localStorage.setItem(CRT_STORAGE_KEY, enabled ? "1" : "0");
 }
 
@@ -60,5 +69,6 @@ crtBtn.addEventListener("click", () => {
 });
 
 setCrt(localStorage.getItem(CRT_STORAGE_KEY) === "1");
+initThemeToggle(document.getElementById("theme-toggle"));
 
 main();

@@ -5,12 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Coleção — Flash Games Server</title>
   <link rel="stylesheet" href="css/style.css" />
+  <script>
+    if (localStorage.getItem("flash-games-server:theme") === "light") {
+      document.documentElement.dataset.theme = "light";
+    }
+  </script>
 </head>
 <body>
   <header class="topbar">
-    <a href="collections.html" class="back-link">&larr; Coleções</a>
+    <a href="collections.html" id="back-link" class="back-link"></a>
     <h1 id="collection-title">Carregando...</h1>
-    <button id="view-toggle" class="view-toggle-btn">☰ Lista</button>
+    <button id="view-toggle" class="view-toggle-btn"></button>
+    <button id="theme-toggle" class="icon-btn"></button>
   </header>
 
   <main>
@@ -19,6 +25,8 @@
     <p id="empty" class="empty hidden">Nenhum jogo nesta coleção ainda.</p>
   </main>
 
+  <script src="js/icons.js"></script>
+  <script src="js/theme.js"></script>
   <script src="js/viewToggle.js"></script>
   <script src="js/collection.js"></script>
 </body>

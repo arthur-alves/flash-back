@@ -74,6 +74,8 @@ async function main() {
   }
 }
 
+document.getElementById("back-link").innerHTML = iconSvg("arrow-left") + " Coleções";
 initViewToggle(grid, document.getElementById("view-toggle"));
+initThemeToggle(document.getElementById("theme-toggle"));
 
 main();

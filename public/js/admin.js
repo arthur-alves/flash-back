@@ -46,7 +46,7 @@ async function loadGames() {
 
     const actionsCell = document.createElement("td");
     const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Remover";
+    deleteBtn.innerHTML = iconSvg("trash") + " Remover";
     deleteBtn.className = "delete-btn";
     deleteBtn.addEventListener("click", () => deleteGame(game.slug, game.title));
     actionsCell.appendChild(deleteBtn);
@@ -219,7 +219,7 @@ form.addEventListener("submit", async (e) => {
     statusEl.classList.add("error");
   } finally {
     submitBtn.disabled = false;
-    submitBtn.textContent = "Enviar jogo";
+    submitBtn.innerHTML = iconSvg("save") + " Enviar jogo";
   }
 });
 
@@ -253,12 +253,12 @@ function renderCollectionsList() {
     info.textContent = `${collection.name} (${collection.games.length} jogo${collection.games.length === 1 ? "" : "s"})`;
 
     const editBtn = document.createElement("button");
-    editBtn.textContent = "Editar";
+    editBtn.innerHTML = iconSvg("pencil") + " Editar";
     editBtn.className = "collection-edit-btn";
     editBtn.addEventListener("click", () => editCollection(collection));
 
     const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Excluir";
+    deleteBtn.innerHTML = iconSvg("trash") + " Excluir";
     deleteBtn.className = "delete-btn";
     deleteBtn.addEventListener("click", () => deleteCollection(collection));
 
@@ -379,6 +379,11 @@ collectionForm.addEventListener("submit", async (e) => {
     collectionSubmitBtn.disabled = false;
   }
 });
+
+document.getElementById("back-link").innerHTML = iconSvg("arrow-left") + " Biblioteca";
+submitBtn.innerHTML = iconSvg("save") + " Enviar jogo";
+collectionSubmitBtn.innerHTML = iconSvg("plus") + " Criar coleção";
+initThemeToggle(document.getElementById("theme-toggle"));
 
 async function init() {
   await loadCollections();

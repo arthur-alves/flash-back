@@ -16,5 +16,8 @@
   "dependencies": {
     "express": "^4.19.2",
     "multer": "^2.3.0"
+  },
+  "devDependencies": {
+    "lucide-static": "^1.41.0"
   }
 }

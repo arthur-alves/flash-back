@@ -2,10 +2,25 @@
   --bg: #12141c;
   --surface: #1c1f2b;
   --surface-hover: #262a3a;
+  --border: #2a2e3f;
   --text: #eef0f6;
   --text-dim: #9aa0b4;
   --accent: #7c5cff;
   --radius: 10px;
+  --danger: #f87171;
+  --success: #4ade80;
+}
+
+:root[data-theme="light"] {
+  --bg: #f4f5f9;
+  --surface: #ffffff;
+  --surface-hover: #eceefb;
+  --border: #dfe2ee;
+  --text: #1b1d27;
+  --text-dim: #6b7085;
+  --accent: #6a4bff;
+  --danger: #dc2626;
+  --success: #16a34a;
 }
 
 * { box-sizing: border-box; }
@@ -15,6 +30,14 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  flex-shrink: 0;
 }
 
 .topbar {
@@ -24,7 +47,7 @@ body {
   gap: 16px;
   padding: 16px 24px;
   background: var(--surface);
-  border-bottom: 1px solid #2a2e3f;
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -69,7 +92,7 @@ body {
   max-width: 320px;
   padding: 8px 12px;
   border-radius: var(--radius);
-  border: 1px solid #2a2e3f;
+  border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
   font-size: 0.95rem;
@@ -148,7 +171,7 @@ main {
 .tag-chip {
   background: var(--surface);
   color: var(--text-dim);
-  border: 1px solid #2a2e3f;
+  border: 1px solid var(--border);
   border-radius: 999px;
   padding: 6px 14px;
   font-size: 0.8rem;
@@ -218,7 +241,7 @@ main {
 .view-toggle-btn {
   background: var(--surface-hover);
   color: var(--text);
-  border: 1px solid #2a2e3f;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 8px 14px;
   font-size: 0.85rem;
@@ -352,6 +375,30 @@ main {
   white-space: nowrap;
 }
 
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  background: var(--surface-hover);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.icon-btn .icon {
+  width: 18px;
+  height: 18px;
+}
+
 .fullscreen-btn:hover {
   filter: brightness(1.1);
 }
@@ -359,7 +406,7 @@ main {
 .crt-btn {
   background: var(--surface-hover);
   color: var(--text);
-  border: 1px solid #2a2e3f;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 8px 14px;
   font-size: 0.85rem;
@@ -459,7 +506,7 @@ main {
 .upload-form input[type="file"],
 .upload-form textarea {
   background: var(--bg);
-  border: 1px solid #2a2e3f;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   color: var(--text);
   padding: 8px 10px;
@@ -494,8 +541,8 @@ main {
   font-size: 0.85rem;
 }
 
-.upload-status.success { color: #4ade80; }
-.upload-status.error { color: #f87171; }
+.upload-status.success { color: var(--success); }
+.upload-status.error { color: var(--danger); }
 
 .games-table {
   width: 100%;
@@ -507,7 +554,7 @@ main {
 .games-table td {
   text-align: left;
   padding: 8px 6px;
-  border-bottom: 1px solid #2a2e3f;
+  border-bottom: 1px solid var(--border);
 }
 
 .games-table th {
@@ -549,8 +596,8 @@ main {
 
 .delete-btn {
   background: transparent;
-  color: #f87171;
-  border: 1px solid #f87171;
+  color: var(--danger);
+  border: 1px solid var(--danger);
   border-radius: 6px;
   padding: 4px 10px;
   font-size: 0.8rem;
@@ -575,7 +622,7 @@ main {
   font-size: 0.8rem;
   line-height: 1.5;
   text-align: center;
-  border-top: 1px solid #2a2e3f;
+  border-top: 1px solid var(--border);
 }
 
 .footer a {
@@ -630,7 +677,7 @@ main {
 .collection-edit-btn {
   background: transparent;
   color: var(--text-dim);
-  border: 1px solid #2a2e3f;
+  border: 1px solid var(--border);
   border-radius: 6px;
   padding: 4px 10px;
   font-size: 0.8rem;
@@ -652,7 +699,7 @@ main {
 .tags-input {
   width: 160px;
   background: var(--bg);
-  border: 1px solid #2a2e3f;
+  border: 1px solid var(--border);
   border-radius: 6px;
   color: var(--text);
   padding: 6px 8px;
@@ -675,7 +722,7 @@ main {
 .collection-chip {
   background: transparent;
   color: var(--text-dim);
-  border: 1px solid #2a2e3f;
+  border: 1px solid var(--border);
   border-radius: 999px;
   padding: 3px 10px;
   font-size: 0.75rem;

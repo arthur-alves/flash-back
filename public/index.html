@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Flash Games Server</title>
   <link rel="stylesheet" href="css/style.css" />
+  <script>
+    if (localStorage.getItem("flash-games-server:theme") === "light") {
+      document.documentElement.dataset.theme = "light";
+    }
+  </script>
 </head>
 <body>
   <header class="topbar">
@@ -14,7 +19,8 @@
       <a href="collections.html">Coleções</a>
     </nav>
     <input id="search" type="search" placeholder="Buscar jogo..." autocomplete="off" />
-    <button id="view-toggle" class="view-toggle-btn">☰ Lista</button>
+    <button id="view-toggle" class="view-toggle-btn"></button>
+    <button id="theme-toggle" class="icon-btn"></button>
   </header>
 
   <main>
@@ -34,6 +40,8 @@
     <p><a href="admin.html">Administração</a></p>
   </footer>
 
+  <script src="js/icons.js"></script>
+  <script src="js/theme.js"></script>
   <script src="js/viewToggle.js"></script>
   <script src="js/library.js"></script>
 </body>

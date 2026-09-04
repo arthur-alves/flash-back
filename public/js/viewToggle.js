@@ -4,7 +4,8 @@ const VIEW_STORAGE_KEY = "flash-games-server:view-mode";
 function initViewToggle(gridEl, buttonEl) {
   function apply(mode) {
     gridEl.classList.toggle("list-view", mode === "list");
-    buttonEl.textContent = mode === "list" ? "▦ Grade" : "☰ Lista";
+    buttonEl.innerHTML =
+      mode === "list" ? iconSvg("layout-grid") + " Grade" : iconSvg("list") + " Lista";
     buttonEl.dataset.mode = mode;
   }
 

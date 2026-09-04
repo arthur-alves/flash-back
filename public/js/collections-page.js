@@ -60,5 +60,6 @@ async function main() {
 }
 
 initViewToggle(grid, document.getElementById("view-toggle"));
+initThemeToggle(document.getElementById("theme-toggle"));
 
 main();
