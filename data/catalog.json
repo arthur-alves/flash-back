@@ -5,7 +5,8 @@
     "description": "",
     "file": "34027-flash-game.swf",
     "sizeBytes": 50027,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "achievement-unlocked",
@@ -13,7 +14,11 @@
     "description": "Um jogo de plataforma minimalista focado inteiramente em desbloquear conquistas absurdas.",
     "file": "achievement-unlocked.swf",
     "sizeBytes": 2499931,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "plataforma",
+      "humor"
+    ]
   },
   {
     "slug": "age-of-defense-8",
@@ -21,7 +26,8 @@
     "description": "",
     "file": "age-of-defense-8.swf",
     "sizeBytes": 10527054,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "age-of-war",
@@ -29,7 +35,11 @@
     "description": "Escolha uma era, evolua sua base e destrua o exército inimigo em uma guerra que atravessa a pré-história até o futuro.",
     "file": "age-of-war.swf",
     "sizeBytes": 3628467,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "estratégia",
+      "guerra"
+    ]
   },
   {
     "slug": "animator",
@@ -37,7 +47,8 @@
     "description": "",
     "file": "animator.swf",
     "sizeBytes": 1333766,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "animator-2",
@@ -45,7 +56,8 @@
     "description": "",
     "file": "animator-2.swf",
     "sizeBytes": 4229600,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "bad-ice-cream-3-www-boysplaygame-com",
@@ -53,7 +65,11 @@
     "description": "",
     "file": "bad-ice-cream-3-www-boysplaygame-com.swf",
     "sizeBytes": 3245562,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle",
+      "arcade"
+    ]
   },
   {
     "slug": "bloons",
@@ -61,7 +77,10 @@
     "description": "",
     "file": "bloons.swf",
     "sizeBytes": 518506,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle"
+    ]
   },
   {
     "slug": "bloons-super-monkey",
@@ -69,7 +88,11 @@
     "description": "Spin-off de ação onde você controla o Super Monkey estourando balões direto na tela.",
     "file": "bloons-super-monkey.swf",
     "sizeBytes": 2707910,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "ação",
+      "tiro"
+    ]
   },
   {
     "slug": "bloons-tower-defence",
@@ -77,7 +100,11 @@
     "description": "O clássico tower defense: posicione macacos para estourar ondas de balões antes que escapem.",
     "file": "bloons-tower-defence.swf",
     "sizeBytes": 531015,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "tower defense",
+      "estratégia"
+    ]
   },
   {
     "slug": "bloons-tower-defence-2",
@@ -85,7 +112,11 @@
     "description": "Continuação do tower defense de balões, com novas torres e mapas.",
     "file": "bloons-tower-defence-2.swf",
     "sizeBytes": 787394,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "tower defense",
+      "estratégia"
+    ]
   },
   {
     "slug": "bloons-tower-defence-3",
@@ -93,7 +124,11 @@
     "description": "Terceira entrada da série, com mais upgrades e desafios de estratégia.",
     "file": "bloons-tower-defence-3.swf",
     "sizeBytes": 1400848,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "tower defense",
+      "estratégia"
+    ]
   },
   {
     "slug": "bloons-tower-defence-4",
@@ -101,7 +136,11 @@
     "description": "Quarta entrega do tower defense de balões, com heróis especiais.",
     "file": "bloons-tower-defence-4.swf",
     "sizeBytes": 2906520,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "tower defense",
+      "estratégia"
+    ]
   },
   {
     "slug": "bloxorz",
@@ -109,7 +148,11 @@
     "description": "Quebra-cabeça de lógica: role um bloco retangular pelo tabuleiro até encaixá-lo no buraco certo.",
     "file": "bloxorz.swf",
     "sizeBytes": 2250714,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle",
+      "lógica"
+    ]
   },
   {
     "slug": "bob-the-robber",
@@ -117,7 +160,11 @@
     "description": "Jogo de infiltração furtiva: controle um ladrão simpático evitando guardas e câmeras.",
     "file": "bob-the-robber.swf",
     "sizeBytes": 9208317,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "furtividade",
+      "aventura"
+    ]
   },
   {
     "slug": "checkers",
@@ -125,7 +172,11 @@
     "description": "O clássico jogo de damas, para jogar contra o computador ou um amigo.",
     "file": "checkers.swf",
     "sizeBytes": 136173,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "tabuleiro",
+      "estratégia"
+    ]
   },
   {
     "slug": "commando",
@@ -133,7 +184,12 @@
     "description": "Jogo de ação e tiro em plataforma inspirado nos clássicos de guerra dos fliperamas.",
     "file": "commando.swf",
     "sizeBytes": 6388010,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "ação",
+      "tiro",
+      "plataforma"
+    ]
   },
   {
     "slug": "commando-2",
@@ -141,7 +197,12 @@
     "description": "",
     "file": "commando-2.swf",
     "sizeBytes": 3365641,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "ação",
+      "tiro",
+      "plataforma"
+    ]
   },
   {
     "slug": "commando-2-by-miniclip",
@@ -149,7 +210,12 @@
     "description": "",
     "file": "commando-2-by-miniclip.swf",
     "sizeBytes": 6101964,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "ação",
+      "tiro",
+      "plataforma"
+    ]
   },
   {
     "slug": "dad-n-me",
@@ -157,7 +223,8 @@
     "description": "",
     "file": "dad-n-me.swf",
     "sizeBytes": 2754896,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "dont-escape",
@@ -165,7 +232,12 @@
     "description": "Jogo de fuga e sobrevivência ambientado em uma cabana isolada durante a lua cheia.",
     "file": "dont-escape.swf",
     "sizeBytes": 6712156,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "fuga",
+      "sobrevivência",
+      "terror"
+    ]
   },
   {
     "slug": "dont-escape-2",
@@ -173,7 +245,12 @@
     "description": "",
     "file": "dont-escape-2.swf",
     "sizeBytes": 10719707,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "fuga",
+      "sobrevivência",
+      "terror"
+    ]
   },
   {
     "slug": "dont-escape-3",
@@ -181,7 +258,12 @@
     "description": "",
     "file": "dont-escape-3.swf",
     "sizeBytes": 11333138,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "fuga",
+      "sobrevivência",
+      "terror"
+    ]
   },
   {
     "slug": "dont-shoot-the-puppy",
@@ -189,7 +271,11 @@
     "description": "Um quebra-cabeça absurdo com uma única regra: não atire no cachorrinho.",
     "file": "dont-shoot-the-puppy.swf",
     "sizeBytes": 61710,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "humor",
+      "quebra-cabeça"
+    ]
   },
   {
     "slug": "doom",
@@ -197,7 +283,8 @@
     "description": "Port não-oficial em Flash do clássico first-person shooter da id Software.",
     "file": "doom.swf",
     "sizeBytes": 2533118,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "duck-life-1",
@@ -205,7 +292,11 @@
     "description": "Treine seu patinho em corrida, natação e voo para se tornar campeão.",
     "file": "duck-life-1.swf",
     "sizeBytes": 1282209,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "simulação",
+      "corrida"
+    ]
   },
   {
     "slug": "duck-life-2-world-champion",
@@ -213,7 +304,11 @@
     "description": "",
     "file": "duck-life-2-world-champion.swf",
     "sizeBytes": 1901133,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "simulação",
+      "corrida"
+    ]
   },
   {
     "slug": "duck-life-3--evolution",
@@ -221,7 +316,11 @@
     "description": "",
     "file": "duck-life-3--evolution.swf",
     "sizeBytes": 6037543,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "simulação",
+      "corrida"
+    ]
   },
   {
     "slug": "duck-life-4",
@@ -229,7 +328,11 @@
     "description": "",
     "file": "duck-life-4.swf",
     "sizeBytes": 8874311,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "simulação",
+      "corrida"
+    ]
   },
   {
     "slug": "empires-of-arkeia",
@@ -237,7 +340,8 @@
     "description": "",
     "file": "empires-of-arkeia.swf",
     "sizeBytes": 12164368,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "extreme-pamplona",
@@ -245,7 +349,8 @@
     "description": "",
     "file": "extreme-pamplona.swf",
     "sizeBytes": 1000458,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "fish-tales-2",
@@ -253,7 +358,8 @@
     "description": "",
     "file": "fish-tales-2.swf",
     "sizeBytes": 2216134,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "fish-tales-deluxe-edition",
@@ -261,7 +367,8 @@
     "description": "",
     "file": "fish-tales-deluxe-edition.swf",
     "sizeBytes": 1800226,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "flash-sonic",
@@ -269,7 +376,8 @@
     "description": "",
     "file": "flash-sonic.swf",
     "sizeBytes": 1506632,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "gotham-city-rush",
@@ -277,7 +385,8 @@
     "description": "",
     "file": "gotham-city-rush.swf",
     "sizeBytes": 1809810,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "henry-stickmin-breaking-the-bank",
@@ -285,7 +394,11 @@
     "description": "Aventura interativa em que você escolhe as ações do Henry Stickmin para assaltar um banco.",
     "file": "henry-stickmin-breaking-the-bank.swf",
     "sizeBytes": 3177805,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "aventura interativa",
+      "humor"
+    ]
   },
   {
     "slug": "henry-stickmin-escaping-the-prison",
@@ -293,7 +406,11 @@
     "description": "Aventura interativa de fuga de prisão com múltiplos finais possíveis.",
     "file": "henry-stickmin-escaping-the-prison.swf",
     "sizeBytes": 9734373,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "aventura interativa",
+      "humor"
+    ]
   },
   {
     "slug": "henry-stickmin-stealing-the-diamond",
@@ -301,7 +418,11 @@
     "description": "Aventura interativa em que Henry tenta roubar um diamante valioso de um museu.",
     "file": "henry-stickmin-stealing-the-diamond.swf",
     "sizeBytes": 14589227,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "aventura interativa",
+      "humor"
+    ]
   },
   {
     "slug": "interactive-buddy",
@@ -309,7 +430,11 @@
     "description": "Brinquedo virtual sandbox: interaja e experimente física com um bonequinho de borracha.",
     "file": "interactive-buddy.swf",
     "sizeBytes": 1224969,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "sandbox",
+      "física"
+    ]
   },
   {
     "slug": "learn-2-fly",
@@ -317,7 +442,11 @@
     "description": "Continuação de Learn to Fly, com mais upgrades para o voo do pinguim.",
     "file": "learn-2-fly.swf",
     "sizeBytes": 5492340,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "física",
+      "arcade"
+    ]
   },
   {
     "slug": "learn-to-fly",
@@ -325,7 +454,11 @@
     "description": "Ajude um pinguim a construir uma máquina voadora e alcançar a maior distância possível.",
     "file": "learn-to-fly.swf",
     "sizeBytes": 892238,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "física",
+      "arcade"
+    ]
   },
   {
     "slug": "mad-arrow",
@@ -333,7 +466,11 @@
     "description": "",
     "file": "mad-arrow.swf",
     "sizeBytes": 4407743,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "arcade",
+      "tiro"
+    ]
   },
   {
     "slug": "minesweeper",
@@ -341,7 +478,11 @@
     "description": "O clássico campo minado — descubra todas as células seguras sem detonar uma bomba.",
     "file": "minesweeper.swf",
     "sizeBytes": 28901,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle",
+      "clássico"
+    ]
   },
   {
     "slug": "motherload",
@@ -349,7 +490,11 @@
     "description": "Jogo de mineração: cave cada vez mais fundo em busca de minérios valiosos.",
     "file": "motherload.swf",
     "sizeBytes": 3977393,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "mineração",
+      "aventura"
+    ]
   },
   {
     "slug": "n",
@@ -357,7 +502,11 @@
     "description": "",
     "file": "n.swf",
     "sizeBytes": 380412,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "plataforma",
+      "desafio"
+    ]
   },
   {
     "slug": "pacman",
@@ -365,7 +514,11 @@
     "description": "Versão em Flash do clássico jogo de labirinto Pac-Man.",
     "file": "pacman.swf",
     "sizeBytes": 42511,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "arcade",
+      "clássico"
+    ]
   },
   {
     "slug": "papas-pizzeria",
@@ -373,7 +526,11 @@
     "description": "Jogo de gerenciamento de tempo: monte pizzas perfeitas para os clientes da pizzaria.",
     "file": "papas-pizzeria.swf",
     "sizeBytes": 2562841,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "gerenciamento de tempo",
+      "culinária"
+    ]
   },
   {
     "slug": "pc-breakdown",
@@ -381,7 +538,8 @@
     "description": "",
     "file": "pc-breakdown.swf",
     "sizeBytes": 653848,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "penguin-diner",
@@ -389,7 +547,11 @@
     "description": "Jogo de gerenciamento de tempo servindo peixes num restaurante administrado por um pinguim.",
     "file": "penguin-diner.swf",
     "sizeBytes": 824167,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "gerenciamento de tempo",
+      "culinária"
+    ]
   },
   {
     "slug": "penguin-diner-2",
@@ -397,7 +559,11 @@
     "description": "",
     "file": "penguin-diner-2.swf",
     "sizeBytes": 2320642,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "gerenciamento de tempo",
+      "culinária"
+    ]
   },
   {
     "slug": "pipe-riders",
@@ -405,7 +571,8 @@
     "description": "",
     "file": "pipe-riders.swf",
     "sizeBytes": 3058461,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "pocket-fighter-nova",
@@ -413,7 +580,10 @@
     "description": "",
     "file": "pocket-fighter-nova.swf",
     "sizeBytes": 6406617,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "luta"
+    ]
   },
   {
     "slug": "pocket-fighter-nova-updated",
@@ -421,7 +591,10 @@
     "description": "",
     "file": "pocket-fighter-nova-updated.swf",
     "sizeBytes": 7219895,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "luta"
+    ]
   },
   {
     "slug": "portal-flash",
@@ -429,7 +602,11 @@
     "description": "Fã-jogo baseado em Portal, com quebra-cabeças de física e teletransporte.",
     "file": "portal-flash.swf",
     "sizeBytes": 7104282,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle",
+      "física"
+    ]
   },
   {
     "slug": "riddle-school",
@@ -437,7 +614,11 @@
     "description": "Aventura point-and-click: ajude Phil a escapar da escola.",
     "file": "riddle-school.swf",
     "sizeBytes": 627624,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "point-and-click",
+      "aventura"
+    ]
   },
   {
     "slug": "riddle-school-3",
@@ -445,7 +626,11 @@
     "description": "",
     "file": "riddle-school-3.swf",
     "sizeBytes": 7701743,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "point-and-click",
+      "aventura"
+    ]
   },
   {
     "slug": "riddle-school-4",
@@ -453,7 +638,11 @@
     "description": "",
     "file": "riddle-school-4.swf",
     "sizeBytes": 6167736,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "point-and-click",
+      "aventura"
+    ]
   },
   {
     "slug": "riddle-school-transfer",
@@ -461,7 +650,11 @@
     "description": "",
     "file": "riddle-school-transfer.swf",
     "sizeBytes": 15645136,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "point-and-click",
+      "aventura"
+    ]
   },
   {
     "slug": "rollercoaster-creator",
@@ -469,7 +662,11 @@
     "description": "",
     "file": "rollercoaster-creator.swf",
     "sizeBytes": 2386953,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "simulação",
+      "criativo"
+    ]
   },
   {
     "slug": "rubiks-cube",
@@ -477,7 +674,10 @@
     "description": "Simulador do cubo mágico — resolva o quebra-cabeça direto no navegador.",
     "file": "rubiks-cube.swf",
     "sizeBytes": 1552452,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle"
+    ]
   },
   {
     "slug": "scrap-metal-heroes",
@@ -485,7 +685,11 @@
     "description": "",
     "file": "scrap-metal-heroes.swf",
     "sizeBytes": 8645245,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "corrida",
+      "ação"
+    ]
   },
   {
     "slug": "shopping-cart-hero",
@@ -493,7 +697,11 @@
     "description": "",
     "file": "shopping-cart-hero.swf",
     "sizeBytes": 150276,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "física",
+      "arcade"
+    ]
   },
   {
     "slug": "showdown",
@@ -501,7 +709,11 @@
     "description": "",
     "file": "showdown.swf",
     "sizeBytes": 2936366,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "luta",
+      "ação"
+    ]
   },
   {
     "slug": "snake",
@@ -509,7 +721,11 @@
     "description": "O clássico jogo da cobrinha: coma e cresça sem bater nas paredes ou em si mesmo.",
     "file": "snake.swf",
     "sizeBytes": 9981,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "arcade",
+      "clássico"
+    ]
   },
   {
     "slug": "stick-rpg",
@@ -517,7 +733,11 @@
     "description": "RPG em mundo aberto com bonecos de palito: trabalhe, suba de nível e explore a cidade.",
     "file": "stick-rpg.swf",
     "sizeBytes": 1233598,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "rpg",
+      "mundo aberto"
+    ]
   },
   {
     "slug": "storm-the-house",
@@ -525,7 +745,11 @@
     "description": "Defenda sua casa contra ondas de assaltantes usando armas e armadilhas.",
     "file": "storm-the-house.swf",
     "sizeBytes": 143373,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "defesa",
+      "ação"
+    ]
   },
   {
     "slug": "storm-the-house-2",
@@ -533,7 +757,11 @@
     "description": "",
     "file": "storm-the-house-2.swf",
     "sizeBytes": 305229,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "defesa",
+      "ação"
+    ]
   },
   {
     "slug": "strikeforce-kitty",
@@ -541,7 +769,11 @@
     "description": "",
     "file": "strikeforce-kitty.swf",
     "sizeBytes": 3856887,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "ação",
+      "plataforma"
+    ]
   },
   {
     "slug": "strikeforce-kitty-2",
@@ -549,7 +781,11 @@
     "description": "",
     "file": "strikeforce-kitty-2.swf",
     "sizeBytes": 11333639,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "ação",
+      "plataforma"
+    ]
   },
   {
     "slug": "strikeforce-kitty-last-stand",
@@ -557,7 +793,11 @@
     "description": "",
     "file": "strikeforce-kitty-last-stand.swf",
     "sizeBytes": 6040256,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "ação",
+      "plataforma"
+    ]
   },
   {
     "slug": "strikeforce-kitty-league",
@@ -565,7 +805,11 @@
     "description": "",
     "file": "strikeforce-kitty-league.swf",
     "sizeBytes": 6525675,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "ação",
+      "plataforma"
+    ]
   },
   {
     "slug": "sugar-sugar",
@@ -573,7 +817,11 @@
     "description": "Quebra-cabeça de física: desenhe trilhos para guiar açúcar até os potes certos.",
     "file": "sugar-sugar.swf",
     "sizeBytes": 880682,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle",
+      "física"
+    ]
   },
   {
     "slug": "sugar-sugar-2",
@@ -581,7 +829,11 @@
     "description": "",
     "file": "sugar-sugar-2.swf",
     "sizeBytes": 892897,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle",
+      "física"
+    ]
   },
   {
     "slug": "sugar-sugar-3",
@@ -589,7 +841,11 @@
     "description": "",
     "file": "sugar-sugar-3.swf",
     "sizeBytes": 1072000,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle",
+      "física"
+    ]
   },
   {
     "slug": "summon-the-hero",
@@ -597,7 +853,11 @@
     "description": "",
     "file": "summon-the-hero.swf",
     "sizeBytes": 14055214,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "rpg",
+      "estratégia"
+    ]
   },
   {
     "slug": "super-mario-63",
@@ -605,7 +865,11 @@
     "description": "Fã-jogo extenso inspirado em Super Mario 64 e Super Mario Sunshine.",
     "file": "super-mario-63.swf",
     "sizeBytes": 15295370,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "plataforma",
+      "fã-jogo"
+    ]
   },
   {
     "slug": "super-mario-bros-crossover-3",
@@ -613,7 +877,11 @@
     "description": "",
     "file": "super-mario-bros-crossover-3.swf",
     "sizeBytes": 19464212,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "plataforma",
+      "fã-jogo"
+    ]
   },
   {
     "slug": "super-mario-flash-2",
@@ -621,7 +889,11 @@
     "description": "",
     "file": "super-mario-flash-2.swf",
     "sizeBytes": 3847858,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "plataforma",
+      "fã-jogo"
+    ]
   },
   {
     "slug": "super-mario-flash-4",
@@ -629,7 +901,11 @@
     "description": "",
     "file": "super-mario-flash-4.swf",
     "sizeBytes": 2338834,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "plataforma",
+      "fã-jogo"
+    ]
   },
   {
     "slug": "super-mario-flash-by-povetpu-games",
@@ -637,7 +913,11 @@
     "description": "Recriação em Flash do primeiro Super Mario Bros, fiel ao jogo original de NES.",
     "file": "super-mario-flash-by-povetpu-games.swf",
     "sizeBytes": 2236766,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "plataforma",
+      "fã-jogo"
+    ]
   },
   {
     "slug": "super-mario-flash-by-smf_creator",
@@ -645,7 +925,11 @@
     "description": "",
     "file": "super-mario-flash-by-smf_creator.swf",
     "sizeBytes": 2254961,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "plataforma",
+      "fã-jogo"
+    ]
   },
   {
     "slug": "super-smash-flash",
@@ -653,7 +937,11 @@
     "description": "",
     "file": "super-smash-flash.swf",
     "sizeBytes": 8861605,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "luta",
+      "fã-jogo"
+    ]
   },
   {
     "slug": "tetris",
@@ -661,7 +949,11 @@
     "description": "O clássico jogo de encaixar peças — quantas linhas você consegue completar?",
     "file": "tetris.swf",
     "sizeBytes": 14461,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle",
+      "clássico"
+    ]
   },
   {
     "slug": "the-fancy-pants-adventure-1",
@@ -669,7 +961,10 @@
     "description": "Plataforma fluido e estiloso controlando um boneco de rabisco elástico.",
     "file": "the-fancy-pants-adventure-1.swf",
     "sizeBytes": 2672568,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "plataforma"
+    ]
   },
   {
     "slug": "the-fancy-pants-adventure-2",
@@ -677,7 +972,10 @@
     "description": "",
     "file": "the-fancy-pants-adventure-2.swf",
     "sizeBytes": 9831311,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "plataforma"
+    ]
   },
   {
     "slug": "the-impossible-quiz",
@@ -685,7 +983,11 @@
     "description": "Quiz absurdo cheio de perguntas-pegadinha e lógica non-sense.",
     "file": "the-impossible-quiz.swf",
     "sizeBytes": 4861363,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "quiz",
+      "humor"
+    ]
   },
   {
     "slug": "the-world's-hardest-game",
@@ -693,7 +995,11 @@
     "description": "Desvie de bolinhas vermelhas e chegue ao final de cada fase — tão difícil quanto o nome promete.",
     "file": "the-world's-hardest-game.swf",
     "sizeBytes": 744124,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "arcade",
+      "desafio"
+    ]
   },
   {
     "slug": "toxic",
@@ -701,7 +1007,8 @@
     "description": "",
     "file": "Toxic.swf",
     "sizeBytes": 2052327,
-    "cover": null
+    "cover": null,
+    "tags": []
   },
   {
     "slug": "toxic-2",
@@ -709,7 +1016,11 @@
     "description": "",
     "file": "toxic-2.swf",
     "sizeBytes": 2235825,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "plataforma",
+      "puzzle"
+    ]
   },
   {
     "slug": "truck-loader",
@@ -717,7 +1028,11 @@
     "description": "Quebra-cabeça de física: use o guindaste do caminhão para carregar caixas corretamente.",
     "file": "truck-loader.swf",
     "sizeBytes": 1756950,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle",
+      "física"
+    ]
   },
   {
     "slug": "truck-loader-2",
@@ -725,7 +1040,11 @@
     "description": "",
     "file": "truck-loader-2.swf",
     "sizeBytes": 2366577,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle",
+      "física"
+    ]
   },
   {
     "slug": "truck-loader-3",
@@ -733,7 +1052,11 @@
     "description": "",
     "file": "truck-loader-3.swf",
     "sizeBytes": 2468315,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle",
+      "física"
+    ]
   },
   {
     "slug": "truck-loader-4",
@@ -741,7 +1064,11 @@
     "description": "",
     "file": "truck-loader-4.swf",
     "sizeBytes": 4929114,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle",
+      "física"
+    ]
   },
   {
     "slug": "truck-loader-5",
@@ -749,7 +1076,11 @@
     "description": "",
     "file": "truck-loader-5.swf",
     "sizeBytes": 5518166,
-    "cover": null
+    "cover": null,
+    "tags": [
+      "puzzle",
+      "física"
+    ]
   },
   {
     "slug": "turtle",
@@ -757,6 +1088,7 @@
     "description": "",
     "file": "turtle.swf",
     "sizeBytes": 7690451,
-    "cover": null
+    "cover": null,
+    "tags": []
   }
 ]

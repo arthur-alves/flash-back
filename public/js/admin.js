@@ -3,10 +3,19 @@ const statusEl = document.getElementById("upload-status");
 const submitBtn = document.getElementById("submit-btn");
 const tableBody = document.getElementById("games-table-body");
 
+const collectionForm = document.getElementById("collection-form");
+const collectionStatusEl = document.getElementById("collection-status");
+const collectionSubmitBtn = document.getElementById("collection-submit-btn");
+const collectionsListEl = document.getElementById("collections-list");
+
+let allCollections = [];
+
 function formatSize(bytes) {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
+
+// ---- Games ----
 
 async function loadGames() {
   const res = await fetch("/api/admin/games");
@@ -29,6 +38,12 @@ async function loadGames() {
     const sizeCell = document.createElement("td");
     sizeCell.textContent = formatSize(game.sizeBytes || 0);
 
+    const tagsCell = document.createElement("td");
+    tagsCell.appendChild(buildTagsEditor(game));
+
+    const collectionsCell = document.createElement("td");
+    collectionsCell.appendChild(buildCollectionChips(game));
+
     const actionsCell = document.createElement("td");
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Remover";
@@ -36,7 +51,7 @@ async function loadGames() {
     deleteBtn.addEventListener("click", () => deleteGame(game.slug, game.title));
     actionsCell.appendChild(deleteBtn);
 
-    row.append(coverCell, titleCell, fileCell, sizeCell, actionsCell);
+    row.append(coverCell, titleCell, fileCell, sizeCell, tagsCell, collectionsCell, actionsCell);
     tableBody.appendChild(row);
   }
 }
@@ -79,6 +94,85 @@ function buildCoverUploader(game) {
   });
 
   wrap.append(thumb, input);
+  return wrap;
+}
+
+function buildTagsEditor(game) {
+  const input = document.createElement("input");
+  input.type = "text";
+  input.className = "tags-input";
+  input.value = (game.tags || []).join(", ");
+  input.placeholder = "tag1, tag2";
+
+  input.addEventListener("change", async () => {
+    const tags = input.value
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
+
+    const res = await fetch(`/api/admin/games/${encodeURIComponent(game.slug)}/tags`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tags }),
+    });
+
+    if (res.ok) {
+      const updated = await res.json();
+      input.value = (updated.tags || []).join(", ");
+    } else {
+      alert("Erro ao salvar tags.");
+    }
+  });
+
+  return input;
+}
+
+function buildCollectionChips(game) {
+  const wrap = document.createElement("div");
+  wrap.className = "collection-chips";
+
+  if (allCollections.length === 0) {
+    const hint = document.createElement("span");
+    hint.className = "collection-hint";
+    hint.textContent = "Crie uma coleção acima";
+    wrap.appendChild(hint);
+    return wrap;
+  }
+
+  for (const collection of allCollections) {
+    const inCollection = collection.games.includes(game.slug);
+
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "collection-chip" + (inCollection ? " active" : "");
+    chip.textContent = collection.name;
+    chip.title = inCollection
+      ? `Remover de "${collection.name}"`
+      : `Adicionar a "${collection.name}"`;
+
+    chip.addEventListener("click", async () => {
+      const method = inCollection ? "DELETE" : "POST";
+      const url = inCollection
+        ? `/api/admin/collections/${encodeURIComponent(collection.slug)}/games/${encodeURIComponent(game.slug)}`
+        : `/api/admin/collections/${encodeURIComponent(collection.slug)}/games`;
+
+      const res = await fetch(url, {
+        method,
+        headers: inCollection ? undefined : { "Content-Type": "application/json" },
+        body: inCollection ? undefined : JSON.stringify({ gameSlug: game.slug }),
+      });
+
+      if (res.ok) {
+        await loadCollections();
+        loadGames();
+      } else {
+        alert("Erro ao atualizar coleção.");
+      }
+    });
+
+    wrap.appendChild(chip);
+  }
+
   return wrap;
 }
 
@@ -129,4 +223,123 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-loadGames();
+// ---- Collections ----
+
+async function loadCollections() {
+  const res = await fetch("/api/admin/collections");
+  if (!res.ok) return;
+  allCollections = await res.json();
+  renderCollectionsList();
+}
+
+function renderCollectionsList() {
+  collectionsListEl.innerHTML = "";
+
+  if (allCollections.length === 0) {
+    const li = document.createElement("li");
+    li.className = "collection-hint";
+    li.textContent = "Nenhuma coleção criada ainda.";
+    collectionsListEl.appendChild(li);
+    return;
+  }
+
+  for (const collection of allCollections) {
+    const li = document.createElement("li");
+    li.className = "collection-item";
+
+    const info = document.createElement("span");
+    info.textContent = `${collection.name} (${collection.games.length} jogo${collection.games.length === 1 ? "" : "s"})`;
+
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Editar";
+    editBtn.className = "collection-edit-btn";
+    editBtn.addEventListener("click", () => editCollection(collection));
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Excluir";
+    deleteBtn.className = "delete-btn";
+    deleteBtn.addEventListener("click", () => deleteCollection(collection));
+
+    li.append(info, editBtn, deleteBtn);
+    collectionsListEl.appendChild(li);
+  }
+}
+
+async function editCollection(collection) {
+  const newName = prompt("Nome da coleção:", collection.name);
+  if (newName === null) return;
+  const newDescription = prompt("Descrição:", collection.description || "");
+  if (newDescription === null) return;
+
+  const res = await fetch(`/api/admin/collections/${encodeURIComponent(collection.slug)}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: newName, description: newDescription }),
+  });
+
+  if (res.ok) {
+    loadCollections();
+  } else {
+    alert("Erro ao editar coleção.");
+  }
+}
+
+async function deleteCollection(collection) {
+  if (!confirm(`Excluir a coleção "${collection.name}"? Os jogos não serão apagados.`)) return;
+
+  const res = await fetch(`/api/admin/collections/${encodeURIComponent(collection.slug)}`, {
+    method: "DELETE",
+  });
+
+  if (res.ok) {
+    await loadCollections();
+    loadGames();
+  } else {
+    alert("Erro ao excluir coleção.");
+  }
+}
+
+collectionForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  collectionStatusEl.textContent = "";
+  collectionStatusEl.className = "upload-status";
+
+  const formData = new FormData(collectionForm);
+  collectionSubmitBtn.disabled = true;
+
+  try {
+    const res = await fetch("/api/admin/collections", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.get("name"),
+        description: formData.get("description"),
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      collectionStatusEl.textContent = data.error || "Erro ao criar coleção.";
+      collectionStatusEl.classList.add("error");
+    } else {
+      collectionStatusEl.textContent = `Coleção "${data.name}" criada!`;
+      collectionStatusEl.classList.add("success");
+      collectionForm.reset();
+      await loadCollections();
+      loadGames();
+    }
+  } catch (err) {
+    collectionStatusEl.textContent = "Erro de rede ao criar coleção.";
+    collectionStatusEl.classList.add("error");
+  } finally {
+    collectionSubmitBtn.disabled = false;
+  }
+});
+
+async function init() {
+  await loadCollections();
+  loadGames();
+}
+
+init();

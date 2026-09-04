@@ -32,9 +32,30 @@
           Capa (opcional — JPG, PNG ou WebP)
           <input type="file" id="cover-file" name="cover" accept=".jpg,.jpeg,.png,.webp" />
         </label>
+        <label>
+          Tags (opcional, separadas por vírgula)
+          <input type="text" id="game-tags" name="tags" placeholder="ação, plataforma, clássico" />
+        </label>
         <button type="submit" id="submit-btn">Enviar jogo</button>
         <p id="upload-status" class="upload-status"></p>
       </form>
+    </section>
+
+    <section class="admin-panel">
+      <h2>Coleções</h2>
+      <form id="collection-form" class="upload-form collection-form">
+        <label>
+          Nome
+          <input type="text" id="collection-name" name="name" required maxlength="60" />
+        </label>
+        <label>
+          Descrição (opcional)
+          <input type="text" id="collection-description" name="description" maxlength="200" />
+        </label>
+        <button type="submit" id="collection-submit-btn">Criar coleção</button>
+        <p id="collection-status" class="upload-status"></p>
+      </form>
+      <ul id="collections-list" class="collections-list"></ul>
     </section>
 
     <section class="admin-panel">
@@ -46,6 +67,8 @@
             <th>Título</th>
             <th>Arquivo</th>
             <th>Tamanho</th>
+            <th>Tags</th>
+            <th>Coleções</th>
             <th></th>
           </tr>
         </thead>

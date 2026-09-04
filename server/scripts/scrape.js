@@ -103,11 +103,12 @@ async function main() {
       file: file.name,
       sizeBytes: file.size,
       cover: previous.cover || null,
+      tags: previous.tags || [],
     });
   }
 
   catalog.sort((a, b) => a.title.localeCompare(b.title));
-  fs.writeFileSync(CATALOG_PATH, JSON.stringify(catalog, null, 2));
+  fs.writeFileSync(CATALOG_PATH, JSON.stringify(catalog, null, 2) + "\n");
   console.log(`\nCatalog written to ${CATALOG_PATH} (${catalog.length} games).`);
 }
 
