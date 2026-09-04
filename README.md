@@ -27,10 +27,24 @@ npm run fetch-ruffle
 # Downloads the game list + .swf files from the source repo and builds data/catalog.json
 npm run scrape
 
+# (Optional) Apply curated descriptions for well-known titles
+npm run descriptions
+
 npm start
 ```
 
 Then open http://localhost:4000
+
+## Running with Docker
+
+```bash
+docker compose up -d --build
+```
+
+The provided `docker-compose.yml` mounts `./volumes/{games,data,ruffle}` as persistent
+volumes. On first run, the container's entrypoint automatically fetches Ruffle and
+scrapes the game catalog into those volumes — this only happens once; subsequent
+restarts reuse what's already there.
 
 ## Adding your own games
 
@@ -63,10 +77,6 @@ data/
 games/                  Downloaded .swf files (gitignored, run `npm run scrape`)
 public/                 Frontend (library grid + player page)
 ```
-
-## Deploying with Docker
-
-A `Dockerfile` will be added once the MVP is validated locally. For now, run it directly with Node — `npm start` binds to `PORT` (default `4000`).
 
 ## Legal note
 

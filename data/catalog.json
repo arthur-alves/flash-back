@@ -10,7 +10,7 @@
   {
     "slug": "achievement-unlocked",
     "title": "Achievement Unlocked",
-    "description": "",
+    "description": "Um jogo de plataforma minimalista focado inteiramente em desbloquear conquistas absurdas.",
     "file": "achievement-unlocked.swf",
     "sizeBytes": 2499931,
     "cover": null
@@ -26,7 +26,7 @@
   {
     "slug": "age-of-war",
     "title": "Age Of War",
-    "description": "",
+    "description": "Escolha uma era, evolua sua base e destrua o exército inimigo em uma guerra que atravessa a pré-história até o futuro.",
     "file": "age-of-war.swf",
     "sizeBytes": 3628467,
     "cover": null
@@ -66,7 +66,7 @@
   {
     "slug": "bloons-super-monkey",
     "title": "Bloons Super Monkey",
-    "description": "",
+    "description": "Spin-off de ação onde você controla o Super Monkey estourando balões direto na tela.",
     "file": "bloons-super-monkey.swf",
     "sizeBytes": 2707910,
     "cover": null
@@ -74,7 +74,7 @@
   {
     "slug": "bloons-tower-defence",
     "title": "Bloons Tower Defence",
-    "description": "",
+    "description": "O clássico tower defense: posicione macacos para estourar ondas de balões antes que escapem.",
     "file": "bloons-tower-defence.swf",
     "sizeBytes": 531015,
     "cover": null
@@ -82,7 +82,7 @@
   {
     "slug": "bloons-tower-defence-2",
     "title": "Bloons Tower Defence 2",
-    "description": "",
+    "description": "Continuação do tower defense de balões, com novas torres e mapas.",
     "file": "bloons-tower-defence-2.swf",
     "sizeBytes": 787394,
     "cover": null
@@ -90,7 +90,7 @@
   {
     "slug": "bloons-tower-defence-3",
     "title": "Bloons Tower Defence 3",
-    "description": "",
+    "description": "Terceira entrada da série, com mais upgrades e desafios de estratégia.",
     "file": "bloons-tower-defence-3.swf",
     "sizeBytes": 1400848,
     "cover": null
@@ -98,7 +98,7 @@
   {
     "slug": "bloons-tower-defence-4",
     "title": "Bloons Tower Defence 4",
-    "description": "",
+    "description": "Quarta entrega do tower defense de balões, com heróis especiais.",
     "file": "bloons-tower-defence-4.swf",
     "sizeBytes": 2906520,
     "cover": null
@@ -106,7 +106,7 @@
   {
     "slug": "bloxorz",
     "title": "Bloxorz",
-    "description": "",
+    "description": "Quebra-cabeça de lógica: role um bloco retangular pelo tabuleiro até encaixá-lo no buraco certo.",
     "file": "bloxorz.swf",
     "sizeBytes": 2250714,
     "cover": null
@@ -114,7 +114,7 @@
   {
     "slug": "bob-the-robber",
     "title": "Bob The Robber",
-    "description": "",
+    "description": "Jogo de infiltração furtiva: controle um ladrão simpático evitando guardas e câmeras.",
     "file": "bob-the-robber.swf",
     "sizeBytes": 9208317,
     "cover": null
@@ -122,7 +122,7 @@
   {
     "slug": "checkers",
     "title": "Checkers",
-    "description": "",
+    "description": "O clássico jogo de damas, para jogar contra o computador ou um amigo.",
     "file": "checkers.swf",
     "sizeBytes": 136173,
     "cover": null
@@ -130,7 +130,7 @@
   {
     "slug": "commando",
     "title": "Commando",
-    "description": "",
+    "description": "Jogo de ação e tiro em plataforma inspirado nos clássicos de guerra dos fliperamas.",
     "file": "commando.swf",
     "sizeBytes": 6388010,
     "cover": null
@@ -162,7 +162,7 @@
   {
     "slug": "dont-escape",
     "title": "Dont Escape",
-    "description": "",
+    "description": "Jogo de fuga e sobrevivência ambientado em uma cabana isolada durante a lua cheia.",
     "file": "dont-escape.swf",
     "sizeBytes": 6712156,
     "cover": null
@@ -186,7 +186,7 @@
   {
     "slug": "dont-shoot-the-puppy",
     "title": "Dont Shoot The Puppy",
-    "description": "",
+    "description": "Um quebra-cabeça absurdo com uma única regra: não atire no cachorrinho.",
     "file": "dont-shoot-the-puppy.swf",
     "sizeBytes": 61710,
     "cover": null
@@ -194,7 +194,7 @@
   {
     "slug": "doom",
     "title": "Doom",
-    "description": "",
+    "description": "Port não-oficial em Flash do clássico first-person shooter da id Software.",
     "file": "doom.swf",
     "sizeBytes": 2533118,
     "cover": null
@@ -202,7 +202,7 @@
   {
     "slug": "duck-life-1",
     "title": "Duck Life 1",
-    "description": "",
+    "description": "Treine seu patinho em corrida, natação e voo para se tornar campeão.",
     "file": "duck-life-1.swf",
     "sizeBytes": 1282209,
     "cover": null
@@ -282,7 +282,7 @@
   {
     "slug": "henry-stickmin-breaking-the-bank",
     "title": "Henry Stickmin Breaking The Bank",
-    "description": "",
+    "description": "Aventura interativa em que você escolhe as ações do Henry Stickmin para assaltar um banco.",
     "file": "henry-stickmin-breaking-the-bank.swf",
     "sizeBytes": 3177805,
     "cover": null
@@ -290,7 +290,7 @@
   {
     "slug": "henry-stickmin-escaping-the-prison",
     "title": "Henry Stickmin Escaping The Prison",
-    "description": "",
+    "description": "Aventura interativa de fuga de prisão com múltiplos finais possíveis.",
     "file": "henry-stickmin-escaping-the-prison.swf",
     "sizeBytes": 9734373,
     "cover": null
@@ -298,7 +298,7 @@
   {
     "slug": "henry-stickmin-stealing-the-diamond",
     "title": "Henry Stickmin Stealing The Diamond",
-    "description": "",
+    "description": "Aventura interativa em que Henry tenta roubar um diamante valioso de um museu.",
     "file": "henry-stickmin-stealing-the-diamond.swf",
     "sizeBytes": 14589227,
     "cover": null
@@ -306,7 +306,7 @@
   {
     "slug": "interactive-buddy",
     "title": "Interactive Buddy",
-    "description": "",
+    "description": "Brinquedo virtual sandbox: interaja e experimente física com um bonequinho de borracha.",
     "file": "interactive-buddy.swf",
     "sizeBytes": 1224969,
     "cover": null
@@ -314,7 +314,7 @@
   {
     "slug": "learn-2-fly",
     "title": "Learn 2 Fly",
-    "description": "",
+    "description": "Continuação de Learn to Fly, com mais upgrades para o voo do pinguim.",
     "file": "learn-2-fly.swf",
     "sizeBytes": 5492340,
     "cover": null
@@ -322,7 +322,7 @@
   {
     "slug": "learn-to-fly",
     "title": "Learn To Fly",
-    "description": "",
+    "description": "Ajude um pinguim a construir uma máquina voadora e alcançar a maior distância possível.",
     "file": "learn-to-fly.swf",
     "sizeBytes": 892238,
     "cover": null
@@ -338,7 +338,7 @@
   {
     "slug": "minesweeper",
     "title": "Minesweeper",
-    "description": "",
+    "description": "O clássico campo minado — descubra todas as células seguras sem detonar uma bomba.",
     "file": "minesweeper.swf",
     "sizeBytes": 28901,
     "cover": null
@@ -346,7 +346,7 @@
   {
     "slug": "motherload",
     "title": "Motherload",
-    "description": "",
+    "description": "Jogo de mineração: cave cada vez mais fundo em busca de minérios valiosos.",
     "file": "motherload.swf",
     "sizeBytes": 3977393,
     "cover": null
@@ -362,7 +362,7 @@
   {
     "slug": "pacman",
     "title": "Pacman",
-    "description": "",
+    "description": "Versão em Flash do clássico jogo de labirinto Pac-Man.",
     "file": "pacman.swf",
     "sizeBytes": 42511,
     "cover": null
@@ -370,7 +370,7 @@
   {
     "slug": "papas-pizzeria",
     "title": "Papas Pizzeria",
-    "description": "",
+    "description": "Jogo de gerenciamento de tempo: monte pizzas perfeitas para os clientes da pizzaria.",
     "file": "papas-pizzeria.swf",
     "sizeBytes": 2562841,
     "cover": null
@@ -386,7 +386,7 @@
   {
     "slug": "penguin-diner",
     "title": "Penguin Diner",
-    "description": "",
+    "description": "Jogo de gerenciamento de tempo servindo peixes num restaurante administrado por um pinguim.",
     "file": "penguin-diner.swf",
     "sizeBytes": 824167,
     "cover": null
@@ -426,7 +426,7 @@
   {
     "slug": "portal-flash",
     "title": "Portal Flash",
-    "description": "",
+    "description": "Fã-jogo baseado em Portal, com quebra-cabeças de física e teletransporte.",
     "file": "portal-flash.swf",
     "sizeBytes": 7104282,
     "cover": null
@@ -434,7 +434,7 @@
   {
     "slug": "riddle-school",
     "title": "Riddle School",
-    "description": "",
+    "description": "Aventura point-and-click: ajude Phil a escapar da escola.",
     "file": "riddle-school.swf",
     "sizeBytes": 627624,
     "cover": null
@@ -474,7 +474,7 @@
   {
     "slug": "rubiks-cube",
     "title": "Rubiks Cube",
-    "description": "",
+    "description": "Simulador do cubo mágico — resolva o quebra-cabeça direto no navegador.",
     "file": "rubiks-cube.swf",
     "sizeBytes": 1552452,
     "cover": null
@@ -506,7 +506,7 @@
   {
     "slug": "snake",
     "title": "Snake",
-    "description": "",
+    "description": "O clássico jogo da cobrinha: coma e cresça sem bater nas paredes ou em si mesmo.",
     "file": "snake.swf",
     "sizeBytes": 9981,
     "cover": null
@@ -514,7 +514,7 @@
   {
     "slug": "stick-rpg",
     "title": "Stick Rpg",
-    "description": "",
+    "description": "RPG em mundo aberto com bonecos de palito: trabalhe, suba de nível e explore a cidade.",
     "file": "stick-rpg.swf",
     "sizeBytes": 1233598,
     "cover": null
@@ -522,7 +522,7 @@
   {
     "slug": "storm-the-house",
     "title": "Storm The House",
-    "description": "",
+    "description": "Defenda sua casa contra ondas de assaltantes usando armas e armadilhas.",
     "file": "storm-the-house.swf",
     "sizeBytes": 143373,
     "cover": null
@@ -570,7 +570,7 @@
   {
     "slug": "sugar-sugar",
     "title": "Sugar Sugar",
-    "description": "",
+    "description": "Quebra-cabeça de física: desenhe trilhos para guiar açúcar até os potes certos.",
     "file": "sugar-sugar.swf",
     "sizeBytes": 880682,
     "cover": null
@@ -602,7 +602,7 @@
   {
     "slug": "super-mario-63",
     "title": "Super Mario 63",
-    "description": "",
+    "description": "Fã-jogo extenso inspirado em Super Mario 64 e Super Mario Sunshine.",
     "file": "super-mario-63.swf",
     "sizeBytes": 15295370,
     "cover": null
@@ -634,7 +634,7 @@
   {
     "slug": "super-mario-flash-by-povetpu-games",
     "title": "Super Mario Flash By Povetpu Games",
-    "description": "",
+    "description": "Recriação em Flash do primeiro Super Mario Bros, fiel ao jogo original de NES.",
     "file": "super-mario-flash-by-povetpu-games.swf",
     "sizeBytes": 2236766,
     "cover": null
@@ -658,7 +658,7 @@
   {
     "slug": "tetris",
     "title": "Tetris",
-    "description": "",
+    "description": "O clássico jogo de encaixar peças — quantas linhas você consegue completar?",
     "file": "tetris.swf",
     "sizeBytes": 14461,
     "cover": null
@@ -666,7 +666,7 @@
   {
     "slug": "the-fancy-pants-adventure-1",
     "title": "The Fancy Pants Adventure 1",
-    "description": "",
+    "description": "Plataforma fluido e estiloso controlando um boneco de rabisco elástico.",
     "file": "the-fancy-pants-adventure-1.swf",
     "sizeBytes": 2672568,
     "cover": null
@@ -682,7 +682,7 @@
   {
     "slug": "the-impossible-quiz",
     "title": "The Impossible Quiz",
-    "description": "",
+    "description": "Quiz absurdo cheio de perguntas-pegadinha e lógica non-sense.",
     "file": "the-impossible-quiz.swf",
     "sizeBytes": 4861363,
     "cover": null
@@ -690,7 +690,7 @@
   {
     "slug": "the-world's-hardest-game",
     "title": "The World's Hardest Game",
-    "description": "",
+    "description": "Desvie de bolinhas vermelhas e chegue ao final de cada fase — tão difícil quanto o nome promete.",
     "file": "the-world's-hardest-game.swf",
     "sizeBytes": 744124,
     "cover": null
@@ -714,7 +714,7 @@
   {
     "slug": "truck-loader",
     "title": "Truck Loader",
-    "description": "",
+    "description": "Quebra-cabeça de física: use o guindaste do caminhão para carregar caixas corretamente.",
     "file": "truck-loader.swf",
     "sizeBytes": 1756950,
     "cover": null

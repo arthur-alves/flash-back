@@ -1,0 +1,13 @@
+services:
+  flash-games-server:
+    build: .
+    container_name: flash-games-server
+    restart: unless-stopped
+    environment:
+      PORT: "4000"
+    volumes:
+      - ./volumes/games:/app/games
+      - ./volumes/data:/app/data
+      - ./volumes/ruffle:/app/public/ruffle
+    ports:
+      - "4000:4000"
