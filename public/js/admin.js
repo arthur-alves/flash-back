@@ -247,6 +247,8 @@ function renderCollectionsList() {
     const li = document.createElement("li");
     li.className = "collection-item";
 
+    li.appendChild(buildCollectionCoverUploader(collection));
+
     const info = document.createElement("span");
     info.textContent = `${collection.name} (${collection.games.length} jogo${collection.games.length === 1 ? "" : "s"})`;
 
@@ -263,6 +265,47 @@ function renderCollectionsList() {
     li.append(info, editBtn, deleteBtn);
     collectionsListEl.appendChild(li);
   }
+}
+
+function buildCollectionCoverUploader(collection) {
+  const wrap = document.createElement("div");
+  wrap.className = "cover-uploader";
+
+  const thumb = document.createElement(collection.cover ? "img" : "div");
+  thumb.className = "cover-thumb";
+  if (collection.cover) {
+    thumb.src = `covers/collections/${collection.slug}.${collection.cover}?t=${Date.now()}`;
+    thumb.alt = collection.name;
+  } else {
+    thumb.textContent = collection.name.slice(0, 1).toUpperCase();
+  }
+
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".jpg,.jpeg,.png,.webp";
+  input.className = "cover-input";
+  input.title = "Trocar capa da coleção";
+
+  input.addEventListener("change", async () => {
+    if (!input.files[0]) return;
+    const formData = new FormData();
+    formData.append("cover", input.files[0]);
+
+    const res = await fetch(`/api/admin/collections/${encodeURIComponent(collection.slug)}/cover`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (res.ok) {
+      loadCollections();
+    } else {
+      const data = await res.json().catch(() => ({}));
+      alert(data.error || "Erro ao enviar a capa.");
+    }
+  });
+
+  wrap.append(thumb, input);
+  return wrap;
 }
 
 async function editCollection(collection) {

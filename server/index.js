@@ -15,6 +15,7 @@ const CATALOG_PATH = path.join(__dirname, "..", "data", "catalog.json");
 const COLLECTIONS_PATH = path.join(__dirname, "..", "data", "collections.json");
 const GAMES_DIR = path.join(__dirname, "..", "games");
 const COVERS_DIR = path.join(__dirname, "..", "data", "covers");
+const COLLECTION_COVERS_DIR = path.join(__dirname, "..", "data", "covers", "collections");
 const PUBLIC_DIR = path.join(__dirname, "..", "public");
 
 const app = express();
@@ -55,19 +56,19 @@ function uniqueSlug(existingSlugs, baseSlug) {
   return `${baseSlug}-${i}`;
 }
 
-function removeExistingCovers(slug) {
+function removeExistingCovers(dir, slug) {
   for (const ext of ["jpg", "png", "webp"]) {
-    const p = path.join(COVERS_DIR, `${slug}.${ext}`);
+    const p = path.join(dir, `${slug}.${ext}`);
     if (fs.existsSync(p)) fs.unlinkSync(p);
   }
 }
 
-function saveCover(slug, buffer) {
+function saveCover(dir, slug, buffer) {
   const ext = detectImageExt(buffer);
   if (!ext) return null;
-  fs.mkdirSync(COVERS_DIR, { recursive: true });
-  removeExistingCovers(slug);
-  fs.writeFileSync(path.join(COVERS_DIR, `${slug}.${ext}`), buffer);
+  fs.mkdirSync(dir, { recursive: true });
+  removeExistingCovers(dir, slug);
+  fs.writeFileSync(path.join(dir, `${slug}.${ext}`), buffer);
   return ext;
 }
 
@@ -124,6 +125,7 @@ app.get("/api/collections", (req, res) => {
       slug: c.slug,
       name: c.name,
       description: c.description,
+      cover: c.cover || null,
       count: c.games.length,
     }))
   );
@@ -145,6 +147,7 @@ app.get("/api/collections/:slug", (req, res) => {
     slug: collection.slug,
     name: collection.name,
     description: collection.description,
+    cover: collection.cover || null,
     games,
   });
 });
@@ -208,7 +211,7 @@ app.post(
     fs.mkdirSync(GAMES_DIR, { recursive: true });
     fs.writeFileSync(path.join(GAMES_DIR, filename), file.buffer);
 
-    const coverExt = coverFile ? saveCover(slug, coverFile.buffer) : null;
+    const coverExt = coverFile ? saveCover(COVERS_DIR, slug, coverFile.buffer) : null;
 
     const entry = {
       slug,
@@ -253,7 +256,7 @@ app.post(
       });
     }
 
-    game.cover = saveCover(game.slug, req.file.buffer);
+    game.cover = saveCover(COVERS_DIR, game.slug, req.file.buffer);
     saveCatalog(catalog);
     res.json(game);
   }
@@ -279,7 +282,7 @@ app.delete("/api/admin/games/:slug", requireAdminAuth, (req, res) => {
   const [removed] = catalog.splice(index, 1);
   const filePath = path.join(GAMES_DIR, removed.file);
   if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-  removeExistingCovers(removed.slug);
+  removeExistingCovers(COVERS_DIR, removed.slug);
   saveCatalog(catalog);
 
   // Also drop the game from any collection it belonged to.
@@ -314,7 +317,7 @@ app.post("/api/admin/collections", requireAdminAuth, (req, res) => {
   const collections = loadCollections();
   const slug = uniqueSlug(collections.map((c) => c.slug), slugify(name));
 
-  const entry = { slug, name, description, games: [] };
+  const entry = { slug, name, description, games: [], cover: null };
   collections.push(entry);
   saveCollections(collections);
 
@@ -342,10 +345,42 @@ app.delete("/api/admin/collections/:slug", requireAdminAuth, (req, res) => {
   const index = collections.findIndex((c) => c.slug === req.params.slug);
   if (index === -1) return res.status(404).json({ error: "Collection not found" });
 
-  collections.splice(index, 1);
+  const [removed] = collections.splice(index, 1);
+  removeExistingCovers(COLLECTION_COVERS_DIR, removed.slug);
   saveCollections(collections);
   res.json({ ok: true });
 });
+
+app.post(
+  "/api/admin/collections/:slug/cover",
+  requireAdminAuth,
+  (req, res, next) => {
+    upload.single("cover")(req, res, (err) => {
+      if (err) return res.status(400).json({ error: err.message });
+      next();
+    });
+  },
+  (req, res) => {
+    const collections = loadCollections();
+    const collection = collections.find((c) => c.slug === req.params.slug);
+    if (!collection) return res.status(404).json({ error: "Collection not found" });
+
+    if (!req.file) {
+      return res.status(400).json({ error: "Nenhuma imagem enviada." });
+    }
+
+    const ext = detectImageExt(req.file.buffer);
+    if (!ext) {
+      return res.status(400).json({
+        error: "Capa inválida: envie uma imagem JPG, PNG ou WebP de verdade.",
+      });
+    }
+
+    collection.cover = saveCover(COLLECTION_COVERS_DIR, collection.slug, req.file.buffer);
+    saveCollections(collections);
+    res.json(collection);
+  }
+);
 
 app.post("/api/admin/collections/:slug/games", requireAdminAuth, (req, res) => {
   const collections = loadCollections();

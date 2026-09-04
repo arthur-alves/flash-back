@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "slug": "tower-defense",
+    "name": "Tower Defense",
+    "description": "",
+    "games": [
+      "bloons",
+      "bloons-super-monkey",
+      "bloons-tower-defence",
+      "bloons-tower-defence-2",
+      "bloons-tower-defence-3",
+      "bloons-tower-defence-4"
+    ]
+  },
+  {
+    "slug": "action",
+    "name": "Action",
+    "description": "",
+    "games": [
+      "commando",
+      "commando-2"
+    ]
+  }
+]

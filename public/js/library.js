@@ -1,8 +1,6 @@
 const grid = document.getElementById("grid");
 const emptyMsg = document.getElementById("empty");
 const searchInput = document.getElementById("search");
-const collectionsRow = document.getElementById("collections-row");
-const collectionsScroller = document.getElementById("collections-scroller");
 const tagsRow = document.getElementById("tags-row");
 
 let allGames = [];
@@ -73,35 +71,6 @@ async function loadGames() {
   applyFilters();
 }
 
-async function loadCollections() {
-  const res = await fetch("/api/collections");
-  if (!res.ok) return;
-  const collections = await res.json();
-  const withGames = collections.filter((c) => c.count > 0);
-
-  if (withGames.length === 0) return;
-
-  collectionsRow.classList.remove("hidden");
-  collectionsScroller.innerHTML = "";
-
-  for (const collection of withGames) {
-    const card = document.createElement("a");
-    card.className = "collection-card";
-    card.href = `collection.html?slug=${encodeURIComponent(collection.slug)}`;
-
-    const name = document.createElement("div");
-    name.className = "collection-card-name";
-    name.textContent = collection.name;
-
-    const count = document.createElement("div");
-    count.className = "collection-card-count";
-    count.textContent = `${collection.count} jogo${collection.count === 1 ? "" : "s"}`;
-
-    card.append(name, count);
-    collectionsScroller.appendChild(card);
-  }
-}
-
 async function loadTags() {
   const res = await fetch("/api/tags");
   if (!res.ok) return;
@@ -140,5 +109,4 @@ function setActiveTag(tag) {
 searchInput.addEventListener("input", applyFilters);
 
 loadGames();
-loadCollections();
 loadTags();
