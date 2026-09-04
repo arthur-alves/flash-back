@@ -69,6 +69,6 @@ crtBtn.addEventListener("click", () => {
 });
 
 setCrt(localStorage.getItem(CRT_STORAGE_KEY) === "1");
-initThemeToggle(document.getElementById("theme-toggle"));
+initThemeToggle(document.getElementById("theme-select"));
 
 main();

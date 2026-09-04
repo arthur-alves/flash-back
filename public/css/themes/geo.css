@@ -1,0 +1,31 @@
+/*
+ * Theme: Geo
+ * A tribute to the "Geo" Bootstrap swatch by Divshot (github.com/divshot/geo-bootstrap)
+ * — itself a loving parody of early-2000s/GeoCities web design: pure black
+ * background, saturated primary colors, Comic Sans, and zero border-radius.
+ */
+:root {
+  --bg: #000000;
+  --bg2: #000000;
+  --surface: #222222;
+  --surface-hover: #333333;
+  --border: #00ff00;
+  --text: #ffffff;
+  --text-dim: #999999;
+
+  --accent: #ff00ff;
+  --accent-rgb: 255, 0, 255;
+  --accent2: #00ffff;
+  --accent2-rgb: 0, 255, 255;
+
+  --danger: #ff0000;
+  --danger-rgb: 255, 0, 0;
+  --success: #00ff00;
+  --success-rgb: 0, 255, 0;
+
+  --radius: 0px;
+  --glow-strength: 0.7;
+
+  --font-body: "Comic Sans MS", "Comic Sans", "Chalkboard", "Marker Felt", cursive, sans-serif;
+  --font-heading: "Comic Sans MS", "Comic Sans", "Chalkboard", "Marker Felt", cursive, sans-serif;
+}

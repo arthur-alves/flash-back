@@ -116,7 +116,7 @@ function setActiveTag(tag) {
 
 searchInput.addEventListener("input", applyFilters);
 initViewToggle(grid, document.getElementById("view-toggle"));
-initThemeToggle(document.getElementById("theme-toggle"));
+initThemeToggle(document.getElementById("theme-select"));
 
 loadGames();
 loadTags();

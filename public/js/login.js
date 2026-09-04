@@ -2,7 +2,7 @@ const form = document.getElementById("login-form");
 const statusEl = document.getElementById("status");
 const submitBtn = document.getElementById("submit-btn");
 
-initThemeToggle(document.getElementById("theme-toggle"));
+initThemeToggle(document.getElementById("theme-select"));
 
 fetch("/api/setup/status")
   .then((r) => r.json())

@@ -1,0 +1,26 @@
+/* Theme: Dark Neon (default) */
+:root {
+  --bg: #0a0a16;
+  --bg2: #150a22;
+  --surface: #181428;
+  --surface-hover: #221c38;
+  --border: #3a2e5c;
+  --text: #f0eaff;
+  --text-dim: #a79bd1;
+
+  --accent: #ff2ee6;
+  --accent-rgb: 255, 46, 230;
+  --accent2: #00e5ff;
+  --accent2-rgb: 0, 229, 255;
+
+  --danger: #ff3d68;
+  --danger-rgb: 255, 61, 104;
+  --success: #39ff9d;
+  --success-rgb: 57, 255, 157;
+
+  --radius: 12px;
+  --glow-strength: 0.55;
+
+  --font-body: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-heading: "Segoe UI", system-ui, -apple-system, sans-serif;
+}

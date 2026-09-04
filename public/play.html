@@ -4,11 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Flash Games Server — Jogando</title>
+  <link rel="stylesheet" href="css/themes/dark.css" id="theme-link" />
   <link rel="stylesheet" href="css/style.css" />
   <script>
-    if (localStorage.getItem("flash-games-server:theme") === "light") {
-      document.documentElement.dataset.theme = "light";
-    }
+    (function () {
+      var saved = localStorage.getItem("flash-games-server:theme");
+      if (saved) document.getElementById("theme-link").href = "css/themes/" + saved + ".css";
+    })();
   </script>
   <script src="ruffle/ruffle.js"></script>
 </head>
@@ -18,7 +20,7 @@
     <h1 id="game-title">Carregando...</h1>
     <button id="crt-btn" class="crt-btn" title="Efeito CRT"></button>
     <button id="fullscreen-btn" class="fullscreen-btn" title="Tela cheia"></button>
-    <button id="theme-toggle" class="icon-btn"></button>
+    <select id="theme-select" class="theme-select"></select>
   </header>
 
   <main class="player-wrap">
@@ -29,6 +31,7 @@
   </main>
 
   <script src="js/icons.js"></script>
+  <script src="js/themes-registry.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/play.js"></script>
 </body>

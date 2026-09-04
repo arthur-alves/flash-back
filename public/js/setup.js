@@ -2,7 +2,7 @@ const form = document.getElementById("setup-form");
 const statusEl = document.getElementById("status");
 const submitBtn = document.getElementById("submit-btn");
 
-initThemeToggle(document.getElementById("theme-toggle"));
+initThemeToggle(document.getElementById("theme-select"));
 
 // If setup was already completed (e.g. opened in two tabs), bounce to login.
 fetch("/api/setup/status")

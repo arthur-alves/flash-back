@@ -399,7 +399,7 @@ collectionForm.addEventListener("submit", async (e) => {
 document.getElementById("back-link").innerHTML = iconSvg("arrow-left") + " Biblioteca";
 submitBtn.innerHTML = iconSvg("save") + " Enviar jogo";
 collectionSubmitBtn.innerHTML = iconSvg("plus") + " Criar coleção";
-initThemeToggle(document.getElementById("theme-toggle"));
+initThemeToggle(document.getElementById("theme-select"));
 
 async function init() {
   await loadCollections();

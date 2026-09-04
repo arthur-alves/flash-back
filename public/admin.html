@@ -4,11 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin — Flash Games Server</title>
+  <link rel="stylesheet" href="css/themes/dark.css" id="theme-link" />
   <link rel="stylesheet" href="css/style.css" />
   <script>
-    if (localStorage.getItem("flash-games-server:theme") === "light") {
-      document.documentElement.dataset.theme = "light";
-    }
+    (function () {
+      var saved = localStorage.getItem("flash-games-server:theme");
+      if (saved) document.getElementById("theme-link").href = "css/themes/" + saved + ".css";
+    })();
   </script>
 </head>
 <body>
@@ -16,7 +18,7 @@
     <a href="index.html" id="back-link" class="back-link"></a>
     <h1>Administração</h1>
     <button id="logout-btn" class="logout-btn">Sair</button>
-    <button id="theme-toggle" class="icon-btn"></button>
+    <select id="theme-select" class="theme-select"></select>
   </header>
 
   <main class="admin-main">
@@ -85,6 +87,7 @@
   </main>
 
   <script src="js/icons.js"></script>
+  <script src="js/themes-registry.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/admin.js"></script>
 </body>
