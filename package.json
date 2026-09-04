@@ -1,0 +1,17 @@
+{
+  "name": "flash-games-server",
+  "version": "0.1.0",
+  "description": "Self-hosted Flash game library, played in-browser via Ruffle.",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "scrape": "node server/scripts/scrape.js",
+    "fetch-ruffle": "node server/scripts/fetch-ruffle.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

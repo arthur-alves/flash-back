@@ -1,0 +1,150 @@
+:root {
+  --bg: #12141c;
+  --surface: #1c1f2b;
+  --surface-hover: #262a3a;
+  --text: #eef0f6;
+  --text-dim: #9aa0b4;
+  --accent: #7c5cff;
+  --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  background: var(--surface);
+  border-bottom: 1px solid #2a2e3f;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar h1 {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+#search {
+  flex: 1;
+  max-width: 320px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  border: 1px solid #2a2e3f;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+#search:focus {
+  outline: 2px solid var(--accent);
+}
+
+main {
+  padding: 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.12s ease;
+  text-decoration: none;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  background: var(--surface-hover);
+}
+
+.card-cover {
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--hue1, #7c5cff), var(--hue2, #ff5c9a));
+}
+
+.card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-title {
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.empty {
+  text-align: center;
+  color: var(--text-dim);
+  margin-top: 60px;
+}
+
+.hidden { display: none; }
+
+/* Player page */
+.back-link {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+.back-link:hover { color: var(--text); }
+
+.player-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.player-container {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #000;
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-container ruffle-player {
+  width: 100%;
+  height: 100%;
+}
+
+.game-description {
+  color: var(--text-dim);
+  margin-top: 16px;
+  line-height: 1.5;
+}

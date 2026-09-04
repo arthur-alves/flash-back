@@ -1,0 +1,7 @@
+node_modules/
+games/*.swf
+public/ruffle/
+data/covers/*
+!data/covers/.gitkeep
+*.log
+.env
