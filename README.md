@@ -37,9 +37,18 @@ npm run tags
 npm start
 ```
 
-Then open http://localhost:4000. The admin panel is at http://localhost:4000/admin.html
-— credentials are printed to the console on startup unless you set
-`ADMIN_USER` / `ADMIN_PASSWORD` as environment variables.
+Then open http://localhost:4000. The first time you visit the admin panel
+(http://localhost:4000/admin.html) you'll be sent to a setup wizard to create
+your own admin username/password — no default credentials are printed to the
+console anymore. Sessions are cookie-based and persist across page loads
+(but not server restarts).
+
+**Forgot your password?** Set the `RESET_ADMIN=true` environment variable
+and restart the container/process — this clears the stored account and
+sends you back to the setup wizard on next visit. In Portainer, this is a
+two-click operation (edit the container's environment variables, restart)
+with no terminal access needed. Remember to unset it afterwards so the
+account isn't wiped again on the next restart.
 
 ## Running with Docker
 
@@ -91,7 +100,8 @@ server/
   lib/
     validateSwf.js     Checks the FWS/CWS/ZWS magic bytes of uploaded .swf files
     validateImage.js    Checks JPEG/PNG/WebP magic bytes of uploaded covers
-    adminAuth.js         HTTP Basic Auth middleware for /admin*
+    auth.js               Account setup, password hashing (scrypt), cookie
+                            sessions, and the RESET_ADMIN escape hatch
     slugify.js
   scripts/
     scrape.js          Fetches games + builds catalog.json
@@ -101,6 +111,7 @@ server/
 data/
   catalog.json         Game metadata (committed to git)
   collections.json     Curated collections (committed to git)
+  admin.json           Admin username + salted password hash (gitignored)
   covers/               Cover images (gitignored, generate locally or via admin)
 games/                  Downloaded .swf files (gitignored, run `npm run scrape`)
 public/                 Frontend (library, player, collection and admin pages)

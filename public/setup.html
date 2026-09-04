@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuração inicial — Flash Games Server</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script>
+    if (localStorage.getItem("flash-games-server:theme") === "light") {
+      document.documentElement.dataset.theme = "light";
+    }
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <h1>🕹️ Flash Games</h1>
+    <button id="theme-toggle" class="icon-btn"></button>
+  </header>
+
+  <main class="auth-main">
+    <section class="admin-panel auth-panel">
+      <h2>Configuração inicial</h2>
+      <p class="auth-hint">
+        Primeira vez usando este servidor. Crie o usuário e a senha do administrador —
+        você vai usar isso pra acessar o painel e gerenciar os jogos.
+      </p>
+      <form id="setup-form" class="upload-form">
+        <label>
+          Usuário
+          <input type="text" id="username" name="username" required minlength="3" autocomplete="username" />
+        </label>
+        <label>
+          Senha (mínimo 8 caracteres)
+          <input type="password" id="password" name="password" required minlength="8" autocomplete="new-password" />
+        </label>
+        <label>
+          Confirmar senha
+          <input type="password" id="password-confirm" name="password-confirm" required minlength="8" autocomplete="new-password" />
+        </label>
+        <button type="submit" id="submit-btn">Criar conta</button>
+        <p id="status" class="upload-status"></p>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/icons.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/setup.js"></script>
+</body>
+</html>

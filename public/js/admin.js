@@ -10,6 +10,22 @@ const collectionsListEl = document.getElementById("collections-list");
 
 let allCollections = [];
 
+// Wraps fetch() for /api/admin/* calls: redirects to the login page if the
+// session has expired or was never established, instead of failing silently.
+async function af(url, opts) {
+  const res = await fetch(url, opts);
+  if (res.status === 401) {
+    window.location.href = "login.html";
+    throw new Error("unauthenticated");
+  }
+  return res;
+}
+
+document.getElementById("logout-btn").addEventListener("click", async () => {
+  await fetch("/api/logout", { method: "POST" });
+  window.location.href = "login.html";
+});
+
 function formatSize(bytes) {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
@@ -18,7 +34,7 @@ function formatSize(bytes) {
 // ---- Games ----
 
 async function loadGames() {
-  const res = await fetch("/api/admin/games");
+  const res = await af("/api/admin/games");
   if (!res.ok) return;
   const games = await res.json();
 
@@ -80,7 +96,7 @@ function buildCoverUploader(game) {
     const formData = new FormData();
     formData.append("cover", input.files[0]);
 
-    const res = await fetch(`/api/admin/games/${encodeURIComponent(game.slug)}/cover`, {
+    const res = await af(`/api/admin/games/${encodeURIComponent(game.slug)}/cover`, {
       method: "POST",
       body: formData,
     });
@@ -110,7 +126,7 @@ function buildTagsEditor(game) {
       .map((t) => t.trim())
       .filter(Boolean);
 
-    const res = await fetch(`/api/admin/games/${encodeURIComponent(game.slug)}/tags`, {
+    const res = await af(`/api/admin/games/${encodeURIComponent(game.slug)}/tags`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ tags }),
@@ -156,7 +172,7 @@ function buildCollectionChips(game) {
         ? `/api/admin/collections/${encodeURIComponent(collection.slug)}/games/${encodeURIComponent(game.slug)}`
         : `/api/admin/collections/${encodeURIComponent(collection.slug)}/games`;
 
-      const res = await fetch(url, {
+      const res = await af(url, {
         method,
         headers: inCollection ? undefined : { "Content-Type": "application/json" },
         body: inCollection ? undefined : JSON.stringify({ gameSlug: game.slug }),
@@ -179,7 +195,7 @@ function buildCollectionChips(game) {
 async function deleteGame(slug, title) {
   if (!confirm(`Remover "${title}" da biblioteca? O arquivo será apagado do servidor.`)) return;
 
-  const res = await fetch(`/api/admin/games/${encodeURIComponent(slug)}`, { method: "DELETE" });
+  const res = await af(`/api/admin/games/${encodeURIComponent(slug)}`, { method: "DELETE" });
   if (res.ok) {
     loadGames();
   } else {
@@ -198,7 +214,7 @@ form.addEventListener("submit", async (e) => {
   submitBtn.textContent = "Enviando...";
 
   try {
-    const res = await fetch("/api/admin/games", {
+    const res = await af("/api/admin/games", {
       method: "POST",
       body: formData,
     });
@@ -226,7 +242,7 @@ form.addEventListener("submit", async (e) => {
 // ---- Collections ----
 
 async function loadCollections() {
-  const res = await fetch("/api/admin/collections");
+  const res = await af("/api/admin/collections");
   if (!res.ok) return;
   allCollections = await res.json();
   renderCollectionsList();
@@ -291,7 +307,7 @@ function buildCollectionCoverUploader(collection) {
     const formData = new FormData();
     formData.append("cover", input.files[0]);
 
-    const res = await fetch(`/api/admin/collections/${encodeURIComponent(collection.slug)}/cover`, {
+    const res = await af(`/api/admin/collections/${encodeURIComponent(collection.slug)}/cover`, {
       method: "POST",
       body: formData,
     });
@@ -314,7 +330,7 @@ async function editCollection(collection) {
   const newDescription = prompt("Descrição:", collection.description || "");
   if (newDescription === null) return;
 
-  const res = await fetch(`/api/admin/collections/${encodeURIComponent(collection.slug)}`, {
+  const res = await af(`/api/admin/collections/${encodeURIComponent(collection.slug)}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name: newName, description: newDescription }),
@@ -330,7 +346,7 @@ async function editCollection(collection) {
 async function deleteCollection(collection) {
   if (!confirm(`Excluir a coleção "${collection.name}"? Os jogos não serão apagados.`)) return;
 
-  const res = await fetch(`/api/admin/collections/${encodeURIComponent(collection.slug)}`, {
+  const res = await af(`/api/admin/collections/${encodeURIComponent(collection.slug)}`, {
     method: "DELETE",
   });
 
@@ -351,7 +367,7 @@ collectionForm.addEventListener("submit", async (e) => {
   collectionSubmitBtn.disabled = true;
 
   try {
-    const res = await fetch("/api/admin/collections", {
+    const res = await af("/api/admin/collections", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

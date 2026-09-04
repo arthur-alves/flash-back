@@ -3,5 +3,6 @@ games/*.swf
 public/ruffle/*
 data/covers/*
 !data/covers/.gitkeep
+data/admin.json
 .git
 *.log

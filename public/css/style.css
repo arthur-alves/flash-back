@@ -483,6 +483,39 @@ main {
   padding: 20px 24px;
 }
 
+.auth-main {
+  max-width: 420px;
+  margin: 60px auto;
+  padding: 0 24px;
+}
+
+.auth-panel h2 {
+  margin-top: 0;
+}
+
+.auth-hint {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-top: -4px;
+}
+
+.logout-btn {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.logout-btn:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
 .admin-panel h2 {
   margin-top: 0;
   font-size: 1.05rem;

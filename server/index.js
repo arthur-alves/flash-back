@@ -6,7 +6,7 @@ const multer = require("multer");
 const { isValidSwf } = require("./lib/validateSwf");
 const { detectImageExt } = require("./lib/validateImage");
 const { slugify } = require("./lib/slugify");
-const { requireAdminAuth } = require("./lib/adminAuth");
+const auth = require("./lib/auth");
 
 const PORT = process.env.PORT || 4000;
 const MAX_UPLOAD_MB = Number(process.env.MAX_UPLOAD_MB || 200);
@@ -159,13 +159,13 @@ const upload = multer({
   limits: { fileSize: MAX_UPLOAD_MB * 1024 * 1024 },
 });
 
-app.get("/api/admin/games", requireAdminAuth, (req, res) => {
+app.get("/api/admin/games", auth.requireAdminApi, (req, res) => {
   res.json(loadCatalog());
 });
 
 app.post(
   "/api/admin/games",
-  requireAdminAuth,
+  auth.requireAdminApi,
   (req, res, next) => {
     upload.fields([{ name: "swf", maxCount: 1 }, { name: "cover", maxCount: 1 }])(req, res, (err) => {
       if (err) return res.status(400).json({ error: err.message });
@@ -233,7 +233,7 @@ app.post(
 
 app.post(
   "/api/admin/games/:slug/cover",
-  requireAdminAuth,
+  auth.requireAdminApi,
   (req, res, next) => {
     upload.single("cover")(req, res, (err) => {
       if (err) return res.status(400).json({ error: err.message });
@@ -262,7 +262,7 @@ app.post(
   }
 );
 
-app.put("/api/admin/games/:slug/tags", requireAdminAuth, (req, res) => {
+app.put("/api/admin/games/:slug/tags", auth.requireAdminApi, (req, res) => {
   const catalog = loadCatalog();
   const game = catalog.find((g) => g.slug === req.params.slug);
   if (!game) return res.status(404).json({ error: "Game not found" });
@@ -274,7 +274,7 @@ app.put("/api/admin/games/:slug/tags", requireAdminAuth, (req, res) => {
   res.json(game);
 });
 
-app.delete("/api/admin/games/:slug", requireAdminAuth, (req, res) => {
+app.delete("/api/admin/games/:slug", auth.requireAdminApi, (req, res) => {
   const catalog = loadCatalog();
   const index = catalog.findIndex((g) => g.slug === req.params.slug);
   if (index === -1) return res.status(404).json({ error: "Game not found" });
@@ -302,11 +302,11 @@ app.delete("/api/admin/games/:slug", requireAdminAuth, (req, res) => {
 
 // ---- Admin: collections ----
 
-app.get("/api/admin/collections", requireAdminAuth, (req, res) => {
+app.get("/api/admin/collections", auth.requireAdminApi, (req, res) => {
   res.json(loadCollections());
 });
 
-app.post("/api/admin/collections", requireAdminAuth, (req, res) => {
+app.post("/api/admin/collections", auth.requireAdminApi, (req, res) => {
   const name = (req.body.name || "").trim();
   const description = (req.body.description || "").trim();
 
@@ -324,7 +324,7 @@ app.post("/api/admin/collections", requireAdminAuth, (req, res) => {
   res.status(201).json(entry);
 });
 
-app.put("/api/admin/collections/:slug", requireAdminAuth, (req, res) => {
+app.put("/api/admin/collections/:slug", auth.requireAdminApi, (req, res) => {
   const collections = loadCollections();
   const collection = collections.find((c) => c.slug === req.params.slug);
   if (!collection) return res.status(404).json({ error: "Collection not found" });
@@ -340,7 +340,7 @@ app.put("/api/admin/collections/:slug", requireAdminAuth, (req, res) => {
   res.json(collection);
 });
 
-app.delete("/api/admin/collections/:slug", requireAdminAuth, (req, res) => {
+app.delete("/api/admin/collections/:slug", auth.requireAdminApi, (req, res) => {
   const collections = loadCollections();
   const index = collections.findIndex((c) => c.slug === req.params.slug);
   if (index === -1) return res.status(404).json({ error: "Collection not found" });
@@ -353,7 +353,7 @@ app.delete("/api/admin/collections/:slug", requireAdminAuth, (req, res) => {
 
 app.post(
   "/api/admin/collections/:slug/cover",
-  requireAdminAuth,
+  auth.requireAdminApi,
   (req, res, next) => {
     upload.single("cover")(req, res, (err) => {
       if (err) return res.status(400).json({ error: err.message });
@@ -382,7 +382,7 @@ app.post(
   }
 );
 
-app.post("/api/admin/collections/:slug/games", requireAdminAuth, (req, res) => {
+app.post("/api/admin/collections/:slug/games", auth.requireAdminApi, (req, res) => {
   const collections = loadCollections();
   const collection = collections.find((c) => c.slug === req.params.slug);
   if (!collection) return res.status(404).json({ error: "Collection not found" });
@@ -401,7 +401,7 @@ app.post("/api/admin/collections/:slug/games", requireAdminAuth, (req, res) => {
   res.json(collection);
 });
 
-app.delete("/api/admin/collections/:slug/games/:gameSlug", requireAdminAuth, (req, res) => {
+app.delete("/api/admin/collections/:slug/games/:gameSlug", auth.requireAdminApi, (req, res) => {
   const collections = loadCollections();
   const collection = collections.find((c) => c.slug === req.params.slug);
   if (!collection) return res.status(404).json({ error: "Collection not found" });
@@ -415,7 +415,64 @@ app.delete("/api/admin/collections/:slug/games/:gameSlug", requireAdminAuth, (re
   res.json(collection);
 });
 
-app.use("/admin.html", requireAdminAuth);
+// ---- Auth pages/API ----
+
+app.get("/api/setup/status", (req, res) => {
+  res.json({ configured: auth.isConfigured() });
+});
+
+app.post("/api/setup", (req, res) => {
+  if (auth.isConfigured()) {
+    return res.status(400).json({ error: "Já existe uma conta configurada." });
+  }
+
+  const username = (req.body.username || "").trim();
+  const password = req.body.password || "";
+
+  if (username.length < 3) {
+    return res.status(400).json({ error: "Usuário deve ter pelo menos 3 caracteres." });
+  }
+  if (password.length < 8) {
+    return res.status(400).json({ error: "Senha deve ter pelo menos 8 caracteres." });
+  }
+
+  auth.createAdmin(username, password);
+  const token = auth.createSession();
+  auth.setSessionCookie(res, token);
+  res.status(201).json({ ok: true });
+});
+
+app.post("/api/login", (req, res) => {
+  if (!auth.isConfigured()) {
+    return res.status(400).json({ error: "not_configured" });
+  }
+
+  const username = (req.body.username || "").trim();
+  const password = req.body.password || "";
+
+  if (!auth.verifyLogin(username, password)) {
+    return res.status(401).json({ error: "Usuário ou senha incorretos." });
+  }
+
+  const token = auth.createSession();
+  auth.setSessionCookie(res, token);
+  res.json({ ok: true });
+});
+
+app.post("/api/logout", (req, res) => {
+  const token = auth.getSessionToken(req);
+  if (token) auth.destroySession(token);
+  auth.clearSessionCookie(res);
+  res.json({ ok: true });
+});
+
+app.get("/setup.html", (req, res, next) => {
+  if (auth.isConfigured()) return res.redirect("/login.html");
+  next();
+});
+
+app.get("/admin.html", auth.requireAdminPage);
+
 app.use("/games", express.static(GAMES_DIR, { fallthrough: false }));
 app.use("/covers", express.static(COVERS_DIR));
 app.use(express.static(PUBLIC_DIR));
