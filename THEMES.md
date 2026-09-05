@@ -1,3 +1,5 @@
+← [Back to README](README.md)
+
 # Creating themes
 
 The whole site is themeable through CSS custom properties (variables). `public/css/style.css` contains **only structure** — layout, spacing, component shapes — and reads every color, font and radius from variables. A theme is just a CSS file that defines those variables; it never needs to touch `style.css` or any HTML/JS.

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/images/logo.png" alt="FlashBack logo" width="320" />
+</p>
+
 # FlashBack
 
 Self-hosted library of classic Flash games, played directly in the browser via [Ruffle](https://ruffle.rs) — no plugins, no Flash Player install. Think of it as a "RomM for Flash games": browse a library, organize it into collections and tags, and play everything from a normal web browser.
@@ -184,6 +188,11 @@ public/
   css/themes/                One CSS file per theme
   fonts/                      Self-hosted fonts used by specific themes
 ```
+
+## Documentation
+
+- [THEMES.md](THEMES.md) — how the theme system works and how to create a new one
+- [LANGUAGES.md](LANGUAGES.md) — how the i18n system works and how to add a new language
 
 ## Legal note
 

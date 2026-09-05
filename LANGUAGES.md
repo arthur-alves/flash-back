@@ -1,3 +1,5 @@
+← [Back to README](README.md)
+
 # Adding a language
 
 FlashBack's UI text lives in a single dictionary file, `public/js/i18n.js` — no build step, no `.json` files fetched over the network, no server-side rendering involved. Default language is **English** (`en`); **Portuguese** (`pt`) is the second one.
