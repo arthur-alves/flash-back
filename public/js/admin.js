@@ -453,6 +453,98 @@ function updateStaticText() {
   document.getElementById("back-link").innerHTML = iconSvg("arrow-left") + " " + t("nav_all_games");
   submitBtn.innerHTML = iconSvg("save") + " " + t("submit_game");
   collectionSubmitBtn.innerHTML = iconSvg("plus") + " " + t("submit_collection");
+  flashpointSearchBtn.innerHTML = iconSvg("search") + " " + t("flashpoint_search_btn");
+}
+
+// ---- Import from Flashpoint Archive ----
+
+const flashpointForm = document.getElementById("flashpoint-search-form");
+const flashpointQueryInput = document.getElementById("flashpoint-query");
+const flashpointSearchBtn = document.getElementById("flashpoint-search-btn");
+const flashpointStatusEl = document.getElementById("flashpoint-status");
+const flashpointResultsEl = document.getElementById("flashpoint-results");
+
+function renderFlashpointResults(results) {
+  flashpointResultsEl.innerHTML = "";
+  for (const result of results) {
+    const li = document.createElement("li");
+    li.className = "flashpoint-result";
+
+    const img = document.createElement("img");
+    img.src = result.logo;
+    img.alt = result.title;
+    img.loading = "lazy";
+    img.onerror = () => (img.style.visibility = "hidden");
+
+    const title = document.createElement("span");
+    title.className = "flashpoint-result-title";
+    title.textContent = result.title;
+
+    const importBtn = document.createElement("button");
+    importBtn.type = "button";
+    importBtn.innerHTML = iconSvg("plus") + " " + t("flashpoint_import_btn");
+    importBtn.addEventListener("click", () => importFromFlashpoint(result.id, importBtn));
+
+    li.append(img, title, importBtn);
+    flashpointResultsEl.appendChild(li);
+  }
+}
+
+flashpointForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const query = flashpointQueryInput.value.trim();
+  if (!query) return;
+
+  flashpointStatusEl.textContent = "";
+  flashpointStatusEl.className = "upload-status";
+  flashpointResultsEl.innerHTML = "";
+  flashpointSearchBtn.disabled = true;
+
+  try {
+    const res = await af(`/api/admin/flashpoint/search?q=${encodeURIComponent(query)}`);
+    const data = await res.json();
+
+    if (!res.ok) {
+      flashpointStatusEl.textContent = data.error ? tError(data.error) : t("error_searching_flashpoint");
+      flashpointStatusEl.classList.add("error");
+    } else if (data.length === 0) {
+      flashpointStatusEl.textContent = t("flashpoint_no_results");
+    } else {
+      renderFlashpointResults(data);
+    }
+  } catch (err) {
+    flashpointStatusEl.textContent = t("network_error_searching_flashpoint");
+    flashpointStatusEl.classList.add("error");
+  } finally {
+    flashpointSearchBtn.disabled = false;
+  }
+});
+
+async function importFromFlashpoint(id, button) {
+  button.disabled = true;
+  button.innerHTML = iconSvg("save") + " " + t("flashpoint_importing");
+
+  try {
+    const res = await af("/api/admin/flashpoint/import", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      button.innerHTML = iconSvg("save") + " " + t("flashpoint_imported");
+      loadGames();
+    } else {
+      button.disabled = false;
+      button.innerHTML = iconSvg("plus") + " " + t("flashpoint_import_btn");
+      alert(data.error ? tError(data.error) : t("error_importing_flashpoint"));
+    }
+  } catch (err) {
+    button.disabled = false;
+    button.innerHTML = iconSvg("plus") + " " + t("flashpoint_import_btn");
+    alert(t("network_error_importing_flashpoint"));
+  }
 }
 
 initThemeToggle(document.getElementById("theme-select"));

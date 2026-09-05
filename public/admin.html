@@ -59,6 +59,20 @@
     </section>
 
     <section class="admin-panel">
+      <h2 data-i18n="flashpoint_heading">Import from Flashpoint Archive</h2>
+      <p class="flashpoint-note" data-i18n="flashpoint_note">Searches flashpointarchive.org and imports the game only if one of its original hosting links still serves a real .swf file. Nothing is downloaded from Flashpoint's own mirrors.</p>
+      <form id="flashpoint-search-form" class="upload-form flashpoint-search-form">
+        <label>
+          <span data-i18n="label_flashpoint_query">Game name</span>
+          <input type="text" id="flashpoint-query" name="query" required maxlength="100" />
+        </label>
+        <button type="submit" id="flashpoint-search-btn" data-i18n="flashpoint_search_btn">Search</button>
+      </form>
+      <p id="flashpoint-status" class="upload-status"></p>
+      <ul id="flashpoint-results" class="flashpoint-results"></ul>
+    </section>
+
+    <section class="admin-panel">
       <h2 data-i18n="collections_heading">Collections</h2>
       <form id="collection-form" class="upload-form collection-form">
         <label>

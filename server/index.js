@@ -7,6 +7,7 @@ const { isValidSwf } = require("./lib/validateSwf");
 const { detectImageExt } = require("./lib/validateImage");
 const { slugify } = require("./lib/slugify");
 const auth = require("./lib/auth");
+const flashpoint = require("./lib/flashpoint");
 
 const PORT = process.env.PORT || 4000;
 const MAX_UPLOAD_MB = Number(process.env.MAX_UPLOAD_MB || 200);
@@ -239,6 +240,78 @@ app.post(
     res.status(201).json(entry);
   }
 );
+
+// ---- Admin: import from Flashpoint Archive ----
+//
+// Manually triggered, one-game-at-a-time lookups against
+// flashpointarchive.org — never a bulk/automatic scraper. See
+// server/lib/flashpoint.js for the cooldown and sequential-request rules
+// that keep this respectful of the site and of the original hosts a game's
+// launch commands point to.
+
+app.get("/api/admin/flashpoint/search", auth.requireAdminApi, async (req, res) => {
+  const query = (req.query.q || "").trim();
+  if (!query) return res.status(400).json({ error: "query_required" });
+
+  const wait = flashpoint.trySearchSlot();
+  if (wait > 0) return res.status(429).json({ error: "too_many_requests", retryAfterMs: wait });
+
+  try {
+    const results = await flashpoint.search(query);
+    res.json(results);
+  } catch (err) {
+    res.status(502).json({ error: "flashpoint_unreachable" });
+  }
+});
+
+app.post("/api/admin/flashpoint/import", auth.requireAdminApi, async (req, res) => {
+  const id = (req.body.id || "").trim();
+  if (!id) return res.status(400).json({ error: "id_required" });
+
+  const wait = flashpoint.tryImportSlot();
+  if (wait > 0) return res.status(429).json({ error: "too_many_requests", retryAfterMs: wait });
+
+  let entry;
+  try {
+    entry = await flashpoint.getEntry(id);
+  } catch (err) {
+    return res.status(502).json({ error: "flashpoint_unreachable" });
+  }
+
+  if (entry.platform !== "Flash") {
+    return res.status(400).json({ error: "not_a_flash_game" });
+  }
+
+  const found = await flashpoint.fetchFirstValidSwf(entry.launchCommands);
+  if (!found) {
+    return res.status(404).json({ error: "no_working_swf_found" });
+  }
+
+  const title = entry.title || "Untitled";
+  const catalog = loadCatalog();
+  const slug = uniqueSlug(catalog.map((g) => g.slug), slugify(title));
+  const filename = `${slug}.swf`;
+
+  fs.mkdirSync(GAMES_DIR, { recursive: true });
+  fs.writeFileSync(path.join(GAMES_DIR, filename), found.buffer);
+
+  const newEntry = {
+    slug,
+    title,
+    description: entry.description || "",
+    file: filename,
+    sizeBytes: found.buffer.length,
+    cover: null,
+    coverVersion: 0,
+    tags: [],
+  };
+
+  catalog.push(newEntry);
+  catalog.sort((a, b) => a.title.localeCompare(b.title));
+  saveCatalog(catalog);
+
+  res.status(201).json(newEntry);
+});
 
 app.post(
   "/api/admin/games/:slug/cover",
