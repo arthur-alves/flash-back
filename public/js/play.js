@@ -77,6 +77,63 @@ crtBtn.addEventListener("click", () => {
   setCrt(!container.classList.contains("crt-on"));
 });
 
+// ---- Pixel filter (xBR / HQ2X / 2xSaI) ----
+const FILTER_STORAGE_KEY = "flashback:pixel-filter";
+const pixelFilterSelect = document.getElementById("pixel-filter-select");
+const pixelFilterCanvas = document.getElementById("pixel-filter-canvas");
+let pixelFilterRenderer = null;
+let pixelFilterRafId = null;
+let currentPixelFilter = "original";
+
+function populatePixelFilterSelect() {
+  pixelFilterSelect.innerHTML = "";
+  for (const id of PIXEL_FILTERS) {
+    const option = document.createElement("option");
+    option.value = id;
+    option.textContent = t(`pixel_filter_${id}`);
+    pixelFilterSelect.appendChild(option);
+  }
+  pixelFilterSelect.value = currentPixelFilter;
+}
+
+function pixelFilterFrame() {
+  const canvas = player && (player.shadowRoot || player).querySelector("canvas");
+  if (canvas && pixelFilterRenderer) {
+    pixelFilterRenderer.render(canvas, currentPixelFilter);
+  }
+  pixelFilterRafId = requestAnimationFrame(pixelFilterFrame);
+}
+
+function setPixelFilter(id) {
+  currentPixelFilter = PIXEL_FILTERS.includes(id) ? id : "original";
+  pixelFilterSelect.value = currentPixelFilter;
+  localStorage.setItem(FILTER_STORAGE_KEY, currentPixelFilter);
+
+  if (currentPixelFilter === "original") {
+    pixelFilterCanvas.classList.add("hidden");
+    if (pixelFilterRafId) {
+      cancelAnimationFrame(pixelFilterRafId);
+      pixelFilterRafId = null;
+    }
+    return;
+  }
+
+  if (!pixelFilterRenderer) {
+    pixelFilterRenderer = createPixelFilterRenderer(pixelFilterCanvas);
+  }
+  if (!pixelFilterRenderer) {
+    // No WebGL available — silently behave like "original".
+    currentPixelFilter = "original";
+    pixelFilterSelect.value = "original";
+    return;
+  }
+
+  pixelFilterCanvas.classList.remove("hidden");
+  if (!pixelFilterRafId) pixelFilterFrame();
+}
+
+pixelFilterSelect.addEventListener("change", () => setPixelFilter(pixelFilterSelect.value));
+
 // ---- Cover capture (admin only) ----
 // Ruffle renders into a <canvas> inside the player's shadow DOM. Since the
 // .swf is served same-origin, the canvas isn't tainted, so canvas.toBlob()
@@ -179,12 +236,15 @@ updateBackLink();
 updateFullscreenBtn();
 updateCaptureCoverBtn();
 setCrt(localStorage.getItem(CRT_STORAGE_KEY) === "1");
+populatePixelFilterSelect();
+setPixelFilter(localStorage.getItem(FILTER_STORAGE_KEY) || "original");
 
 function onLanguageChange() {
   updateBackLink();
   updateFullscreenBtn();
   updateCaptureCoverBtn();
   crtBtn.innerHTML = iconSvg("monitor") + " " + t("crt_button");
+  populatePixelFilterSelect();
 }
 
 main();

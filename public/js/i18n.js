@@ -36,6 +36,11 @@ const TRANSLATIONS = {
     game_not_found: "Game not found",
 
     crt_effect_title: "CRT effect",
+    pixel_filter_title: "Pixel filter",
+    pixel_filter_original: "Original",
+    pixel_filter_2xsai: "2xSaI",
+    pixel_filter_hq2x: "HQ2X",
+    pixel_filter_xbr: "xBR",
     crt_button: "CRT",
     fullscreen_title: "Fullscreen",
     capture_cover_title: "Capture a screenshot from the game as its cover",
@@ -182,6 +187,11 @@ const TRANSLATIONS = {
     game_not_found: "Jogo não encontrado",
 
     crt_effect_title: "Efeito CRT",
+    pixel_filter_title: "Filtro de pixel",
+    pixel_filter_original: "Original",
+    pixel_filter_2xsai: "2xSaI",
+    pixel_filter_hq2x: "HQ2X",
+    pixel_filter_xbr: "xBR",
     crt_button: "CRT",
     fullscreen_title: "Tela cheia",
     capture_cover_title: "Capturar uma imagem do jogo como capa",
