@@ -1,11 +1,10 @@
 services:
   flashback:
-    image: junkatana/flashback:latest
+    build: .
     container_name: flashback
     restart: unless-stopped
     environment:
       PORT: "4000"
-      # RESET_ADMIN: "true"   # set to true, restart once, then remove/set back to false
     volumes:
       - ./volumes/games:/app/games
       - ./volumes/data:/app/data

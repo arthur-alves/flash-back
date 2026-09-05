@@ -49,13 +49,32 @@ Open **http://localhost:4000**. First run will feel empty on the admin side — 
 
 ## Quick start (Docker)
 
+Using the published image (no build step, works anywhere Docker runs — including Portainer):
+
 ```bash
-docker compose up -d --build
+docker compose up -d
 ```
 
-`docker-compose.yml` mounts `./volumes/{games,data,ruffle}` as persistent volumes. On first container start, the entrypoint automatically runs the equivalent of `fetch-ruffle` and `scrape` into those volumes — this only happens once; later restarts reuse what's already there instead of re-downloading everything.
+`docker-compose.yml` pulls [`junkatana/flashback`](https://hub.docker.com/r/junkatana/flashback) (multi-arch: `amd64`/`arm64`) and mounts `./volumes/{games,data,ruffle}` as persistent volumes. On first container start, the entrypoint automatically runs the equivalent of `fetch-ruffle` and `scrape` into those volumes — this only happens once; later restarts reuse what's already there instead of re-downloading everything.
 
 Open **http://localhost:4000** (or whatever port you mapped).
+
+If you'd rather build from source instead of pulling the published image, use `docker-compose.dev.yml`:
+
+```bash
+docker compose -f docker-compose.dev.yml up -d --build
+```
+
+### Installing via Portainer
+
+1. **Stacks → Add stack**
+2. Name it (e.g. `flashback`), and either:
+   - **Web editor**: paste the contents of [`docker-compose.yml`](docker-compose.yml), or
+   - **Repository**: point at this Git repo, with `docker-compose.yml` as the compose path — Portainer will pull updates from GitHub whenever you redeploy the stack
+3. **Deploy the stack**
+4. Once it's running, open the container's mapped port in your browser and follow [First-time setup](#first-time-setup) below
+
+Password resets (`RESET_ADMIN`) work the same way as any other environment variable change: **Containers → flashback → Duplicate/Edit → Env**, or edit the stack and redeploy — see [Forgot your password?](#forgot-your-password) below.
 
 ## First-time setup
 
