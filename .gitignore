@@ -4,6 +4,8 @@ public/ruffle/
 data/covers/*
 !data/covers/.gitkeep
 data/admin.json
+data/catalog.json
+data/collections.json
 *.log
 .env
 volumes/

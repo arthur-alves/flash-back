@@ -27,9 +27,8 @@ const TRANSLATIONS = {
     empty_collection_games: "No games in this collection yet.",
 
     footer_credits_html:
-      'Collection maintained by the community for historical preservation purposes. All game rights belong to their original creators. Games sourced from ' +
-      '<a href="https://github.com/AmmarSAA/flash-games-directory" target="_blank" rel="noopener">AmmarSAA/flash-games-directory</a>. ' +
-      'Emulated via <a href="https://ruffle.rs" target="_blank" rel="noopener">Ruffle</a>.',
+      'All game rights belong to their original creators. Emulated via ' +
+      '<a href="https://ruffle.rs" target="_blank" rel="noopener">Ruffle</a>.',
 
     collection_not_specified: "Collection not specified",
     collection_not_found: "Collection not found",
@@ -174,9 +173,8 @@ const TRANSLATIONS = {
     empty_collection_games: "Nenhum jogo nesta coleção ainda.",
 
     footer_credits_html:
-      'Coleção mantida pela comunidade a título de preservação histórica. Todos os direitos dos jogos pertencem aos seus respectivos criadores. Jogos obtidos de ' +
-      '<a href="https://github.com/AmmarSAA/flash-games-directory" target="_blank" rel="noopener">AmmarSAA/flash-games-directory</a>. ' +
-      'Emulado via <a href="https://ruffle.rs" target="_blank" rel="noopener">Ruffle</a>.',
+      'Todos os direitos dos jogos pertencem aos seus respectivos criadores. Emulado via ' +
+      '<a href="https://ruffle.rs" target="_blank" rel="noopener">Ruffle</a>.',
 
     collection_not_specified: "Coleção não especificada",
     collection_not_found: "Coleção não encontrada",

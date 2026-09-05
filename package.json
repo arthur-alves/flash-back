@@ -8,10 +8,7 @@
   "scripts": {
     "start": "node server/index.js",
     "dev": "node --watch server/index.js",
-    "scrape": "node server/scripts/scrape.js",
-    "fetch-ruffle": "node server/scripts/fetch-ruffle.js",
-    "descriptions": "node server/scripts/apply-descriptions.js",
-    "tags": "node server/scripts/apply-tags.js"
+    "fetch-ruffle": "node server/scripts/fetch-ruffle.js"
   },
   "dependencies": {
     "express": "^4.19.2",

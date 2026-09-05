@@ -9,9 +9,4 @@ if [ ! -f public/ruffle/ruffle.js ]; then
   node server/scripts/fetch-ruffle.js
 fi
 
-if [ ! -f data/catalog.json ] || [ "$(find games -maxdepth 1 -name '*.swf' | head -1)" = "" ]; then
-  echo "[entrypoint] Game catalog/files missing, scraping..."
-  node server/scripts/scrape.js
-fi
-
 exec "$@"

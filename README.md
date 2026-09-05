@@ -10,7 +10,7 @@
 
 Self-hosted library of classic Flash games, played directly in the browser via [Ruffle](https://ruffle.rs), no plugins, no Flash Player install. Think of it as a "RomM for Flash games": browse a library, organize it into collections and tags, and play everything from a normal web browser.
 
-Game files are sourced from the community-maintained [AmmarSAA/flash-games-directory](https://github.com/AmmarSAA/flash-games-directory), which describes itself as a fan preservation effort (see [Legal note](#legal-note)).
+The library starts out empty. Add games yourself, either by uploading your own `.swf` files or by importing them from [Flashpoint Archive](https://flashpointarchive.org) right from the admin panel (see [Importing from Flashpoint Archive](#importing-from-flashpoint-archive) below).
 
 ## Features
 
@@ -46,17 +46,10 @@ npm install
 # Downloads the Ruffle web player (self-hosted, no CDN dependency)
 npm run fetch-ruffle
 
-# Downloads the game list + .swf files from the source repo and builds data/catalog.json
-npm run scrape
-
-# Optional: apply curated PT-BR descriptions/tags for well-known titles
-npm run descriptions
-npm run tags
-
 npm start
 ```
 
-Open **http://localhost:4000**. First run will feel empty on the admin side, see [First-time setup](#first-time-setup) below.
+Open **http://localhost:4000**. The library starts empty; see [First-time setup](#first-time-setup) to create your admin account, then [Managing games](#managing-games-admin) to add your first titles.
 
 ## Quick start (Docker)
 
@@ -66,7 +59,7 @@ Using the published image (no build step, works anywhere Docker runs, including 
 docker compose up -d
 ```
 
-`docker-compose.yml` pulls [`junkatana/flashback`](https://hub.docker.com/r/junkatana/flashback) (multi-arch: `amd64`/`arm64`) and mounts `./volumes/{games,data,ruffle}` as persistent volumes. On first container start, the entrypoint automatically runs the equivalent of `fetch-ruffle` and `scrape` into those volumes; this only happens once, later restarts reuse what's already there instead of re-downloading everything.
+`docker-compose.yml` pulls [`junkatana/flashback`](https://hub.docker.com/r/junkatana/flashback) (multi-arch: `amd64`/`arm64`) and mounts `./volumes/{games,data,ruffle}` as persistent volumes. On first container start, the entrypoint automatically fetches Ruffle into that volume and starts with an empty game library; this only happens once, later restarts reuse what's already there.
 
 Open **http://localhost:4000** (or whatever port you mapped).
 
@@ -249,18 +242,16 @@ server/
     validateImage.js     Checks JPEG/PNG/WebP magic bytes of uploaded covers
     auth.js               Account setup, scrypt password hashing, cookie
                            sessions, and the RESET_ADMIN escape hatch
+    flashpoint.js         Search + import from Flashpoint Archive
     slugify.js
   scripts/
-    scrape.js             Fetches games + builds catalog.json
     fetch-ruffle.js       Downloads the self-hosted Ruffle build
-    apply-descriptions.js / descriptions.json   Curated PT-BR descriptions
-    apply-tags.js / tags.json                    Curated genre tags
 data/
-  catalog.json           Game metadata (committed to git)
-  collections.json       Curated collections (committed to git)
+  catalog.json           Game metadata (starts empty, gitignored)
+  collections.json       Curated collections (starts empty, gitignored)
   admin.json             Admin username + salted password hash (gitignored)
   covers/                 Cover images: games and data/covers/collections/ (gitignored)
-games/                    Downloaded .swf files (gitignored, run `npm run scrape`)
+games/                    Your uploaded/imported .swf files (gitignored)
 public/
   index.html              Full game library + tag filters
   collections.html        All collections
@@ -283,7 +274,7 @@ public/
 
 ## Legal note
 
-This project does not redistribute Flash game files itself. The `scrape` script downloads them at setup time from the source repository, which describes itself as a fan preservation effort. All game rights remain with their original creators. If you are a rights holder and want a game removed, please open an issue.
+This project does not ship or redistribute any Flash game files itself, and the library starts empty. Any games in your instance were either uploaded by you directly or imported from [Flashpoint Archive](https://flashpointarchive.org) via its own original hosting links. All game rights remain with their original creators. If you are a rights holder and have a concern about a game imported through this tool, please open an issue.
 
 ## License
 
