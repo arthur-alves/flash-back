@@ -108,6 +108,26 @@ RESET_ADMIN=true npm start
 npm start
 ```
 
+### Authentication & password storage
+
+There's no database and no third-party auth library — the whole account system is one JSON file, `data/admin.json`, created the moment you finish `/setup`:
+
+```json
+{
+  "username": "your-username",
+  "salt": "a1b2c3...",
+  "passwordHash": "9f8e7d..."
+}
+```
+
+- **Username** is stored as plain text — it's an identifier, not a secret.
+- **Password is never stored.** At signup, a random 16-byte `salt` is generated and the password is run through `crypto.scryptSync(password, salt, 64)` — only the resulting hash is kept; the plaintext password never touches disk.
+- **scrypt**, not MD5/SHA/bcrypt, because it's deliberately memory-hard — expensive to run at scale, which makes brute-forcing a stolen `admin.json` far more costly than a fast hash would. It's also built into Node's `crypto` module, so it adds zero dependencies.
+- **Login** recomputes the hash from the submitted password using the stored `salt`, then compares it with `crypto.timingSafeEqual` instead of `===`, so a network attacker can't infer the correct hash byte-by-byte from response-time differences. Usernames are compared the same way.
+- **Sessions** aren't JWTs or anything self-contained — logging in generates a random 32-byte token, stored in an in-memory `Map` (`token → createdAt`) on the server process, and sent to the browser as an `HttpOnly; SameSite=Lax` cookie valid for 30 days. Keeping sessions in memory (not a file or database) means a server/container restart logs everyone out, but the account itself is untouched — a deliberate trade-off for a single-admin self-hosted tool, where "everyone re-logs in after a restart" is a minor inconvenience and "one less place secrets can leak from" is worth it.
+
+`data/admin.json` is gitignored and lives on a mounted volume in Docker, so it never ends up in the repository or in the published image.
+
 ## Using the library
 
 - **Search** — the box in the top bar filters by title as you type
