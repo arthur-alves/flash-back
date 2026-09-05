@@ -892,7 +892,8 @@ main {
 }
 
 .flashpoint-search-form button {
-  height: 38px;
+  align-self: flex-end;
+  height: 42px;
 }
 
 .flashpoint-results {
