@@ -21,6 +21,7 @@ Game files are sourced from the community-maintained [AmmarSAA/flash-games-direc
 - **Swappable themes** via plain CSS files (see [THEMES.md](THEMES.md)), ships with Dark Neon, Light Neon, Geo (Y2K) and NES (8-bit)
 - **Multi-language UI** (English default, Portuguese included) via a small dictionary-based i18n system (see [LANGUAGES.md](LANGUAGES.md))
 - **Admin panel** to upload your own `.swf` games and cover art, protected by a real login (not the browser's native Basic Auth popup)
+- **Import from Flashpoint Archive**: search [flashpointarchive.org](https://flashpointarchive.org) by name and import a Flash game straight from one of its original hosting links, if one is still alive (see [Managing games](#managing-games-admin) below)
 - Uploads are validated by **file content**, not extension: a renamed `.txt` won't pass as a `.swf`
 - **Simple JSON storage**: no database, easy to inspect/edit/back up by hand
 - Icons via inlined [Lucide](https://lucide.dev) SVGs (self-hosted, ISC license)
@@ -163,6 +164,16 @@ The easiest way is the admin panel (`/admin`):
    - Edit tags directly in the text field (comma-separated)
    - Toggle collection membership via the chip buttons
    - Remove the game entirely (deletes the file + its cover from disk too)
+
+### Importing from Flashpoint Archive
+
+The admin panel also has an **Import from Flashpoint Archive** search box. Type a game name, and it searches [flashpointarchive.org](https://flashpointarchive.org) (a large Flash/web-game preservation project). For each result, it checks the entry's original "Launch Command" links (the URLs the game used to be hosted at, e.g. `miniclip.com`, `addictinggames.com`), and imports the game only if one of them still serves a real `.swf` file, validated with the same content check used for manual uploads.
+
+A few things worth knowing:
+
+- Only entries tagged `Platform: Flash` on Flashpoint are importable; other platforms (HTML5, Shockwave, Unity, etc.) are rejected.
+- It deliberately does **not** use Flashpoint's own GameZIP mirrors, that would mean depending on an unofficial third-party site to resolve a working download URL. If none of a game's original links are still online, it's skipped rather than falling back to that.
+- Requests are always sequential (never parallel) with a real User-Agent and a short cooldown between searches/imports, so this can't be used to hammer flashpointarchive.org or the original third-party hosts it links to. It's a manual, one-game-at-a-time tool, not a bulk scraper.
 
 You can also do it by hand: drop a `.swf` file into `games/`, then add an entry to `data/catalog.json`:
 
