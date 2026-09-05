@@ -18,6 +18,7 @@ The library starts out empty. Add games yourself, either by uploading your own `
 - **Collections**: curated groups of games, each with its own page; a game can belong to more than one
 - **In-browser Flash emulation** via a self-hosted Ruffle build, no CDN dependency, no plugin install
 - **Fullscreen mode** and an optional **CRT scanline overlay**, handy for the many games shipped at very low native resolutions
+- **Pixel-art upscale filters** (2xSaI, HQ2X, xBR) via a small WebGL shader pipeline, one active at a time
 - **Swappable themes** via plain CSS files (see [THEMES.md](THEMES.md)), ships with Dark Neon, Light Neon, Geo (Y2K) and NES (8-bit)
 - **Multi-language UI** (English default, Portuguese included) via a small dictionary-based i18n system (see [LANGUAGES.md](LANGUAGES.md))
 - **Admin panel** to upload your own `.swf` games and cover art, protected by a real login (not the browser's native Basic Auth popup)
@@ -159,6 +160,7 @@ If you plan to expose FlashBack beyond your local network (a public URL, port-fo
 - **Playing a game**: click any card, then:
   - **Fullscreen** button (uses the browser's native Fullscreen API)
   - **CRT** button overlays scanlines + a vignette, purely cosmetic CSS, doesn't touch how Ruffle renders the game, but helps a lot with games that shipped at tiny native resolutions
+  - **Pixel filter** dropdown (Original / 2xSaI / HQ2X / xBR): runs the live frame through a WebGL shader for smoother pixel-art scaling; "Original" disables the shader pipeline entirely, so there's no cost unless you pick one
 
 ## Managing games (admin)
 
