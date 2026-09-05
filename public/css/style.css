@@ -927,6 +927,29 @@ main {
   flex: 1;
 }
 
+.flashpoint-result button {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.flashpoint-result button:hover:not(:disabled) {
+  background: rgba(var(--accent-rgb), 0.12);
+  box-shadow: 0 0 calc(8px * var(--glow-strength) + 1px) rgba(var(--accent-rgb), var(--glow-strength));
+}
+
+.flashpoint-result button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 .collections-list {
   list-style: none;
   margin: 0;
