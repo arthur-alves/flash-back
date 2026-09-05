@@ -22,6 +22,23 @@ const PUBLIC_DIR = path.join(__dirname, "..", "public");
 const app = express();
 app.use(express.json());
 
+// On a fresh install there's no admin account yet (no data/admin.json).
+// Force every request straight to the setup wizard until one is created,
+// instead of only gating /admin — otherwise a freshly installed instance
+// looks fully usable (public library, API, etc.) with no owner set up yet.
+const SETUP_ALLOWED_PREFIXES = ["/setup", "/api/setup", "/css", "/js", "/images", "/fonts"];
+app.use((req, res, next) => {
+  if (auth.isConfigured()) return next();
+  const allowed = SETUP_ALLOWED_PREFIXES.some(
+    (prefix) => req.path === prefix || req.path.startsWith(prefix + "/")
+  );
+  if (allowed) return next();
+  if (req.method !== "GET") {
+    return res.status(401).json({ error: "not_configured" });
+  }
+  return res.redirect("/setup");
+});
+
 // ---- Storage helpers ----
 
 function loadCatalog() {
