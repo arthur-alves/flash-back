@@ -87,14 +87,27 @@ docker compose -f docker-compose.dev.yml up -d --build
 
 Password resets (`RESET_ADMIN`) work the same way as any other environment variable change: **Containers → flashback → Duplicate/Edit → Env**, or edit the stack and redeploy. See [Forgot your password?](#forgot-your-password) below.
 
+### Updating to a new image version
+
+The `docker-compose.yml` pulls `junkatana/flashback:latest`, so getting a new release doesn't require editing anything, just pulling the image again and recreating the container:
+
+- **Portainer**: open the `flashback` stack and click **Pull and redeploy** (or, on older Portainer versions, **Stacks → flashback → Editor → Update the stack**, checking "Re-pull image"). Portainer re-downloads `:latest` and recreates just the container, your `games`/`data`/`ruffle` volumes are untouched.
+- **Plain Docker Compose**:
+  ```bash
+  docker compose pull flashback
+  docker compose up -d flashback
+  ```
+
+Either way, this only replaces the application code, it does not reset your library, admin account, or covers, since those all live on the mounted volumes rather than inside the image.
+
 ## First-time setup
 
-The admin panel doesn't ship with a default password. The first time you open it, you'll be walked through creating your own account:
+The admin panel doesn't ship with a default password. On a fresh install, before any account exists, **every** page (the library, the API, everything) redirects straight to **`/setup`** until you create one, so you can't end up browsing a freshly installed instance no one has actually configured yet:
 
-1. Go to **http://localhost:4000/admin**
-2. You'll be redirected to **`/setup`** automatically (this only happens once, before an account exists)
-3. Choose a username and a password (8+ characters)
-4. You're logged in immediately and land on the admin panel
+1. Open the app at **http://localhost:4000** (any URL works, you'll land on `/setup`)
+2. Choose a username and a password (8+ characters)
+3. You're logged in immediately and land on the admin panel
+4. From this point on, `/setup` stops being reachable and the site behaves normally for everyone
 
 From then on, `/admin` requires logging in at **`/login`**. Sessions are stored as an HttpOnly cookie and last 30 days, but they live in server memory, so restarting the server/container logs everyone out (you'll just need to log in again, the account itself isn't affected).
 
