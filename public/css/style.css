@@ -862,6 +862,18 @@ main {
   height: 38px;
 }
 
+.flashpoint-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.flashpoint-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
 .flashpoint-note {
   font-size: 0.8rem;
   color: var(--text-dim);
