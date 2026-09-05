@@ -4,6 +4,10 @@
 
 # FlashBack
 
+[![Docker Pulls](https://img.shields.io/docker/pulls/junkatana/flashback)](https://hub.docker.com/r/junkatana/flashback)
+[![Docker Image Size](https://img.shields.io/docker/image-size/junkatana/flashback/latest)](https://hub.docker.com/r/junkatana/flashback)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Self-hosted library of classic Flash games, played directly in the browser via [Ruffle](https://ruffle.rs) — no plugins, no Flash Player install. Think of it as a "RomM for Flash games": browse a library, organize it into collections and tags, and play everything from a normal web browser.
 
 Game files are sourced from the community-maintained [AmmarSAA/flash-games-directory](https://github.com/AmmarSAA/flash-games-directory), which describes itself as a fan preservation effort (see [Legal note](#legal-note)).
