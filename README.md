@@ -128,6 +128,14 @@ There's no database and no third-party auth library — the whole account system
 
 `data/admin.json` is gitignored and lives on a mounted volume in Docker, so it never ends up in the repository or in the published image.
 
+**Security scope.** FlashBack is built for running on a home/local network — a single admin, on their own LAN, behind their own router/firewall. Under that assumption, the above is enough: the only people who can reach `/login` are already inside the trusted network. What's deliberately **not** implemented, because it isn't needed for that scenario, includes:
+
+- Login rate limiting / account lockout — nothing stops unlimited password attempts against `/api/login`
+- The session cookie doesn't set `Secure`, so it isn't forced over HTTPS
+- 2FA, audit logging, multi-user roles
+
+If you plan to expose FlashBack beyond your local network (a public URL, port-forwarding, DDNS, etc.), treat these as real gaps, not theoretical ones — put it behind a reverse proxy with HTTPS (Caddy, Traefik, Nginx) at minimum, and consider adding rate limiting before doing so. These are straightforward to add later; they were left out of the initial scope on purpose, not overlooked, to keep the project simple for its intended use case. Contributions welcome if you want to add them.
+
 ## Using the library
 
 - **Search** — the box in the top bar filters by title as you type
