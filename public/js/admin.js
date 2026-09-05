@@ -479,6 +479,12 @@ function renderFlashpointResults(results) {
     const title = document.createElement("span");
     title.className = "flashpoint-result-title";
     title.textContent = result.title;
+    if (result.type) {
+      const typeTag = document.createElement("span");
+      typeTag.className = "flashpoint-result-type";
+      typeTag.textContent = result.type;
+      title.appendChild(typeTag);
+    }
 
     const importBtn = document.createElement("button");
     importBtn.type = "button";

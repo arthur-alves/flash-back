@@ -109,19 +109,35 @@ function tryImportSlot() {
   return wait;
 }
 
+// The search results page already labels each entry's type ("Flash game",
+// "Flash animation", "HTML5 game", "Unity game", "Java game", ...) right in
+// the markup — filtering on that costs nothing extra (no additional
+// requests), unlike actually checking whether a working .swf download link
+// exists for each result, which would mean fetching every result's detail
+// page and trying its candidate hosts before showing anything. That's left
+// for import time (one game at a time, on click) to keep search itself
+// respectful of flashpointarchive.org and the third-party hosts it links to.
 async function search(query) {
   const url = `https://flashpointarchive.org/search?query=${encodeURIComponent(query)}`;
   const html = await fetchText(url);
 
   const results = [];
-  const re = /<a class="fp-search-result-title" href="\/view\?id=([0-9a-f-]+)">([^<]*)/g;
-  let match;
-  while ((match = re.exec(html))) {
-    const id = match[1];
-    const title = decodeEntities(match[2]);
+  const blockRe = /<div class="fp-search-result">([\s\S]*?)<\/div>\s*<\/div>\s*<\/div>/g;
+  let block;
+  while ((block = blockRe.exec(html))) {
+    const section = block[1];
+    const titleMatch = section.match(/<a class="fp-search-result-title" href="\/view\?id=([0-9a-f-]+)">([^<]*)/);
+    const infoMatch = section.match(/<div class="fp-search-result-info">([^<-]*)/);
+    if (!titleMatch) continue;
+
+    const type = infoMatch ? infoMatch[1].trim() : "";
+    if (!type.startsWith("Flash")) continue;
+
+    const id = titleMatch[1];
     results.push({
       id,
-      title,
+      title: decodeEntities(titleMatch[2]),
+      type,
       logo: `https://infinity.unstable.life/images/Logos/${id.slice(0, 2)}/${id.slice(2, 4)}/${id}.png?type=jpg`,
     });
   }

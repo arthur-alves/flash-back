@@ -940,6 +940,17 @@ main {
   flex: 1;
 }
 
+.flashpoint-result-type {
+  margin-left: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
 .flashpoint-result button {
   background: transparent;
   color: var(--accent);
