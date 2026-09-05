@@ -14,11 +14,12 @@
     "description": "Um jogo de plataforma minimalista focado inteiramente em desbloquear conquistas absurdas.",
     "file": "achievement-unlocked.swf",
     "sizeBytes": 2499931,
-    "cover": null,
+    "cover": "jpg",
     "tags": [
       "plataforma",
       "humor"
-    ]
+    ],
+    "coverVersion": 1788575165594
   },
   {
     "slug": "age-of-defense-8",
@@ -26,8 +27,9 @@
     "description": "",
     "file": "age-of-defense-8.swf",
     "sizeBytes": 10527054,
-    "cover": null,
-    "tags": []
+    "cover": "jpg",
+    "tags": [],
+    "coverVersion": 1788575215197
   },
   {
     "slug": "age-of-war",
@@ -35,11 +37,12 @@
     "description": "Escolha uma era, evolua sua base e destrua o exército inimigo em uma guerra que atravessa a pré-história até o futuro.",
     "file": "age-of-war.swf",
     "sizeBytes": 3628467,
-    "cover": null,
+    "cover": "jpg",
     "tags": [
       "estratégia",
       "guerra"
-    ]
+    ],
+    "coverVersion": 1788575251144
   },
   {
     "slug": "animator",
@@ -112,7 +115,7 @@
     "description": "Continuação do tower defense de balões, com novas torres e mapas.",
     "file": "bloons-tower-defence-2.swf",
     "sizeBytes": 787394,
-    "cover": null,
+    "cover": "jpg",
     "tags": [
       "tower defense",
       "estratégia"
@@ -124,7 +127,7 @@
     "description": "Terceira entrada da série, com mais upgrades e desafios de estratégia.",
     "file": "bloons-tower-defence-3.swf",
     "sizeBytes": 1400848,
-    "cover": null,
+    "cover": "jpg",
     "tags": [
       "tower defense",
       "estratégia"
@@ -437,6 +440,18 @@
     ]
   },
   {
+    "slug": "kingdom-rush-flash",
+    "title": "Kingdom Rush Flash",
+    "description": "",
+    "file": "kingdom-rush-flash.swf",
+    "sizeBytes": 24891569,
+    "cover": null,
+    "coverVersion": 0,
+    "tags": [
+      "tower defense"
+    ]
+  },
+  {
     "slug": "learn-2-fly",
     "title": "Learn 2 Fly",
     "description": "Continuação de Learn to Fly, com mais upgrades para o voo do pinguim.",
@@ -478,11 +493,12 @@
     "description": "O clássico campo minado — descubra todas as células seguras sem detonar uma bomba.",
     "file": "minesweeper.swf",
     "sizeBytes": 28901,
-    "cover": null,
+    "cover": "jpg",
     "tags": [
       "puzzle",
       "clássico"
-    ]
+    ],
+    "coverVersion": 1788575106343
   },
   {
     "slug": "motherload",
@@ -502,11 +518,12 @@
     "description": "",
     "file": "n.swf",
     "sizeBytes": 380412,
-    "cover": null,
+    "cover": "jpg",
     "tags": [
       "plataforma",
       "desafio"
-    ]
+    ],
+    "coverVersion": 1788575093218
   },
   {
     "slug": "pacman",
@@ -514,11 +531,12 @@
     "description": "Versão em Flash do clássico jogo de labirinto Pac-Man.",
     "file": "pacman.swf",
     "sizeBytes": 42511,
-    "cover": null,
+    "cover": "jpg",
     "tags": [
       "arcade",
       "clássico"
-    ]
+    ],
+    "coverVersion": 1788575082043
   },
   {
     "slug": "papas-pizzeria",
@@ -526,11 +544,12 @@
     "description": "Jogo de gerenciamento de tempo: monte pizzas perfeitas para os clientes da pizzaria.",
     "file": "papas-pizzeria.swf",
     "sizeBytes": 2562841,
-    "cover": null,
+    "cover": "jpg",
     "tags": [
       "gerenciamento de tempo",
       "culinária"
-    ]
+    ],
+    "coverVersion": 1788575126553
   },
   {
     "slug": "pc-breakdown",
@@ -865,11 +884,12 @@
     "description": "Fã-jogo extenso inspirado em Super Mario 64 e Super Mario Sunshine.",
     "file": "super-mario-63.swf",
     "sizeBytes": 15295370,
-    "cover": null,
+    "cover": "jpg",
     "tags": [
       "plataforma",
       "fã-jogo"
-    ]
+    ],
+    "coverVersion": 1788575369485
   },
   {
     "slug": "super-mario-bros-crossover-3",
@@ -881,6 +901,32 @@
     "tags": [
       "plataforma",
       "fã-jogo"
+    ]
+  },
+  {
+    "slug": "super-mario-bross-crossover",
+    "title": "Super Mario Bross Crossover",
+    "description": "",
+    "file": "super-mario-bross-crossover.swf",
+    "sizeBytes": 9979896,
+    "cover": null,
+    "coverVersion": 0,
+    "tags": [
+      "ação",
+      "plataforma"
+    ]
+  },
+  {
+    "slug": "super-mario-bross-crossover-1",
+    "title": "Super Mario Bross Crossover 1",
+    "description": "Super Mario bross Crossover",
+    "file": "super-mario-bross-crossover-1.swf",
+    "sizeBytes": 958347,
+    "cover": null,
+    "coverVersion": 0,
+    "tags": [
+      "ação",
+      "plataforma"
     ]
   },
   {

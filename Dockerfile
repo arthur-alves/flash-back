@@ -9,10 +9,9 @@ RUN npm ci --omit=dev
 
 COPY server ./server
 COPY public ./public
-COPY data ./data
-COPY games ./games
 COPY docker-entrypoint.sh ./
 RUN chmod +x docker-entrypoint.sh
+RUN mkdir -p data/covers/collections games
 
 ENV PORT=4000
 EXPOSE 4000

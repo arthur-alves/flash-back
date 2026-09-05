@@ -50,7 +50,7 @@ function renderGames() {
     coverCell.appendChild(buildCoverUploader(game));
 
     const titleCell = document.createElement("td");
-    titleCell.textContent = game.title;
+    titleCell.appendChild(buildInfoEditor(game));
 
     const fileCell = document.createElement("td");
     fileCell.textContent = game.file;
@@ -114,6 +114,55 @@ function buildCoverUploader(game) {
   });
 
   wrap.append(thumb, input);
+  return wrap;
+}
+
+function buildInfoEditor(game) {
+  const wrap = document.createElement("div");
+  wrap.className = "info-editor";
+
+  const titleInput = document.createElement("input");
+  titleInput.type = "text";
+  titleInput.className = "title-input";
+  titleInput.value = game.title;
+
+  const descInput = document.createElement("input");
+  descInput.type = "text";
+  descInput.className = "description-input";
+  descInput.placeholder = t("description_placeholder");
+  descInput.value = game.description || "";
+
+  async function save(body, revert) {
+    const res = await af(`/api/admin/games/${encodeURIComponent(game.slug)}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    if (res.ok) {
+      const updated = await res.json();
+      Object.assign(game, updated);
+    } else {
+      const data = await res.json().catch(() => ({}));
+      alert(data.error ? tError(data.error) : t("error_saving_game_info"));
+      revert();
+    }
+  }
+
+  titleInput.addEventListener("change", () => {
+    const value = titleInput.value.trim();
+    if (!value) {
+      titleInput.value = game.title;
+      return;
+    }
+    save({ title: value }, () => (titleInput.value = game.title));
+  });
+
+  descInput.addEventListener("change", () => {
+    save({ description: descInput.value }, () => (descInput.value = game.description || ""));
+  });
+
+  wrap.append(titleInput, descInput);
   return wrap;
 }
 

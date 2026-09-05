@@ -117,7 +117,17 @@ You can also do it by hand: drop a `.swf` file into `games/`, then add an entry 
 }
 ```
 
-To add a cover image by hand, place a file at `data/covers/<slug>.<ext>` (`jpg`, `png` or `webp`) and set `"cover": "<ext>"` in the catalog entry.
+To add a cover image by hand, place a file at `data/covers/<slug>.<ext>` (`jpg`, `png` or `webp`) and set `"cover": "<ext>"` in the catalog entry. The filename must match the game's `slug` exactly — nothing else identifies which cover belongs to which game. `coverVersion` is optional (used only for browser cache-busting); leave it out or `0` and it'll still work.
+
+### Bulk-importing a ready-made library
+
+If you already have a folder full of games with covers (e.g. from another emulator front-end), you can script this instead of using the admin panel one by one:
+
+1. Copy every `.swf` into `games/`.
+2. Copy every cover into `data/covers/`, renamed to `<slug>.<ext>` — the slug must match the corresponding catalog entry's `slug`, not the original filename.
+3. Generate `data/catalog.json` as an array of entries like the one above, one per game.
+
+Slugs are lowercase, hyphenated versions of the title (see `server/lib/slugify.js` for the exact rule) and must be unique — if two games would slugify to the same string, the admin panel appends `-2`, `-3`, etc., but a hand-built catalog needs to do this itself.
 
 ## Managing collections (admin)
 

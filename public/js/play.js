@@ -87,16 +87,55 @@ function updateCaptureCoverBtn() {
   captureCoverBtn.innerHTML = iconSvg("camera") + " " + t("capture_cover_button");
 }
 
-async function checkAdminSession() {
+async function isAdminLoggedIn() {
   try {
     const res = await fetch("/api/admin/session");
-    if (res.ok) captureCoverBtn.classList.remove("hidden");
+    return res.ok;
   } catch (err) {
-    // Not logged in, or offline — leave the button hidden.
+    return false;
   }
 }
 
+// Ruffle letterboxes the movie inside the canvas when its native aspect
+// ratio doesn't match the player's — the bars around the game are part of
+// the same canvas, not a separate element. This crops them out before
+// capture using the movie's real dimensions from player.metadata.
+function cropLetterbox(canvas) {
+  const meta = player && player.metadata;
+  if (!meta || !meta.width || !meta.height) return canvas;
+
+  const canvasAspect = canvas.width / canvas.height;
+  const movieAspect = meta.width / meta.height;
+
+  let sx = 0, sy = 0, sw = canvas.width, sh = canvas.height;
+
+  if (movieAspect > canvasAspect) {
+    // Bars on top/bottom.
+    sh = canvas.width / movieAspect;
+    sy = (canvas.height - sh) / 2;
+  } else if (movieAspect < canvasAspect) {
+    // Bars on left/right.
+    sw = canvas.height * movieAspect;
+    sx = (canvas.width - sw) / 2;
+  } else {
+    return canvas;
+  }
+
+  const cropped = document.createElement("canvas");
+  cropped.width = Math.round(sw);
+  cropped.height = Math.round(sh);
+  cropped.getContext("2d").drawImage(canvas, sx, sy, sw, sh, 0, 0, cropped.width, cropped.height);
+  return cropped;
+}
+
 captureCoverBtn.addEventListener("click", async () => {
+  if (!(await isAdminLoggedIn())) {
+    if (confirm(t("login_required_capture"))) {
+      window.location.href = `/login?next=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+    }
+    return;
+  }
+
   const canvas = player && (player.shadowRoot || player).querySelector("canvas");
   if (!canvas) {
     alert(t("canvas_not_ready"));
@@ -107,7 +146,8 @@ captureCoverBtn.addEventListener("click", async () => {
   captureCoverBtn.innerHTML = iconSvg("camera") + " " + t("capturing_cover");
 
   try {
-    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.85));
+    const cropped = cropLetterbox(canvas);
+    const blob = await new Promise((resolve) => cropped.toBlob(resolve, "image/jpeg", 0.85));
     if (!blob) throw new Error("canvas.toBlob returned null");
 
     const formData = new FormData();
@@ -139,7 +179,6 @@ updateBackLink();
 updateFullscreenBtn();
 updateCaptureCoverBtn();
 setCrt(localStorage.getItem(CRT_STORAGE_KEY) === "1");
-checkAdminSession();
 
 function onLanguageChange() {
   updateBackLink();

@@ -35,7 +35,8 @@ form.addEventListener("submit", async (e) => {
       statusEl.classList.add("error");
       submitBtn.disabled = false;
     } else {
-      window.location.href = "admin";
+      const next = new URLSearchParams(window.location.search).get("next");
+      window.location.href = next && next.startsWith("/") ? next : "admin";
     }
   } catch (err) {
     statusEl.textContent = t("network_error_logging_in");

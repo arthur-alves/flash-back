@@ -45,6 +45,7 @@ const TRANSLATIONS = {
     cover_captured_success: "Cover captured!",
     error_capturing_cover: "Error capturing cover.",
     canvas_not_ready: "Game hasn't rendered anything yet — wait a moment and try again.",
+    login_required_capture: "You need to be logged in as admin to capture a cover. Log in now?",
     fullscreen_button: "Fullscreen",
     exit_fullscreen_button: "Exit fullscreen",
 
@@ -97,6 +98,8 @@ const TRANSLATIONS = {
     add_to_collection_title: 'Add to "{name}"',
 
     error_uploading_cover: "Error uploading cover.",
+    description_placeholder: "Description",
+    error_saving_game_info: "Error saving game info.",
     error_saving_tags: "Error saving tags.",
     error_updating_collection: "Error updating collection.",
     error_removing_game: "Error removing the game.",
@@ -171,6 +174,7 @@ const TRANSLATIONS = {
     cover_captured_success: "Capa capturada!",
     error_capturing_cover: "Erro ao capturar a capa.",
     canvas_not_ready: "O jogo ainda não renderizou nada — espere um instante e tente de novo.",
+    login_required_capture: "Você precisa estar logado como admin para capturar uma capa. Fazer login agora?",
     fullscreen_button: "Tela cheia",
     exit_fullscreen_button: "Sair da tela cheia",
 
@@ -223,6 +227,8 @@ const TRANSLATIONS = {
     add_to_collection_title: 'Adicionar a "{name}"',
 
     error_uploading_cover: "Erro ao enviar a capa.",
+    description_placeholder: "Descrição",
+    error_saving_game_info: "Erro ao salvar as informações do jogo.",
     error_saving_tags: "Erro ao salvar tags.",
     error_updating_collection: "Erro ao atualizar coleção.",
     error_removing_game: "Erro ao remover o jogo.",

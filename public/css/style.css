@@ -284,6 +284,10 @@ main {
   background: linear-gradient(135deg, var(--hue1, var(--accent)), var(--hue2, var(--accent2)));
 }
 
+.card-cover.has-image {
+  padding: 0;
+}
+
 .card-cover img {
   width: 100%;
   height: 100%;
@@ -648,6 +652,7 @@ main {
 }
 
 .upload-form input[type="text"],
+.upload-form input[type="password"],
 .upload-form input[type="file"],
 .upload-form textarea {
   background: var(--bg);
@@ -711,8 +716,13 @@ main {
 .upload-status.success { color: var(--success); }
 .upload-status.error { color: var(--danger); }
 
+.games-table-wrap {
+  overflow-x: auto;
+}
+
 .games-table {
   width: 100%;
+  min-width: 900px;
   border-collapse: collapse;
   font-size: 0.85rem;
 }
@@ -722,11 +732,41 @@ main {
   text-align: left;
   padding: 8px 6px;
   border-bottom: 1px solid var(--border);
+  vertical-align: top;
 }
 
 .games-table th {
   color: var(--text-dim);
   font-weight: 600;
+}
+
+.info-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 180px;
+}
+
+.info-editor .title-input {
+  font-weight: 600;
+}
+
+.info-editor .description-input {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.info-editor input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 4px 8px;
+  width: 100%;
+}
+
+.info-editor input:focus {
+  outline: 2px solid var(--accent);
 }
 
 .cover-uploader {
@@ -888,7 +928,8 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  max-width: 220px;
+  min-width: 180px;
+  max-width: 260px;
 }
 
 .collection-chip {

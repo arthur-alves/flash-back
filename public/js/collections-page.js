@@ -20,8 +20,9 @@ function buildCollectionCard(collection) {
   cover.className = "card-cover";
 
   if (collection.cover) {
+    cover.classList.add("has-image");
     const img = document.createElement("img");
-    img.src = `covers/collections/${collection.slug}.${collection.cover}`;
+    img.src = `covers/collections/${collection.slug}.${collection.cover}?v=${collection.coverVersion || 0}`;
     img.alt = collection.name;
     cover.appendChild(img);
   } else {

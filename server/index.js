@@ -78,6 +78,7 @@ function publicGame(g) {
     title: g.title,
     description: g.description,
     cover: g.cover || null,
+    coverVersion: g.coverVersion || 0,
     tags: g.tags || [],
   };
 }
@@ -126,6 +127,7 @@ app.get("/api/collections", (req, res) => {
       name: c.name,
       description: c.description,
       cover: c.cover || null,
+      coverVersion: c.coverVersion || 0,
       count: c.games.length,
     }))
   );
@@ -226,6 +228,7 @@ app.post(
       file: filename,
       sizeBytes: file.buffer.length,
       cover: coverExt,
+      coverVersion: coverExt ? Date.now() : 0,
       tags,
     };
 
@@ -263,6 +266,7 @@ app.post(
     }
 
     game.cover = saveCover(COVERS_DIR, game.slug, req.file.buffer);
+    game.coverVersion = Date.now();
     saveCatalog(catalog);
     res.json(game);
   }
@@ -275,6 +279,24 @@ app.put("/api/admin/games/:slug/tags", auth.requireAdminApi, (req, res) => {
 
   const tags = Array.isArray(req.body.tags) ? req.body.tags : [];
   game.tags = [...new Set(tags.map((t) => String(t).trim().toLowerCase()).filter(Boolean))].sort();
+
+  saveCatalog(catalog);
+  res.json(game);
+});
+
+app.put("/api/admin/games/:slug", auth.requireAdminApi, (req, res) => {
+  const catalog = loadCatalog();
+  const game = catalog.find((g) => g.slug === req.params.slug);
+  if (!game) return res.status(404).json({ error: "game_not_found" });
+
+  if (typeof req.body.title === "string") {
+    const title = req.body.title.trim();
+    if (!title) return res.status(400).json({ error: "title_required" });
+    game.title = title;
+  }
+  if (typeof req.body.description === "string") {
+    game.description = req.body.description.trim();
+  }
 
   saveCatalog(catalog);
   res.json(game);
@@ -383,6 +405,7 @@ app.post(
     }
 
     collection.cover = saveCover(COLLECTION_COVERS_DIR, collection.slug, req.file.buffer);
+    collection.coverVersion = Date.now();
     saveCollections(collections);
     res.json(collection);
   }

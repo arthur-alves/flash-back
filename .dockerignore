@@ -1,8 +1,6 @@
 node_modules
-games/*.swf
+games/
 public/ruffle/*
-data/covers/*
-!data/covers/.gitkeep
-data/admin.json
+data/
 .git
 *.log

@@ -23,8 +23,9 @@ function buildCard(game) {
   cover.className = "card-cover";
 
   if (game.cover) {
+    cover.classList.add("has-image");
     const img = document.createElement("img");
-    img.src = `covers/${game.slug}.${game.cover}`;
+    img.src = `covers/${game.slug}.${game.cover}?v=${game.coverVersion || 0}`;
     img.alt = game.title;
     cover.appendChild(img);
   } else {
