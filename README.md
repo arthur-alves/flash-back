@@ -12,6 +12,18 @@ Self-hosted library of classic Flash games, played directly in the browser via [
 
 The library starts out empty. Add games yourself, either by uploading your own `.swf` files or by importing them from [Flashpoint Archive](https://flashpointarchive.org) right from the admin panel (see [Importing from Flashpoint Archive](#importing-from-flashpoint-archive) below).
 
+## Links
+
+| | |
+| --- | --- |
+| Source code | [github.com/arthur-alves/flash-back](https://github.com/arthur-alves/flash-back) |
+| Docker image | [hub.docker.com/r/junkatana/flashback](https://hub.docker.com/r/junkatana/flashback) |
+| Report an issue | [github.com/arthur-alves/flash-back/issues](https://github.com/arthur-alves/flash-back/issues) |
+| License | [MIT](LICENSE) |
+| Flashpoint Archive (game source) | [flashpointarchive.org](https://flashpointarchive.org) |
+| Ruffle (Flash emulator) | [ruffle.rs](https://ruffle.rs) |
+| Lucide (icons) | [lucide.dev](https://lucide.dev) |
+
 ## Features
 
 - **Browsable library** with live search, tag filters, and grid/list view toggle
