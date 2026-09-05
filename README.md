@@ -25,6 +25,12 @@ Game files are sourced from the community-maintained [AmmarSAA/flash-games-direc
 - **Simple JSON storage**: no database, easy to inspect/edit/back up by hand
 - Icons via inlined [Lucide](https://lucide.dev) SVGs (self-hosted, ISC license)
 
+## Screenshots
+
+| Library | Player | Admin |
+| --- | --- | --- |
+| ![Library](docs/screenshots/library.png) | ![Player](docs/screenshots/player.png) | ![Admin panel](docs/screenshots/admin.png) |
+
 ## Requirements
 
 - Node.js 18+
