@@ -167,13 +167,19 @@ The easiest way is the admin panel (`/admin`):
 
 ### Importing from Flashpoint Archive
 
-The admin panel also has an **Import from Flashpoint Archive** search box. Type a game name, and it searches [flashpointarchive.org](https://flashpointarchive.org) (a large Flash/web-game preservation project). For each result, it checks the entry's original "Launch Command" links (the URLs the game used to be hosted at, e.g. `miniclip.com`, `addictinggames.com`), and imports the game only if one of them still serves a real `.swf` file, validated with the same content check used for manual uploads.
+<p>
+  <img src="public/images/flashpoint-logo.png" alt="Flashpoint Archive logo" width="28" align="left" style="margin-right: 8px;" />
+  <a href="https://flashpointarchive.org"><b>Flashpoint Archive</b></a> is one of the largest web-game preservation efforts that exists: a free, non-profit, community-run project keeping well over 100,000 Flash, Shockwave, HTML5 and other legacy web games and animations playable long after the platforms they depended on disappeared. Without work like theirs, most of this era of web games would already be unrecoverable. FlashBack's admin panel can search their archive directly and, with real respect for the scale of what they've built, borrow only what it needs: a working link back to a game's original home.
+</p>
+
+The **Import from Flashpoint Archive** search box in `/admin` lets you type a game name; it searches [flashpointarchive.org](https://flashpointarchive.org/search) for matches. For each result, it reads the entry's original "Launch Command" links (the URLs the game used to be hosted at, e.g. `miniclip.com`, `addictinggames.com`) straight off Flashpoint's own [game pages](https://flashpointarchive.org/view?id=bda1e0d7-145f-4c64-b354-bafbc68ccb75), and imports the game only if one of them still serves a real `.swf` file, validated with the same content check used for manual uploads.
 
 A few things worth knowing:
 
-- Only entries tagged `Platform: Flash` on Flashpoint are importable; other platforms (HTML5, Shockwave, Unity, etc.) are rejected.
-- It deliberately does **not** use Flashpoint's own GameZIP mirrors, that would mean depending on an unofficial third-party site to resolve a working download URL. If none of a game's original links are still online, it's skipped rather than falling back to that.
-- Requests are always sequential (never parallel) with a real User-Agent and a short cooldown between searches/imports, so this can't be used to hammer flashpointarchive.org or the original third-party hosts it links to. It's a manual, one-game-at-a-time tool, not a bulk scraper.
+- Only entries tagged `Platform: Flash` on Flashpoint are importable; other platforms they preserve (HTML5, Shockwave, Unity, etc.) are outside this project's scope and are rejected.
+- It deliberately does **not** use Flashpoint's own GameZIP mirrors ([datahub docs](https://flashpointarchive.org/datahub/QEMU_GameZIP_Server)), which would mean depending on an unofficial third-party site to resolve a working download URL. If none of a game's original links are still online, the import is skipped rather than falling back to that, out of respect for infrastructure that isn't ours and wasn't built for this kind of external, automated use.
+- Requests are always sequential (never parallel), sent with a real, identifying User-Agent, and throttled by a short server-side cooldown between searches/imports, so this can't be used to hammer flashpointarchive.org or the original third-party hosts it links to. It's a manual, one-game-at-a-time tool, not a bulk scraper.
+- If you have games to contribute back, or just want to support the people doing this preservation work, see Flashpoint's [downloads page](https://flashpointarchive.org/downloads/) and [contributing guide](https://flashpointarchive.org/datahub/Extended_FAQ).
 
 You can also do it by hand: drop a `.swf` file into `games/`, then add an entry to `data/catalog.json`:
 
