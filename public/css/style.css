@@ -58,6 +58,7 @@ h1, h2, .card-title, .section-title, .collection-card-name {
 
 .topbar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
@@ -1203,4 +1204,34 @@ main {
   color: #fff;
   border-color: transparent;
   box-shadow: 0 0 calc(10px * var(--glow-strength) + 1px) rgba(var(--accent-rgb), var(--glow-strength));
+}
+
+/* Mobile: the topbar can carry a lot of controls (nav, capture, gamepad,
+   CRT, filters, fullscreen, profile, language, theme) — none of it fits on
+   a phone in one row. Letting it wrap (above) already kills the horizontal
+   scrollbar; this just tightens things up and centers the wrapped rows so
+   it doesn't look like an accident. */
+@media (max-width: 640px) {
+  .topbar {
+    padding: 12px 16px;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .topbar h1 {
+    flex: 1 1 100%;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+
+  .main-nav {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  .topbar select,
+  .topbar button {
+    font-size: 0.75rem;
+    padding: 6px 10px;
+  }
 }
