@@ -262,7 +262,12 @@ Saves are stored server-side as one JSON file per profile per game (`data/saves/
 
 Ruffle has no built-in gamepad support — it only understands standard keyboard events, same as any web page. The 🎮 button on the play page adds a bridge on top of it: it polls the browser's Gamepad API every frame and turns button presses into synthetic keyboard events, the same event type a real key press produces. This was verified directly (not assumed) by dispatching a synthetic `ArrowDown` at a moving Snake and watching it reverse into itself exactly like a real keypress would, then confirming the same code path fires from an actual (simulated) gamepad button.
 
-Since old Flash games never agreed on a control scheme, there's no single "correct" mapping to ship. Click a control's **Remap** button, then press the button you want on your actual controller — it's captured and bound automatically. Defaults (D-pad → arrow keys, the two main face buttons → Z/X, Start → Enter) follow the W3C "Standard Gamepad" layout most browsers normalize recognized controllers to, but every action can be rebound.
+Since old Flash games never agreed on a control scheme, there's no single "correct" mapping to ship — jump alone might be Z, X, S, Space or Ctrl depending on the game. Each action row has **two** independently remappable sides:
+
+- **Button**: press **Remap**, then press the physical button you want on your controller — captured automatically.
+- **Sends key**: press **Remap**, then press the actual keyboard key that game expects (e.g. `S` for jump in a game that uses it) — also captured directly, no need to know its key code.
+
+Defaults (D-pad → arrow keys, the two main face buttons → Z/X, Start → Enter) follow the W3C "Standard Gamepad" layout most browsers normalize recognized controllers to, but both sides of every action can be rebound to match whatever a specific game actually expects.
 
 Mappings are saved per game in the browser's `localStorage` (`flashback:gamepad:<slug>`), not synced across devices, since a controller's physical layout is a property of that device, not of a profile.
 

@@ -155,6 +155,41 @@ function describeControl(control) {
   return t("gamepad_button_label", { index: control.index });
 }
 
+function describeKey(key) {
+  if (!key) return "—";
+  return key.key === " " ? "Space" : key.key;
+}
+
+function buildRemapPair(labelText, currentText, waitingKey, onStart) {
+  const wrap = document.createElement("div");
+  wrap.className = "gamepad-row-pair";
+
+  const small = document.createElement("span");
+  small.className = "gamepad-row-pair-label";
+  small.textContent = labelText;
+
+  const valueEl = document.createElement("span");
+  valueEl.className = "gamepad-row-binding";
+  valueEl.textContent = currentText;
+
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "gamepad-row-remap-btn";
+  btn.textContent = t("gamepad_remap");
+  btn.addEventListener("click", () => {
+    btn.textContent = t(waitingKey);
+    btn.classList.add("waiting");
+    onStart((displayText) => {
+      valueEl.textContent = displayText;
+      btn.textContent = t("gamepad_remap");
+      btn.classList.remove("waiting");
+    });
+  });
+
+  wrap.append(small, valueEl, btn);
+  return wrap;
+}
+
 function renderGamepadRows() {
   gamepadRowsEl.innerHTML = "";
   if (!gamepadController) return;
@@ -167,27 +202,26 @@ function renderGamepadRows() {
     const label = document.createElement("span");
     label.className = "gamepad-row-label";
     label.textContent = t(`gamepad_action_${action}`);
+    row.appendChild(label);
 
-    const binding = document.createElement("span");
-    binding.className = "gamepad-row-binding";
-    binding.textContent = describeControl(mapping[action]);
+    row.appendChild(
+      buildRemapPair(t("gamepad_button_col"), describeControl(mapping[action].control), "gamepad_waiting_input", (done) => {
+        gamepadController.listenForNextInput((control) => {
+          gamepadController.setControl(action, control);
+          done(describeControl(control));
+        });
+      })
+    );
 
-    const remapBtn = document.createElement("button");
-    remapBtn.type = "button";
-    remapBtn.className = "gamepad-row-remap-btn";
-    remapBtn.textContent = t("gamepad_remap");
-    remapBtn.addEventListener("click", () => {
-      remapBtn.textContent = t("gamepad_waiting_input");
-      remapBtn.classList.add("waiting");
-      gamepadController.listenForNextInput((control) => {
-        gamepadController.setControl(action, control);
-        binding.textContent = describeControl(control);
-        remapBtn.textContent = t("gamepad_remap");
-        remapBtn.classList.remove("waiting");
-      });
-    });
+    row.appendChild(
+      buildRemapPair(t("gamepad_key_col"), describeKey(mapping[action].key), "gamepad_waiting_key_input", (done) => {
+        gamepadController.listenForNextKey((key) => {
+          gamepadController.setKey(action, key);
+          done(describeKey(key));
+        });
+      })
+    );
 
-    row.append(label, binding, remapBtn);
     gamepadRowsEl.appendChild(row);
   }
 }
