@@ -8,6 +8,7 @@ const { detectImageExt } = require("./lib/validateImage");
 const { slugify } = require("./lib/slugify");
 const auth = require("./lib/auth");
 const flashpoint = require("./lib/flashpoint");
+const profiles = require("./lib/profiles");
 
 const PORT = process.env.PORT || 4000;
 const MAX_UPLOAD_MB = Number(process.env.MAX_UPLOAD_MB || 200);
@@ -135,6 +136,50 @@ app.get("/api/tags", (req, res) => {
     .map(([tag, count]) => ({ tag, count }))
     .sort((a, b) => a.tag.localeCompare(b.tag));
   res.json(tags);
+});
+
+// ---- Profiles & saves ----
+// No password: a lightweight household profile picker (think Netflix/Steam
+// Family), so game saves can follow a person across every device in the
+// house instead of being stuck in one browser's localStorage. See
+// server/lib/profiles.js for the storage layer.
+
+app.get("/api/profiles", (req, res) => {
+  res.json(profiles.loadProfiles());
+});
+
+app.post("/api/profiles", (req, res) => {
+  const name = (req.body.name || "").trim();
+  if (!name) return res.status(400).json({ error: "name_required" });
+  if (name.length > 40) return res.status(400).json({ error: "name_too_long" });
+  res.status(201).json(profiles.createProfile(name));
+});
+
+app.get("/api/profiles/:profileId/saves/:gameSlug", (req, res) => {
+  if (!profiles.profileExists(req.params.profileId)) {
+    return res.status(404).json({ error: "profile_not_found" });
+  }
+  const data = profiles.getSave(req.params.profileId, req.params.gameSlug);
+  if (!data) return res.status(404).json({ error: "no_save" });
+  res.json({ data });
+});
+
+app.post("/api/profiles/:profileId/saves/:gameSlug", (req, res) => {
+  if (!profiles.profileExists(req.params.profileId)) {
+    return res.status(404).json({ error: "profile_not_found" });
+  }
+  const data = req.body.data;
+  if (!data || typeof data !== "object") {
+    return res.status(400).json({ error: "data_required" });
+  }
+  profiles.putSave(req.params.profileId, req.params.gameSlug, data);
+  res.json({ ok: true });
+});
+
+app.delete("/api/admin/profiles/:profileId", auth.requireAdminApi, (req, res) => {
+  const removed = profiles.deleteProfile(req.params.profileId);
+  if (!removed) return res.status(404).json({ error: "profile_not_found" });
+  res.json({ ok: true });
 });
 
 app.get("/api/collections", (req, res) => {

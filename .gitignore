@@ -6,6 +6,8 @@ data/covers/*
 data/admin.json
 data/catalog.json
 data/collections.json
+data/profiles.json
+data/saves/
 *.log
 .env
 volumes/

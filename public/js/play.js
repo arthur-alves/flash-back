@@ -7,6 +7,86 @@ const container = document.getElementById("player-container");
 
 let player = null;
 
+// ---- Cross-device saves (profile-based) ----
+// Ruffle writes Flash's SharedObject ("save") data straight into this
+// page's localStorage, under a key that embeds the game's own .swf
+// filename (e.g. "192.168.1.10/games/bloons-td-4.swf/btd4") — confirmed by
+// inspecting real keys in a browser, rather than guessing. Since the same
+// browser can have leftover keys from other games played earlier, we only
+// ever touch keys containing the CURRENT game's filename, never a blanket
+// "everything that isn't flashback:*" — otherwise loading one game's save
+// could wipe or upload another game's save sitting in the same
+// localStorage. Same-origin, so no special Ruffle API is needed to do this.
+const currentProfileId = getActiveProfileId();
+let currentGameFile = null;
+let lastSyncedSnapshot = "";
+
+function matchesCurrentGame(key) {
+  return !!currentGameFile && key.includes(currentGameFile);
+}
+
+function readSaveSnapshot() {
+  const snapshot = {};
+  for (const key of Object.keys(localStorage)) {
+    if (!matchesCurrentGame(key)) continue;
+    snapshot[key] = localStorage.getItem(key);
+  }
+  return snapshot;
+}
+
+function clearSaveKeys() {
+  for (const key of Object.keys(localStorage)) {
+    if (!matchesCurrentGame(key)) continue;
+    localStorage.removeItem(key);
+  }
+}
+
+async function loadSaveFromServer(profileId) {
+  if (!profileId || !slug || !currentGameFile) return;
+  clearSaveKeys(); // don't let another profile's leftover local data for this same game bleed in
+  try {
+    const res = await fetch(`/api/profiles/${encodeURIComponent(profileId)}/saves/${encodeURIComponent(slug)}`);
+    if (!res.ok) return;
+    const { data } = await res.json();
+    for (const [key, value] of Object.entries(data)) {
+      localStorage.setItem(key, value);
+    }
+    lastSyncedSnapshot = JSON.stringify(data);
+  } catch (err) {
+    // Offline or server hiccup — play with whatever's already local.
+  }
+}
+
+async function syncSaveToServer(profileId) {
+  if (!profileId || !slug || !currentGameFile) return;
+  const snapshot = readSaveSnapshot();
+  if (Object.keys(snapshot).length === 0) return;
+  const serialized = JSON.stringify(snapshot);
+  if (serialized === lastSyncedSnapshot) return;
+  lastSyncedSnapshot = serialized;
+  try {
+    await fetch(`/api/profiles/${encodeURIComponent(profileId)}/saves/${encodeURIComponent(slug)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ data: snapshot }),
+      keepalive: true,
+    });
+  } catch (err) {
+    // Best-effort — next periodic sync (or the next session) will retry.
+  }
+}
+
+window.addEventListener("flashback:profile-changed", async () => {
+  await syncSaveToServer(currentProfileId);
+  location.reload();
+});
+
+setInterval(() => syncSaveToServer(currentProfileId), 20000);
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") syncSaveToServer(currentProfileId);
+});
+window.addEventListener("pagehide", () => syncSaveToServer(currentProfileId));
+
 async function main() {
   if (!slug) {
     titleEl.textContent = t("game_not_specified");
@@ -23,6 +103,9 @@ async function main() {
   titleEl.textContent = game.title;
   document.title = `${game.title} — FlashBack`;
   descEl.textContent = game.description || "";
+
+  currentGameFile = game.file;
+  await loadSaveFromServer(currentProfileId);
 
   const ruffle = window.RufflePlayer.newest();
   player = ruffle.createPlayer();
@@ -232,6 +315,7 @@ captureCoverBtn.addEventListener("click", async () => {
 
 initThemeToggle(document.getElementById("theme-select"));
 initLangToggle(document.getElementById("lang-select"));
+initProfileToggle(document.getElementById("profile-select"));
 updateBackLink();
 updateFullscreenBtn();
 updateCaptureCoverBtn();
