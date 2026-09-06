@@ -821,6 +821,28 @@ main {
   cursor: pointer;
 }
 
+.cover-uploader-hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+.cover-uploader-hint .icon {
+  width: 22px;
+  height: 22px;
+}
+
+.cover-uploader:hover .cover-uploader-hint {
+  opacity: 1;
+}
+
 .cover-uploader:hover {
   outline: 2px solid var(--accent);
   box-shadow: 0 0 calc(10px * var(--glow-strength) + 1px) rgba(var(--accent-rgb), var(--glow-strength));

@@ -75,24 +75,44 @@ function renderGames() {
   }
 }
 
-function buildCoverUploader(game) {
+// Shared by game and collection cover uploaders: a thumbnail (image or a
+// color+initial placeholder) with a hidden file input on top, plus a
+// hover-revealed camera icon so it's obvious the thumbnail is clickable —
+// without it, it just looks like a plain, inert swatch of color.
+function buildCoverUploaderBase({ imageUrl, alt, initial, title }) {
   const wrap = document.createElement("div");
   wrap.className = "cover-uploader";
 
-  const thumb = document.createElement(game.cover ? "img" : "div");
+  const thumb = document.createElement(imageUrl ? "img" : "div");
   thumb.className = "cover-thumb";
-  if (game.cover) {
-    thumb.src = `covers/${game.slug}.${game.cover}?t=${Date.now()}`;
-    thumb.alt = game.title;
+  if (imageUrl) {
+    thumb.src = imageUrl;
+    thumb.alt = alt;
   } else {
-    thumb.textContent = game.title.slice(0, 1).toUpperCase();
+    thumb.textContent = initial;
   }
+
+  const hint = document.createElement("div");
+  hint.className = "cover-uploader-hint";
+  hint.innerHTML = iconSvg("camera");
 
   const input = document.createElement("input");
   input.type = "file";
   input.accept = ".jpg,.jpeg,.png,.webp";
   input.className = "cover-input";
-  input.title = t("change_cover_title");
+  input.title = title;
+
+  wrap.append(thumb, hint, input);
+  return { wrap, input };
+}
+
+function buildCoverUploader(game) {
+  const { wrap, input } = buildCoverUploaderBase({
+    imageUrl: game.cover ? `covers/${game.slug}.${game.cover}?t=${Date.now()}` : null,
+    alt: game.title,
+    initial: game.title.slice(0, 1).toUpperCase(),
+    title: t("change_cover_title"),
+  });
 
   input.addEventListener("change", async () => {
     if (!input.files[0]) return;
@@ -112,7 +132,6 @@ function buildCoverUploader(game) {
     }
   });
 
-  wrap.append(thumb, input);
   return wrap;
 }
 
@@ -336,23 +355,12 @@ function renderCollectionsList() {
 }
 
 function buildCollectionCoverUploader(collection) {
-  const wrap = document.createElement("div");
-  wrap.className = "cover-uploader";
-
-  const thumb = document.createElement(collection.cover ? "img" : "div");
-  thumb.className = "cover-thumb";
-  if (collection.cover) {
-    thumb.src = `covers/collections/${collection.slug}.${collection.cover}?t=${Date.now()}`;
-    thumb.alt = collection.name;
-  } else {
-    thumb.textContent = collection.name.slice(0, 1).toUpperCase();
-  }
-
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = ".jpg,.jpeg,.png,.webp";
-  input.className = "cover-input";
-  input.title = t("change_collection_cover_title");
+  const { wrap, input } = buildCoverUploaderBase({
+    imageUrl: collection.cover ? `covers/collections/${collection.slug}.${collection.cover}?t=${Date.now()}` : null,
+    alt: collection.name,
+    initial: collection.name.slice(0, 1).toUpperCase(),
+    title: t("change_collection_cover_title"),
+  });
 
   input.addEventListener("change", async () => {
     if (!input.files[0]) return;
@@ -372,7 +380,6 @@ function buildCollectionCoverUploader(collection) {
     }
   });
 
-  wrap.append(thumb, input);
   return wrap;
 }
 
