@@ -729,35 +729,45 @@ main {
 .upload-status.success { color: var(--success); }
 .upload-status.error { color: var(--danger); }
 
-.games-table-wrap {
-  overflow-x: auto;
-}
-
-.games-table {
-  width: 100%;
-  min-width: 900px;
-  border-collapse: collapse;
+.games-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   font-size: 0.85rem;
 }
 
-.games-table th,
-.games-table td {
-  text-align: left;
-  padding: 8px 6px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: top;
+.game-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 }
 
-.games-table th {
+.game-row-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.game-row-meta {
   color: var(--text-dim);
-  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.game-row-delete {
+  align-self: flex-start;
+  flex-shrink: 0;
 }
 
 .info-editor {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  min-width: 180px;
 }
 
 .info-editor .title-input {
@@ -784,8 +794,9 @@ main {
 
 .cover-uploader {
   position: relative;
-  width: 48px;
-  height: 48px;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
   border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
@@ -1021,7 +1032,8 @@ main {
 
 /* Admin: tags input in table */
 .tags-input {
-  width: 160px;
+  width: 100%;
+  max-width: 320px;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -1040,8 +1052,6 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  min-width: 180px;
-  max-width: 260px;
 }
 
 .collection-chip {

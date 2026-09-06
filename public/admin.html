@@ -94,22 +94,8 @@
 
     <section class="admin-panel">
       <h2 data-i18n="registered_games_heading">Registered games</h2>
-      <div class="games-table-wrap">
-        <table id="games-table" class="games-table">
-          <thead>
-            <tr>
-              <th data-i18n="th_cover">Cover</th>
-              <th data-i18n="th_title">Title</th>
-              <th data-i18n="th_file">File</th>
-              <th data-i18n="th_size">Size</th>
-              <th data-i18n="th_tags">Tags</th>
-              <th data-i18n="th_collections">Collections</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="games-table-body"></tbody>
-        </table>
-      </div>
+      <div id="games-list" class="games-list"></div>
+      <p id="games-empty" class="empty hidden" data-i18n="empty_games">No games found.</p>
     </section>
   </main>
 

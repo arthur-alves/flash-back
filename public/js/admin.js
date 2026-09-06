@@ -1,7 +1,8 @@
 const form = document.getElementById("upload-form");
 const statusEl = document.getElementById("upload-status");
 const submitBtn = document.getElementById("submit-btn");
-const tableBody = document.getElementById("games-table-body");
+const gamesListEl = document.getElementById("games-list");
+const gamesEmptyEl = document.getElementById("games-empty");
 
 const collectionForm = document.getElementById("collection-form");
 const collectionStatusEl = document.getElementById("collection-status");
@@ -42,37 +43,35 @@ async function loadGames() {
 }
 
 function renderGames() {
-  tableBody.innerHTML = "";
+  gamesListEl.innerHTML = "";
+  gamesEmptyEl.classList.toggle("hidden", allGames.length > 0);
+
   for (const game of allGames) {
-    const row = document.createElement("tr");
+    const card = document.createElement("div");
+    card.className = "game-row";
 
-    const coverCell = document.createElement("td");
-    coverCell.appendChild(buildCoverUploader(game));
+    card.appendChild(buildCoverUploader(game));
 
-    const titleCell = document.createElement("td");
-    titleCell.appendChild(buildInfoEditor(game));
+    const main = document.createElement("div");
+    main.className = "game-row-main";
+    main.appendChild(buildInfoEditor(game));
 
-    const fileCell = document.createElement("td");
-    fileCell.textContent = game.file;
+    const meta = document.createElement("div");
+    meta.className = "game-row-meta";
+    meta.textContent = `${game.file} · ${formatSize(game.sizeBytes || 0)}`;
+    main.appendChild(meta);
 
-    const sizeCell = document.createElement("td");
-    sizeCell.textContent = formatSize(game.sizeBytes || 0);
+    main.appendChild(buildTagsEditor(game));
+    main.appendChild(buildCollectionChips(game));
+    card.appendChild(main);
 
-    const tagsCell = document.createElement("td");
-    tagsCell.appendChild(buildTagsEditor(game));
-
-    const collectionsCell = document.createElement("td");
-    collectionsCell.appendChild(buildCollectionChips(game));
-
-    const actionsCell = document.createElement("td");
     const deleteBtn = document.createElement("button");
     deleteBtn.innerHTML = iconSvg("trash") + " " + t("remove_btn");
-    deleteBtn.className = "delete-btn";
+    deleteBtn.className = "delete-btn game-row-delete";
     deleteBtn.addEventListener("click", () => deleteGame(game.slug, game.title));
-    actionsCell.appendChild(deleteBtn);
+    card.appendChild(deleteBtn);
 
-    row.append(coverCell, titleCell, fileCell, sizeCell, tagsCell, collectionsCell, actionsCell);
-    tableBody.appendChild(row);
+    gamesListEl.appendChild(card);
   }
 }
 
