@@ -120,6 +120,102 @@ async function main() {
   // this problem, and these old Flash games don't need WebGL's extra
   // performance anyway.
   player.load({ url: `/games/${encodeURIComponent(game.file)}`, preferredRenderer: "canvas" });
+
+  initGamepad(game.slug);
+}
+
+// ---- Gamepad support ----
+// Ruffle has no built-in gamepad handling — it only listens for standard
+// keyboard events, like any web app. gamepad.js polls the Gamepad API and
+// turns button/axis presses into synthetic keydown/keyup events targeting
+// `document`, which is exactly what a real key press produces. Verified
+// against a real game before building the remap UI on top of it: a
+// synthetic ArrowDown reversed a moving Snake into itself, same as if the
+// key had actually been pressed.
+let gamepadController = null;
+
+const gamepadConfigBtn = document.getElementById("gamepad-config-btn");
+const gamepadPanel = document.getElementById("gamepad-panel");
+const gamepadStatusEl = document.getElementById("gamepad-status");
+const gamepadRowsEl = document.getElementById("gamepad-rows");
+const gamepadSaveBtn = document.getElementById("gamepad-save-btn");
+const gamepadResetBtn = document.getElementById("gamepad-reset-btn");
+const gamepadCloseBtn = document.getElementById("gamepad-close-btn");
+
+function initGamepad(gameSlug) {
+  gamepadController = createGamepadController(gameSlug, document);
+  gamepadController.start();
+  gamepadController.onConnectionChange((name) => {
+    gamepadStatusEl.textContent = name ? t("gamepad_connected", { name }) : t("gamepad_not_connected");
+  });
+}
+
+function describeControl(control) {
+  if (!control) return "—";
+  return t("gamepad_button_label", { index: control.index });
+}
+
+function renderGamepadRows() {
+  gamepadRowsEl.innerHTML = "";
+  if (!gamepadController) return;
+  const mapping = gamepadController.getMapping();
+
+  for (const action of GAMEPAD_ACTIONS) {
+    const row = document.createElement("div");
+    row.className = "gamepad-row";
+
+    const label = document.createElement("span");
+    label.className = "gamepad-row-label";
+    label.textContent = t(`gamepad_action_${action}`);
+
+    const binding = document.createElement("span");
+    binding.className = "gamepad-row-binding";
+    binding.textContent = describeControl(mapping[action]);
+
+    const remapBtn = document.createElement("button");
+    remapBtn.type = "button";
+    remapBtn.className = "gamepad-row-remap-btn";
+    remapBtn.textContent = t("gamepad_remap");
+    remapBtn.addEventListener("click", () => {
+      remapBtn.textContent = t("gamepad_waiting_input");
+      remapBtn.classList.add("waiting");
+      gamepadController.listenForNextInput((control) => {
+        gamepadController.setControl(action, control);
+        binding.textContent = describeControl(control);
+        remapBtn.textContent = t("gamepad_remap");
+        remapBtn.classList.remove("waiting");
+      });
+    });
+
+    row.append(label, binding, remapBtn);
+    gamepadRowsEl.appendChild(row);
+  }
+}
+
+gamepadConfigBtn.addEventListener("click", () => {
+  renderGamepadRows();
+  gamepadPanel.classList.remove("hidden");
+});
+
+gamepadCloseBtn.addEventListener("click", () => {
+  if (gamepadController) gamepadController.cancelListening();
+  gamepadPanel.classList.add("hidden");
+});
+
+gamepadSaveBtn.addEventListener("click", () => {
+  if (!gamepadController) return;
+  gamepadController.persist();
+  gamepadStatusEl.textContent = t("gamepad_saved");
+});
+
+gamepadResetBtn.addEventListener("click", () => {
+  if (!gamepadController) return;
+  gamepadController.resetToDefaults();
+  renderGamepadRows();
+});
+
+function updateGamepadConfigBtn() {
+  gamepadConfigBtn.innerHTML = "🎮";
 }
 
 function updateBackLink() {
@@ -322,6 +418,7 @@ updateCaptureCoverBtn();
 setCrt(localStorage.getItem(CRT_STORAGE_KEY) === "1");
 populatePixelFilterSelect();
 setPixelFilter(localStorage.getItem(FILTER_STORAGE_KEY) || "original");
+updateGamepadConfigBtn();
 
 function onLanguageChange() {
   updateBackLink();
@@ -329,6 +426,8 @@ function onLanguageChange() {
   updateCaptureCoverBtn();
   crtBtn.innerHTML = iconSvg("monitor") + " " + t("crt_button");
   populatePixelFilterSelect();
+  updateGamepadConfigBtn();
+  if (!gamepadPanel.classList.contains("hidden")) renderGamepadRows();
 }
 
 main();

@@ -32,6 +32,7 @@ The library starts out empty. Add games yourself, either by uploading your own `
 - **Fullscreen mode** and an optional **CRT scanline overlay**, handy for the many games shipped at very low native resolutions
 - **Pixel-art upscale filters** (2xSaI, HQ2X, xBR) via a small WebGL shader pipeline, one active at a time
 - **Cross-device saves**: pick a no-password household profile on the play page and game saves (Flash's `SharedObject`) follow you to any browser on the network, instead of being stuck on one device (see [Cross-device saves](#cross-device-saves) below)
+- **Gamepad support**: use a controller with games that only ever supported keyboard, with a per-game remap panel — since old Flash games never agreed on a control scheme (Z/X, A/S, Ctrl/Alt, arrows...), you press the button you want and pick what key it becomes (see [Gamepad support](#gamepad-support) below)
 - **Swappable themes** via plain CSS files (see [THEMES.md](THEMES.md)), ships with Dark Neon, Light Neon, Geo (Y2K) and NES (8-bit)
 - **Multi-language UI** (English default, Portuguese included) via a small dictionary-based i18n system (see [LANGUAGES.md](LANGUAGES.md))
 - **Admin panel** to upload your own `.swf` games and cover art, protected by a real login (not the browser's native Basic Auth popup)
@@ -256,6 +257,14 @@ Flash's `SharedObject` (its save/cookie mechanism) is what Ruffle uses for game 
 This works without needing any special API from Ruffle: since FlashBack and the Ruffle player are same-origin, the save data can be read directly out of `localStorage`. Only keys containing the current game's own filename are ever touched (confirmed by inspecting real keys Ruffle writes, e.g. `<host>/games/bloons-td-4.swf/btd4`), so other games' saves sitting in the same browser are never mixed in or overwritten.
 
 Saves are stored server-side as one JSON file per profile per game (`data/saves/<profile>/<game-slug>.json`), same philosophy as the rest of the project's storage. If you never pick a profile, nothing changes: saves just stay local to that browser, like before.
+
+## Gamepad support
+
+Ruffle has no built-in gamepad support — it only understands standard keyboard events, same as any web page. The 🎮 button on the play page adds a bridge on top of it: it polls the browser's Gamepad API every frame and turns button presses into synthetic keyboard events, the same event type a real key press produces. This was verified directly (not assumed) by dispatching a synthetic `ArrowDown` at a moving Snake and watching it reverse into itself exactly like a real keypress would, then confirming the same code path fires from an actual (simulated) gamepad button.
+
+Since old Flash games never agreed on a control scheme, there's no single "correct" mapping to ship. Click a control's **Remap** button, then press the button you want on your actual controller — it's captured and bound automatically. Defaults (D-pad → arrow keys, the two main face buttons → Z/X, Start → Enter) follow the W3C "Standard Gamepad" layout most browsers normalize recognized controllers to, but every action can be rebound.
+
+Mappings are saved per game in the browser's `localStorage` (`flashback:gamepad:<slug>`), not synced across devices, since a controller's physical layout is a property of that device, not of a profile.
 
 ## Environment variables
 

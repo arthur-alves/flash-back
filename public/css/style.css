@@ -920,6 +920,99 @@ main {
   border-radius: 50%;
 }
 
+.gamepad-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.gamepad-panel.hidden {
+  display: none;
+}
+
+.gamepad-panel-inner {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  width: min(480px, 92vw);
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 0 calc(30px * var(--glow-strength) + 6px) rgba(var(--accent-rgb), calc(var(--glow-strength) * 0.6));
+}
+
+.gamepad-status {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+
+.gamepad-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gamepad-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.gamepad-row-label {
+  flex: 1;
+  font-weight: 600;
+}
+
+.gamepad-row-binding {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  min-width: 90px;
+  text-align: right;
+}
+
+.gamepad-row-remap-btn {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.gamepad-row-remap-btn.waiting {
+  background: var(--accent);
+  color: #fff;
+  animation: pulse-remap 1s ease-in-out infinite;
+}
+
+@keyframes pulse-remap {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.gamepad-panel-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.gamepad-panel-actions button {
+  flex: 1;
+  min-width: 120px;
+}
+
 .flashpoint-note {
   font-size: 0.8rem;
   color: var(--text-dim);

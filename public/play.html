@@ -26,6 +26,7 @@
       <a href="collections" data-i18n="nav_collections">Collections</a>
     </nav>
     <button id="capture-cover-btn" class="crt-btn" data-i18n-title="capture_cover_title" title="Capture a screenshot from the game as its cover"></button>
+    <button id="gamepad-config-btn" class="crt-btn" data-i18n-title="gamepad_config_title" title="Configure gamepad"></button>
     <button id="crt-btn" class="crt-btn" data-i18n-title="crt_effect_title" title="CRT effect"></button>
     <select id="pixel-filter-select" class="theme-select" data-i18n-title="pixel_filter_title" title="Pixel filter"></select>
     <button id="fullscreen-btn" class="fullscreen-btn" data-i18n-title="fullscreen_title" title="Fullscreen"></button>
@@ -42,6 +43,19 @@
     <p id="game-description" class="game-description"></p>
   </main>
 
+  <div id="gamepad-panel" class="gamepad-panel hidden">
+    <div class="gamepad-panel-inner">
+      <h2 data-i18n="gamepad_panel_title">🎮 Configure gamepad</h2>
+      <p id="gamepad-status" class="gamepad-status" data-i18n="gamepad_not_connected">No gamepad detected. Press any button on it to activate.</p>
+      <div id="gamepad-rows" class="gamepad-rows"></div>
+      <div class="gamepad-panel-actions">
+        <button id="gamepad-reset-btn" type="button" data-i18n="gamepad_reset">Reset to defaults</button>
+        <button id="gamepad-save-btn" type="button" class="fullscreen-btn" data-i18n="gamepad_save">Save configuration</button>
+        <button id="gamepad-close-btn" type="button" data-i18n="gamepad_close">Close</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="footer">
     <p><a href="admin" data-i18n="admin_link">Administration</a></p>
   </footer>
@@ -52,6 +66,7 @@
   <script src="js/i18n.js"></script>
   <script src="js/profiles.js"></script>
   <script src="js/pixelfilters.js"></script>
+  <script src="js/gamepad.js"></script>
   <script src="js/play.js"></script>
 </body>
 </html>
