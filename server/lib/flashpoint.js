@@ -109,6 +109,12 @@ function tryImportSlot() {
   return wait;
 }
 
+// Flashpoint's own image CDN, keyed off the entry's UUID — no search or
+// detail-page scraping needed to find it, the URL is always this shape.
+function logoUrl(id) {
+  return `https://infinity.unstable.life/images/Logos/${id.slice(0, 2)}/${id.slice(2, 4)}/${id}.png?type=jpg`;
+}
+
 // The search results page already labels each entry's type ("Flash game",
 // "Flash animation", "HTML5 game", "Unity game", "Java game", ...) right in
 // the markup — filtering on that costs nothing extra (no additional
@@ -138,7 +144,7 @@ async function search(query) {
       id,
       title: decodeEntities(titleMatch[2]),
       type,
-      logo: `https://infinity.unstable.life/images/Logos/${id.slice(0, 2)}/${id.slice(2, 4)}/${id}.png?type=jpg`,
+      logo: logoUrl(id),
     });
   }
   return results;
@@ -196,4 +202,16 @@ async function fetchFirstValidSwf(candidateUrls) {
   return null;
 }
 
-module.exports = { search, getEntry, fetchFirstValidSwf, trySearchSlot, tryImportSlot };
+// Best-effort fetch of the entry's logo/cover image from Flashpoint's own
+// image CDN (not a third-party host, so this doesn't need the same
+// candidate-list/fallback treatment as the .swf itself). Returns null on
+// any failure — a missing cover is never a reason to fail the import.
+async function fetchLogo(id) {
+  try {
+    return await fetchBuffer(logoUrl(id));
+  } catch (err) {
+    return null;
+  }
+}
+
+module.exports = { search, getEntry, fetchFirstValidSwf, fetchLogo, trySearchSlot, tryImportSlot };

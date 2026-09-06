@@ -312,14 +312,17 @@ app.post("/api/admin/flashpoint/import", auth.requireAdminApi, async (req, res) 
   fs.mkdirSync(GAMES_DIR, { recursive: true });
   fs.writeFileSync(path.join(GAMES_DIR, filename), found.buffer);
 
+  const logoBuffer = await flashpoint.fetchLogo(id);
+  const coverExt = logoBuffer && detectImageExt(logoBuffer) ? saveCover(COVERS_DIR, slug, logoBuffer) : null;
+
   const newEntry = {
     slug,
     title,
     description: entry.description || "",
     file: filename,
     sizeBytes: found.buffer.length,
-    cover: null,
-    coverVersion: 0,
+    cover: coverExt,
+    coverVersion: coverExt ? Date.now() : 0,
     tags: [],
   };
 
