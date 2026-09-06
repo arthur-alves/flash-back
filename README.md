@@ -45,6 +45,12 @@ The library starts out empty. Add games yourself, either by uploading your own `
 | --- | --- | --- |
 | ![Library](docs/screenshots/library.png) | ![Player](docs/screenshots/player.png) | ![Admin panel](docs/screenshots/admin.png) |
 
+## Walkthrough
+
+A step-by-step tour of the main things you can do, annotated screenshot by screenshot: searching the library, playing a game, picking a pixel-art filter, and importing a game from Flashpoint Archive in the admin panel.
+
+![Walkthrough](docs/tutorial/tutorial.gif)
+
 ## Requirements
 
 - Node.js 18+
