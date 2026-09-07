@@ -634,7 +634,12 @@ async function importFromFlashpoint(id, button) {
     const data = await res.json();
 
     if (res.ok) {
-      button.innerHTML = iconSvg("save") + " " + t("flashpoint_imported");
+      button.innerHTML =
+        iconSvg("save") +
+        " " +
+        (data.sidecarAssets && data.sidecarAssets.length > 0
+          ? t("flashpoint_imported_with_assets", { count: data.sidecarAssets.length })
+          : t("flashpoint_imported"));
       loadGames();
     } else {
       button.disabled = false;

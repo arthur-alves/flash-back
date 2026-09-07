@@ -196,11 +196,11 @@ The easiest way is the admin panel (`/admin`):
 
 ### Games that need extra files
 
-Some Flash games fetch a sidecar file at runtime — an XML config, a level list — from the same directory as their `.swf`, rather than embedding everything in the movie itself. Since importing only ever grabs the single `.swf`, those games fail with a missing-file error until that sidecar file is added by hand.
+Some Flash games fetch a sidecar file at runtime — an XML config, a level list — from the same directory as their `.swf`, rather than embedding everything in the movie itself.
 
-To find out what's missing, the file is usually still referenced by name inside the `.swf` itself (as a plain string, since it's just a URL the movie fetches) — e.g. `strings` a decompressed copy of it and grep for `.xml`. If the original host is still up, the file is often still there too, at the same URL structure as the `.swf` you found it in.
+Importing from Flashpoint Archive tries to handle this automatically: it decompresses the downloaded `.swf`, scans it for filename-shaped strings ending in `.xml`/`.json`/`.csv`/`.txt`/`.dat`, and tries fetching each one from the same directory the `.swf` itself came from. Anything that comes back as real data (not a 404, not a soft-404 HTML error page) is saved alongside the game automatically — confirmed working end-to-end on *Zuma's Revenge!*, which needs `data.xml` and `levels.xml` this way. It's a best-effort heuristic, not a guarantee: some movies are LZMA-compressed (skipped, not worth a dependency), the filename might not appear as a plain string, or the file might already be gone from the original host.
 
-Once you have it, upload it under **Extra files** for that game in the admin panel — filename has to match exactly what the movie asks for. It gets served at `/game-assets/<slug>/<filename>` and Ruffle's `base` load option is set per-game to that folder, so relative loads inside the movie resolve there instead of a shared `/games/` directory (where two different games' same-named `data.xml` would otherwise collide).
+If a game still fails with a missing-file error after import (or wasn't imported through Flashpoint at all), the same fix is available by hand: the filename is usually still visible inside the `.swf` itself (`strings` a decompressed copy of it and grep for the extension), and if the original host is still up, the file is often still there too. Upload it under **Extra files** for that game in the admin panel — filename has to match exactly what the movie asks for. It gets served at `/game-assets/<slug>/<filename>`, and Ruffle's `base` load option is set per-game to that folder, so relative loads inside the movie resolve there instead of a shared `/games/` directory (where two different games' same-named `data.xml` would otherwise collide).
 
 ### Importing from Flashpoint Archive
 

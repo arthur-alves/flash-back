@@ -14,6 +14,7 @@
 // triggered, one-game-at-a-time tool — not a bulk scraper.
 const https = require("https");
 const http = require("http");
+const zlib = require("zlib");
 const { isValidSwf } = require("./validateSwf");
 
 const USER_AGENT = "FlashBack/1.0 (+https://github.com/arthur-alves/flash-back) game importer";
@@ -202,6 +203,84 @@ async function fetchFirstValidSwf(candidateUrls) {
   return null;
 }
 
+// Some Flash games load a sidecar file (XML config, level list, ...) next
+// to their .swf at runtime, via a plain string URL baked into the movie's
+// own bytecode/data — found this concretely on Zuma's Revenge! by
+// decompressing its .swf and grepping the result for ".xml". This automates
+// exactly that manual process: decompress (if the movie is zlib-compressed,
+// signature "CWS" — LZMA-compressed "ZWS" movies are skipped, uncommon for
+// web-era content and not worth a dependency), scan for filename-shaped
+// strings with a data-file extension, then try fetching each one from the
+// same directory the working .swf came from. Anything that isn't a real
+// 200 response, or looks like an HTML error/parking page instead of real
+// data (some dead hosts soft-404 with a 200 status), is discarded — a
+// missing sidecar file is never a reason to fail the import, same as a
+// missing cover.
+// Ordered by how likely a match is to be a real externally-fetched sidecar
+// file rather than a false positive. XML/JSON/CSV/TXT are almost always
+// real config/data files; .dat shows up constantly as internal SWF library
+// symbol names (e.g. embedded clip linkage IDs) that just happen to match
+// the "name.ext" pattern without ever being an HTTP request — confirmed on
+// Zuma's Revenge!, whose decompressed .swf contains two dozen "levelNa.dat"
+// library symbols alongside the two real files, "data.xml" and
+// "levels.xml". Trying extensions in this order means the real ones get
+// requested even when outnumbered by that kind of noise, without needing
+// an unbounded number of requests to a third-party host.
+const SIDECAR_EXTENSIONS_PRIORITY = ["xml", "json", "csv", "txt", "dat"];
+const SIDECAR_FILENAME_RE = new RegExp(`[A-Za-z0-9_\\-]{2,40}\\.(?:${SIDECAR_EXTENSIONS_PRIORITY.join("|")})`, "g");
+const MAX_SIDECAR_CANDIDATES = 10;
+
+function findSidecarCandidates(swfBuffer) {
+  const signature = swfBuffer.toString("ascii", 0, 3);
+  let body = swfBuffer;
+
+  if (signature === "CWS") {
+    try {
+      body = zlib.inflateSync(swfBuffer.subarray(8));
+    } catch (err) {
+      return [];
+    }
+  } else if (signature !== "FWS") {
+    return []; // ZWS (LZMA) or not a recognizable SWF at all.
+  }
+
+  const text = body.toString("latin1");
+  const matches = text.match(SIDECAR_FILENAME_RE) || [];
+  const unique = [...new Set(matches)];
+
+  const extRank = (name) => SIDECAR_EXTENSIONS_PRIORITY.indexOf(name.slice(name.lastIndexOf(".") + 1));
+  unique.sort((a, b) => extRank(a) - extRank(b));
+
+  return unique.slice(0, MAX_SIDECAR_CANDIDATES);
+}
+
+function looksLikeErrorPage(buffer) {
+  const head = buffer.subarray(0, 256).toString("latin1").trim().toLowerCase();
+  return head.startsWith("<!doctype html") || head.startsWith("<html");
+}
+
+async function fetchSidecarAssets(swfBuffer, sourceUrl) {
+  const candidates = findSidecarCandidates(swfBuffer);
+  if (candidates.length === 0) return [];
+
+  const baseUrl = sourceUrl.slice(0, sourceUrl.lastIndexOf("/") + 1);
+  const found = [];
+
+  for (let i = 0; i < candidates.length; i++) {
+    if (i > 0) await sleep(BETWEEN_REQUESTS_DELAY_MS);
+    try {
+      const buffer = await fetchBuffer(baseUrl + candidates[i]);
+      if (buffer.length > 0 && !looksLikeErrorPage(buffer)) {
+        found.push({ filename: candidates[i], buffer });
+      }
+    } catch (err) {
+      // Doesn't exist / dead link — just not a real sidecar file, skip it.
+    }
+  }
+
+  return found;
+}
+
 // Best-effort fetch of the entry's logo/cover image from Flashpoint's own
 // image CDN (not a third-party host, so this doesn't need the same
 // candidate-list/fallback treatment as the .swf itself). Returns null on
@@ -214,4 +293,12 @@ async function fetchLogo(id) {
   }
 }
 
-module.exports = { search, getEntry, fetchFirstValidSwf, fetchLogo, trySearchSlot, tryImportSlot };
+module.exports = {
+  search,
+  getEntry,
+  fetchFirstValidSwf,
+  fetchLogo,
+  fetchSidecarAssets,
+  trySearchSlot,
+  tryImportSlot,
+};

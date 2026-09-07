@@ -361,6 +361,24 @@ app.post("/api/admin/flashpoint/import", auth.requireAdminApi, async (req, res) 
   const logoBuffer = await flashpoint.fetchLogo(id);
   const coverExt = logoBuffer && detectImageExt(logoBuffer) ? saveCover(COVERS_DIR, slug, logoBuffer) : null;
 
+  // Best-effort: some games need a sidecar file (XML config, level list...)
+  // fetched from the same directory as their .swf at runtime. A missing one
+  // never blocks the import — it just means the admin may need to add it
+  // by hand later via "Extra files" if the game turns out to need it.
+  let sidecarAssets = [];
+  try {
+    sidecarAssets = await flashpoint.fetchSidecarAssets(found.buffer, found.sourceUrl);
+  } catch (err) {
+    // Non-fatal — proceed without any sidecar assets.
+  }
+  if (sidecarAssets.length > 0) {
+    const assetsDir = gameAssetsDir(slug);
+    fs.mkdirSync(assetsDir, { recursive: true });
+    for (const asset of sidecarAssets) {
+      fs.writeFileSync(path.join(assetsDir, asset.filename), asset.buffer);
+    }
+  }
+
   const newEntry = {
     slug,
     title,
@@ -376,7 +394,7 @@ app.post("/api/admin/flashpoint/import", auth.requireAdminApi, async (req, res) 
   catalog.sort((a, b) => a.title.localeCompare(b.title));
   saveCatalog(catalog);
 
-  res.status(201).json(newEntry);
+  res.status(201).json({ ...newEntry, sidecarAssets: sidecarAssets.map((a) => a.filename) });
 });
 
 app.post(
