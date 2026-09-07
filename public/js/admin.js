@@ -181,7 +181,22 @@ function buildInfoEditor(game) {
     save({ description: descInput.value }, () => (descInput.value = game.description || ""));
   });
 
-  wrap.append(titleInput, descInput);
+  const rendererLabel = document.createElement("label");
+  rendererLabel.className = "renderer-toggle";
+  rendererLabel.title = t("renderer_toggle_hint");
+
+  const rendererCheckbox = document.createElement("input");
+  rendererCheckbox.type = "checkbox";
+  rendererCheckbox.checked = game.renderer === "auto";
+
+  rendererLabel.append(rendererCheckbox, document.createTextNode(" " + t("renderer_toggle_label")));
+
+  rendererCheckbox.addEventListener("change", () => {
+    const newRenderer = rendererCheckbox.checked ? "auto" : "canvas";
+    save({ renderer: newRenderer }, () => (rendererCheckbox.checked = game.renderer === "auto"));
+  });
+
+  wrap.append(titleInput, descInput, rendererLabel);
   return wrap;
 }
 

@@ -113,12 +113,23 @@ async function main() {
   player.style.height = "100%";
   container.appendChild(player);
 
-  // Forces the 2D canvas renderer instead of WebGL. WebGL's drawing buffer
-  // isn't guaranteed to persist between frames (preserveDrawingBuffer is
-  // off by default for performance), so a cover capture taken with
-  // canvas.toBlob() can come out solid black. The 2D canvas doesn't have
-  // this problem, and these old Flash games don't need WebGL's extra
-  // performance anyway.
+  // Defaults to the 2D canvas renderer instead of WebGL. WebGL's drawing
+  // buffer isn't guaranteed to persist between frames (preserveDrawingBuffer
+  // is off by default, and Ruffle doesn't expose a way to turn it on), so a
+  // cover capture taken with canvas.toBlob() can come out solid black. The
+  // 2D canvas doesn't have this problem, and most Flash games don't need
+  // WebGL's extra rendering features.
+  //
+  // Some games genuinely do need it, though — anything using
+  // BitmapData.draw() (confirmed on Canabalt: forcing canvas rendered a
+  // fully blank screen, "Render backend does not support BitmapData.draw"
+  // every frame; switching to the default/auto-selected renderer fixed it
+  // completely). Reloading the movie with a different renderer just to
+  // capture a cover isn't an option either — that would reset the game back
+  // to its start, defeating the point of capturing whatever's currently on
+  // screen. So instead: `game.renderer === "auto"` is a per-game opt-out an
+  // admin can flip (see admin.js) for the rare game that needs it, at the
+  // cost of in-game cover capture possibly not working for that title.
   //
   // `base` points relative loads inside the movie (some games fetch a
   // sidecar XML/data file next to their .swf at runtime) at this game's
@@ -128,7 +139,7 @@ async function main() {
   // something under "Extra files" for this game.
   player.load({
     url: `/games/${encodeURIComponent(game.file)}`,
-    preferredRenderer: "canvas",
+    ...(game.renderer === "auto" ? {} : { preferredRenderer: "canvas" }),
     base: `${location.origin}/game-assets/${encodeURIComponent(game.slug)}/`,
   });
 

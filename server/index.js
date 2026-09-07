@@ -454,6 +454,9 @@ app.put("/api/admin/games/:slug", auth.requireAdminApi, (req, res) => {
   if (typeof req.body.description === "string") {
     game.description = req.body.description.trim();
   }
+  if (req.body.renderer === "auto" || req.body.renderer === "canvas") {
+    game.renderer = req.body.renderer;
+  }
 
   saveCatalog(catalog);
   res.json(game);

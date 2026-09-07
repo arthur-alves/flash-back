@@ -780,7 +780,7 @@ main {
   color: var(--text-dim);
 }
 
-.info-editor input {
+.info-editor input[type="text"] {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -789,8 +789,22 @@ main {
   width: 100%;
 }
 
-.info-editor input:focus {
+.info-editor input[type="text"]:focus {
   outline: 2px solid var(--accent);
+}
+
+.renderer-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  width: fit-content;
+}
+
+.renderer-toggle input {
+  cursor: pointer;
 }
 
 .cover-uploader {

@@ -192,7 +192,18 @@ The easiest way is the admin panel (`/admin`):
    - Edit tags directly in the text field (comma-separated)
    - Toggle collection membership via the chip buttons
    - Upload **extra files** it needs alongside its `.swf` (see below)
+   - Toggle **Needs WebGL** if the game shows a blank screen (see below)
    - Remove the game entirely (deletes the file + its cover from disk too)
+
+### Games that need WebGL
+
+The player defaults to Ruffle's 2D canvas renderer rather than WebGL, so in-game cover capture works reliably (WebGL's drawing buffer isn't guaranteed to persist between frames, and Ruffle doesn't expose a way to change that — a capture taken right after a WebGL frame renders can come out solid black). Most Flash games never notice the difference.
+
+Some do, though: anything using `BitmapData.draw()` needs a real GPU-backed renderer. Confirmed on *Canabalt*, which rendered a fully blank screen on canvas (`Render backend does not support BitmapData.draw` in the console every frame) and worked correctly once switched over. If a game you add shows a blank/black screen, check **Needs WebGL** for it in the admin panel — the trade-off is that in-game cover capture may stop working for that specific title, so consider setting its cover manually via upload instead.
+
+### Games that just won't run
+
+Not everything is fixable. Some old ad-supported games (confirmed on *Don't Look Back*) hang on a black screen waiting for a preroll ad from a network like `mochiads.com` — Ruffle deliberately blocks those hosts, and that's not something this project turns off; ad/tracking network blocking is a feature, not a bug. If a game depends on that kind of resource to even start, it's simply not going to work here.
 
 ### Games that need extra files
 
