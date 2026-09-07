@@ -8,6 +8,7 @@ data/catalog.json
 data/collections.json
 data/profiles.json
 data/saves/
+data/game-assets/
 *.log
 .env
 volumes/

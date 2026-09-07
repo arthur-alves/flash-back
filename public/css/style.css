@@ -1175,6 +1175,72 @@ main {
 }
 
 /* Admin: collection chips per game row */
+.assets-editor {
+  border-top: 1px dashed var(--border);
+  padding-top: 8px;
+  margin-top: 4px;
+}
+
+.assets-editor-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.assets-editor-label {
+  font-weight: 600;
+  cursor: help;
+  border-bottom: 1px dotted var(--text-dim);
+}
+
+.assets-input {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  max-width: 220px;
+}
+
+.assets-list {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.assets-list-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 6px 3px 10px;
+  font-size: 0.75rem;
+}
+
+.assets-empty {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.asset-delete-btn {
+  background: transparent;
+  border: none;
+  color: var(--danger);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+}
+
+.asset-delete-btn .icon {
+  width: 14px;
+  height: 14px;
+}
+
 .collection-chips {
   display: flex;
   flex-wrap: wrap;

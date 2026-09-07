@@ -130,6 +130,10 @@ const TRANSLATIONS = {
     add_to_collection_title: 'Add to "{name}"',
 
     error_uploading_cover: "Error uploading cover.",
+    label_extra_files: "Extra files",
+    extra_files_hint: "For games that fail with a missing file error — some load a sidecar XML/data file next to their .swf at runtime. Upload it here with its exact original filename.",
+    no_extra_files: "No extra files.",
+    error_uploading_assets: "Error uploading file(s).",
     description_placeholder: "Description",
     error_saving_game_info: "Error saving game info.",
     flashpoint_heading: "Import from Flashpoint Archive",
@@ -309,6 +313,10 @@ const TRANSLATIONS = {
     add_to_collection_title: 'Adicionar a "{name}"',
 
     error_uploading_cover: "Erro ao enviar a capa.",
+    label_extra_files: "Arquivos extras",
+    extra_files_hint: "Pra jogos que dão erro de arquivo faltando — alguns carregam um XML/dado extra junto do .swf em tempo real. Suba aqui com o nome original exato do arquivo.",
+    no_extra_files: "Nenhum arquivo extra.",
+    error_uploading_assets: "Erro ao enviar arquivo(s).",
     description_placeholder: "Descrição",
     error_saving_game_info: "Erro ao salvar as informações do jogo.",
     flashpoint_heading: "Importar do Flashpoint Archive",

@@ -63,6 +63,7 @@ function renderGames() {
 
     main.appendChild(buildTagsEditor(game));
     main.appendChild(buildCollectionChips(game));
+    main.appendChild(buildAssetsEditor(game));
     card.appendChild(main);
 
     const deleteBtn = document.createElement("button");
@@ -260,6 +261,94 @@ function buildCollectionChips(game) {
     wrap.appendChild(chip);
   }
 
+  return wrap;
+}
+
+// Some Flash games load a sidecar file (an XML config, a level list...) at
+// runtime, next to their .swf — not embedded in the movie, a separate
+// request. The importer/uploader only ever handles the single .swf, so
+// this is where an admin can attach whatever else that specific game
+// needs by hand. See server/index.js's /game-assets static route and
+// play.js's `base` load option for how these actually get served to it.
+function buildAssetsEditor(game) {
+  const wrap = document.createElement("div");
+  wrap.className = "assets-editor";
+
+  const header = document.createElement("div");
+  header.className = "assets-editor-header";
+
+  const label = document.createElement("span");
+  label.className = "assets-editor-label";
+  label.textContent = t("label_extra_files");
+  label.title = t("extra_files_hint");
+
+  const input = document.createElement("input");
+  input.type = "file";
+  input.multiple = true;
+  input.className = "assets-input";
+
+  header.append(label, input);
+  wrap.appendChild(header);
+
+  const list = document.createElement("ul");
+  list.className = "assets-list";
+  wrap.appendChild(list);
+
+  async function refresh() {
+    const res = await af(`/api/admin/games/${encodeURIComponent(game.slug)}/assets`);
+    const files = res.ok ? await res.json() : [];
+    list.innerHTML = "";
+
+    if (files.length === 0) {
+      const empty = document.createElement("li");
+      empty.className = "assets-empty";
+      empty.textContent = t("no_extra_files");
+      list.appendChild(empty);
+      return;
+    }
+
+    for (const filename of files) {
+      const li = document.createElement("li");
+      li.className = "assets-list-item";
+
+      const name = document.createElement("span");
+      name.textContent = filename;
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.type = "button";
+      deleteBtn.className = "asset-delete-btn";
+      deleteBtn.innerHTML = iconSvg("trash");
+      deleteBtn.title = t("remove_btn");
+      deleteBtn.addEventListener("click", async () => {
+        await af(`/api/admin/games/${encodeURIComponent(game.slug)}/assets/${encodeURIComponent(filename)}`, {
+          method: "DELETE",
+        });
+        refresh();
+      });
+
+      li.append(name, deleteBtn);
+      list.appendChild(li);
+    }
+  }
+
+  input.addEventListener("change", async () => {
+    if (!input.files.length) return;
+    const formData = new FormData();
+    for (const file of input.files) formData.append("files", file);
+
+    const res = await af(`/api/admin/games/${encodeURIComponent(game.slug)}/assets`, {
+      method: "POST",
+      body: formData,
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      alert(data.error ? tError(data.error) : t("error_uploading_assets"));
+    }
+    input.value = "";
+    refresh();
+  });
+
+  refresh();
   return wrap;
 }
 

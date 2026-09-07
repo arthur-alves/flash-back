@@ -119,7 +119,18 @@ async function main() {
   // canvas.toBlob() can come out solid black. The 2D canvas doesn't have
   // this problem, and these old Flash games don't need WebGL's extra
   // performance anyway.
-  player.load({ url: `/games/${encodeURIComponent(game.file)}`, preferredRenderer: "canvas" });
+  //
+  // `base` points relative loads inside the movie (some games fetch a
+  // sidecar XML/data file next to their .swf at runtime) at this game's
+  // own asset folder instead of the shared /games/ directory, so two
+  // different games that both happen to load e.g. "data.xml" can't
+  // collide. Empty by default — only populated if an admin uploads
+  // something under "Extra files" for this game.
+  player.load({
+    url: `/games/${encodeURIComponent(game.file)}`,
+    preferredRenderer: "canvas",
+    base: `${location.origin}/game-assets/${encodeURIComponent(game.slug)}/`,
+  });
 
   initGamepad(game.slug);
 }

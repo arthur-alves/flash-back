@@ -191,7 +191,16 @@ The easiest way is the admin panel (`/admin`):
    - Click the cover thumbnail to upload/replace it
    - Edit tags directly in the text field (comma-separated)
    - Toggle collection membership via the chip buttons
+   - Upload **extra files** it needs alongside its `.swf` (see below)
    - Remove the game entirely (deletes the file + its cover from disk too)
+
+### Games that need extra files
+
+Some Flash games fetch a sidecar file at runtime — an XML config, a level list — from the same directory as their `.swf`, rather than embedding everything in the movie itself. Since importing only ever grabs the single `.swf`, those games fail with a missing-file error until that sidecar file is added by hand.
+
+To find out what's missing, the file is usually still referenced by name inside the `.swf` itself (as a plain string, since it's just a URL the movie fetches) — e.g. `strings` a decompressed copy of it and grep for `.xml`. If the original host is still up, the file is often still there too, at the same URL structure as the `.swf` you found it in.
+
+Once you have it, upload it under **Extra files** for that game in the admin panel — filename has to match exactly what the movie asks for. It gets served at `/game-assets/<slug>/<filename>` and Ruffle's `base` load option is set per-game to that folder, so relative loads inside the movie resolve there instead of a shared `/games/` directory (where two different games' same-named `data.xml` would otherwise collide).
 
 ### Importing from Flashpoint Archive
 
@@ -300,6 +309,7 @@ data/
   admin.json             Admin username + salted password hash (gitignored)
   profiles.json           Household profile list (gitignored)
   saves/                  One JSON file per profile per game (gitignored)
+  game-assets/            Extra sidecar files some games need (gitignored)
   covers/                 Cover images: games and data/covers/collections/ (gitignored)
 games/                    Your uploaded/imported .swf files (gitignored)
 public/

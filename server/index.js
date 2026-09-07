@@ -16,6 +16,7 @@ const MAX_UPLOAD_MB = Number(process.env.MAX_UPLOAD_MB || 200);
 const CATALOG_PATH = path.join(__dirname, "..", "data", "catalog.json");
 const COLLECTIONS_PATH = path.join(__dirname, "..", "data", "collections.json");
 const GAMES_DIR = path.join(__dirname, "..", "games");
+const GAME_ASSETS_DIR = path.join(__dirname, "..", "data", "game-assets");
 const COVERS_DIR = path.join(__dirname, "..", "data", "covers");
 const COLLECTION_COVERS_DIR = path.join(__dirname, "..", "data", "covers", "collections");
 const PUBLIC_DIR = path.join(__dirname, "..", "public");
@@ -449,6 +450,8 @@ app.delete("/api/admin/games/:slug", auth.requireAdminApi, (req, res) => {
   const filePath = path.join(GAMES_DIR, removed.file);
   if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
   removeExistingCovers(COVERS_DIR, removed.slug);
+  const assetsDir = path.join(GAME_ASSETS_DIR, removed.slug);
+  if (fs.existsSync(assetsDir)) fs.rmSync(assetsDir, { recursive: true, force: true });
   saveCatalog(catalog);
 
   // Also drop the game from any collection it belonged to.
@@ -463,6 +466,66 @@ app.delete("/api/admin/games/:slug", auth.requireAdminApi, (req, res) => {
   }
   if (changed) saveCollections(collections);
 
+  res.json({ ok: true });
+});
+
+// ---- Admin: extra game assets ----
+// Some Flash games load sidecar files at runtime (an XML config, a level
+// list, ...) via a relative URL next to the .swf — same-directory sibling
+// files, not embedded in the movie itself. Our importer only ever grabs
+// the single .swf, so those games break with the sidecar file missing
+// until an admin finds and uploads it here by hand. Served under
+// /game-assets/<slug>/ and pointed at via Ruffle's `base` load option
+// (see public/js/play.js), so relative loads inside the movie resolve to
+// this folder instead of colliding with any other game's same-named file.
+
+function gameAssetsDir(slug) {
+  return path.join(GAME_ASSETS_DIR, slug);
+}
+
+app.get("/api/admin/games/:slug/assets", auth.requireAdminApi, (req, res) => {
+  const dir = gameAssetsDir(req.params.slug);
+  if (!fs.existsSync(dir)) return res.json([]);
+  res.json(fs.readdirSync(dir).sort());
+});
+
+app.post(
+  "/api/admin/games/:slug/assets",
+  auth.requireAdminApi,
+  (req, res, next) => {
+    upload.array("files", 20)(req, res, (err) => {
+      if (err) return res.status(400).json({ error: err.message });
+      next();
+    });
+  },
+  (req, res) => {
+    const catalog = loadCatalog();
+    const game = catalog.find((g) => g.slug === req.params.slug);
+    if (!game) return res.status(404).json({ error: "game_not_found" });
+
+    const files = req.files || [];
+    if (files.length === 0) return res.status(400).json({ error: "no_file" });
+
+    const dir = gameAssetsDir(req.params.slug);
+    fs.mkdirSync(dir, { recursive: true });
+    for (const file of files) {
+      // originalname is admin-supplied (not end-user input) but still
+      // sanitized: no path traversal, no nested directories.
+      const safeName = path.basename(file.originalname).replace(/[^\w.\-]/g, "_");
+      if (!safeName) continue;
+      fs.writeFileSync(path.join(dir, safeName), file.buffer);
+    }
+
+    res.status(201).json(fs.readdirSync(dir).sort());
+  }
+);
+
+app.delete("/api/admin/games/:slug/assets/:filename", auth.requireAdminApi, (req, res) => {
+  const dir = gameAssetsDir(req.params.slug);
+  const safeName = path.basename(req.params.filename);
+  const filePath = path.join(dir, safeName);
+  if (!fs.existsSync(filePath)) return res.status(404).json({ error: "asset_not_found" });
+  fs.unlinkSync(filePath);
   res.json({ ok: true });
 });
 
@@ -666,6 +729,7 @@ for (const [route, file] of Object.entries(CLEAN_PAGES)) {
 }
 
 app.use("/games", express.static(GAMES_DIR, { fallthrough: false }));
+app.use("/game-assets", express.static(GAME_ASSETS_DIR));
 app.use("/covers", express.static(COVERS_DIR));
 app.use(express.static(PUBLIC_DIR, { index: false }));
 
